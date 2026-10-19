@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KPMG Capital Markets & Valuation Hub | Live SVG Charts & Schema.org</title>
+  <meta name="description" content="Dynamic interactive SVG charts for WACC, Multiples, MRP, Credit Spread, and LRP powered by KPMG Live Freemium API with auto-generated Schema.org JSON-LD metadata for AEM." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --kpmg-blue: #00338D;
+      --kpmg-light-blue: #00b8f5;
+      --kpmg-cyan: #7FDBFA;
+      --kpmg-dark: #666666;
+      --kpmg-violet: #483698;
+      --kpmg-green: #00A3A6;
+      --text-main: #262527;
+      --text-muted: #5C585C;
+      --bg-page: #F4F6F9;
+      --bg-card: #FFFFFF;
+      --border-color: #E2E8F0;
+      --grid-line: #EAECEF;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 16px -2px rgba(0, 32, 91, 0.08);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 32, 91, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header Bar */
+    header.hub-header {
+      background: linear-gradient(135deg, var(--kpmg-dark) 0%, var(--kpmg-blue) 100%);
+      color: #fff;
+      padding: 32px 24px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .kpmg-badge {
+      background: #FFFFFF;
+      color: var(--kpmg-blue);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+    }
+
+    .header-title h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .header-title p {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .api-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #E2E8F0;
+    }
+    .status-dot.online { background: #10B981; box-shadow: 0 0 10px #10B981; }
+    .status-dot.loading { background: #F59E0B; animation: pulse 1.2s infinite; }
+    .status-dot.error { background: #EF4444; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs-wrapper {
+      max-width: 1280px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+    }
+
+    .nav-tab-btn {
+      background: #FFFFFF;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-tab-btn:hover {
+      border-color: var(--kpmg-blue);
+      color: var(--kpmg-blue);
+    }
+
+    .nav-tab-btn.active {
+      background: var(--kpmg-blue);
+      color: #FFFFFF;
+      border-color: var(--kpmg-blue);
+      box-shadow: 0 2px 8px rgba(0, 51, 141, 0.25);
+    }
+
+    /* Main Container */
+    main.hub-content {
+      max-width: 1280px;
+      margin: 20px auto 0;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Chart Card Styles */
+    .chart-card {
+      background: var(--bg-card);
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .chart-card:hover {
+      box-shadow: none;
+    }
+
+    .card-top {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: #FAFCFF;
+    }
+
+    .card-title-area h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #666666;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-endpoint {
+      font-size: 11px;
+      font-family: monospace;
+      background: #E8EEF5;
+      color: var(--kpmg-blue);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .card-title-area p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .card-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .custom-select {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .custom-select:focus {
+      border-color: var(--kpmg-blue);
+    }
+
+    .btn-secondary {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      color: var(--kpmg-blue);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #F0F4FA;
+      border-color: var(--kpmg-blue);
+    }
+
+    .card-body {
+      padding: 24px;
+      position: relative;
+      overflow-x: auto;
+    }
+
+    /* SVG Base & Tooltip Styling */
+    svg.dynamic-chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      user-select: none;
+      overflow: visible;
+    }
+
+    /* Hover interactivity */
+    .parent-item {
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .parent-item:hover {
+      opacity: 0.9;
+    }
+
+    .hover-tooltip-group {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .hover-tooltip-group.visible {
+      opacity: 1;
+    }
+
+    /* Metadata Drawer / Modal */
+    .meta-drawer {
+      display: none;
+      background: #1E293B;
+      color: #E2E8F0;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+      max-height: 280px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .meta-drawer.open {
+      display: block;
+    }
+
+    .meta-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .meta-tag-label {
+      color: #38BDF8;
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      background: #334155;
+      color: #FFFFFF;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .copy-btn:hover { background: #475569; }
+
+    /* Footer Banner for AEM Guidance */
+    .aem-instructions-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px solid #CBD5E1;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .aem-instructions-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #666666;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .step-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      border-radius: var(--radius-md);
+    }
+
+    .step-box h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--kpmg-blue);
+      margin-bottom: 6px;
+    }
+
+    .step-box p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    code.inline-code {
+      background: #E2E8F0;
+      color: #1E293B;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 11.5px;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      .card-top { flex-direction: column; align-items: flex-start; }
+      .card-controls { width: 100%; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header with KPMG Branding and API Connectivity Status -->
+  <header class="hub-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="kpmg-badge">KPMG</div>
+        <div class="header-title">
+          <h1>Capital Markets & Valuation Intelligence</h1>
+          <p>Live Dynamic SVG Visualizations & Schema.org JSON-LD Metadata for Adobe Experience Manager (AEM)</p>
+        </div>
+      </div>
+      <div class="api-status-pill" id="globalStatusPill">
+        <span class="status-dot loading" id="statusDot"></span>
+        <span id="statusText">Connecting to KPMG Live API...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Quick Filter / Anchor Navigation -->
+  <div class="nav-tabs-wrapper">
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" onclick="scrollToSection('section-wacc')">📊 WACC by Industry</button>
+      <button class="nav-tab-btn" onclick="scrollToSection('section-multiples')">📈 Valuation Multiples</button>
+      <button class="nav-tab-btn" onclick="scrollToSection('section-mrp')">⚡ MRP & Base Rate</button>
+      <button class="nav-tab-btn" onclick="scrollToSection('section-credit')">🛡️ Credit Spreads</button>
+      <button class="nav-tab-btn" onclick="scrollToSection('section-lrp')">💧 Liquidity Risk Premium</button>
+      <button class="nav-tab-btn" onclick="scrollToSection('section-aem')">⚙️ AEM Deployment Guide</button>
+    </div>
+  </div>
+
+  <!-- Main Visualizations Container -->
+  <main class="hub-content">
+
+    <!-- 1. WACC BY INDUSTRY CHART CARD -->
+    <section class="chart-card" id="section-wacc">
+      <div class="card-top">
+        <div class="card-title-area">
+          <h2>
+            WACC Bandbreite nach Branche (WACC by Industry)
+            <span class="badge-endpoint">/WACC_Values</span>
+          </h2>
+          <p>Weighted Average Cost of Capital: Min, Median & Max Range by Sector with Schema.org Dataset</p>
+        </div>
+        <div class="card-controls">
+          <label for="waccQuarterSelect" style="font-size:12px; font-weight:600; color:var(--text-muted);">Quarter:</label>
+          <select id="waccQuarterSelect" class="custom-select" onchange="renderWaccChart()">
+            <!-- Dynamically populated -->
+          </select>
+          <button class="btn-secondary" onclick="toggleMetaDrawer('meta-wacc')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            View Live JSON-LD
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="waccSvgContainer">
+          <!-- Live SVG injected here -->
+        </div>
+      </div>
+      <div class="meta-drawer" id="meta-wacc">
+        <div class="meta-toolbar">
+          <span class="meta-tag-label">&lt;script type="application/ld+json"&gt; (Auto-Generated from Live API)</span>
+          <button class="copy-btn" onclick="copyJsonLd('jsonld-wacc-code')">Copy JSON-LD</button>
+        </div>
+        <code id="jsonld-wacc-code">Loading...</code>
+      </div>
+    </section>
+
+    <!-- 2. VALUATION MULTIPLES (EBITDA / EBIT) CHART CARD -->
+    <section class="chart-card" id="section-multiples">
+      <div class="card-top">
+        <div class="card-title-area">
+          <h2>
+            Bewertungsmultiplikatoren (Valuation Multiples)
+            <span class="badge-endpoint">/Multiples_Values</span>
+          </h2>
+          <p>Sector-wise Multiple Range with Hover Overlay Tooltip (Matches svg-AEM-Use.html interaction)</p>
+        </div>
+        <div class="card-controls">
+          <label for="multipleTypeSelect" style="font-size:12px; font-weight:600; color:var(--text-muted);">Metric:</label>
+          <select id="multipleTypeSelect" class="custom-select" onchange="renderMultiplesChart()">
+            <option value="EBITDA-Multiple">EBITDA-Multiple</option>
+            <option value="EBIT-Multiple">EBIT-Multiple</option>
+          </select>
+          <label for="multipleQuarterSelect" style="font-size:12px; font-weight:600; color:var(--text-muted);">Quarter:</label>
+          <select id="multipleQuarterSelect" class="custom-select" onchange="renderMultiplesChart()">
+            <!-- Populated dynamically -->
+          </select>
+          <button class="btn-secondary" onclick="toggleMetaDrawer('meta-multiples')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            View Live JSON-LD
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="multiplesSvgContainer">
+          <!-- Live SVG injected here -->
+        </div>
+      </div>
+      <div class="meta-drawer" id="meta-multiples">
+        <div class="meta-toolbar">
+          <span class="meta-tag-label">&lt;script type="application/ld+json"&gt; (Valuation Multiples)</span>
+          <button class="copy-btn" onclick="copyJsonLd('jsonld-multiples-code')">Copy JSON-LD</button>
+        </div>
+        <code id="jsonld-multiples-code">Loading...</code>
+      </div>
+    </section>
+
+    <!-- 3. MRP & BASE RATE OVER TIME (TREND CHART) -->
+    <section class="chart-card" id="section-mrp">
+      <div class="card-top">
+        <div class="card-title-area">
+          <h2>
+            Marktrisikoprämie & Basiszins (MRP & Base Rate Trend)
+            <span class="badge-endpoint">/MRP_BZ</span>
+          </h2>
+          <p>Evolution of Base Rate (Basiszins), MRP and Total Return (Gesamtrendite) over quarters</p>
+        </div>
+        <div class="card-controls">
+          <button class="btn-secondary" onclick="toggleMetaDrawer('meta-mrp')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            View Live JSON-LD
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="mrpSvgContainer">
+          <!-- Live SVG injected here -->
+        </div>
+      </div>
+      <div class="meta-drawer" id="meta-mrp">
+        <div class="meta-toolbar">
+          <span class="meta-tag-label">&lt;script type="application/ld+json"&gt; (Market Risk Premium)</span>
+          <button class="copy-btn" onclick="copyJsonLd('jsonld-mrp-code')">Copy JSON-LD</button>
+        </div>
+        <code id="jsonld-mrp-code">Loading...</code>
+      </div>
+    </section>
+
+    <!-- 4. CREDIT SPREAD BY TENURE CURVE -->
+    <section class="chart-card" id="section-credit">
+      <div class="card-top">
+        <div class="card-title-area">
+          <h2>
+            Credit Spread nach Laufzeit (Credit Spread by Tenure)
+            <span class="badge-endpoint">/BZ_CreditSpread</span>
+          </h2>
+          <p>Base Rate & Spread Structure (BBB Rating) from 1 Year to 30 Years Tenure</p>
+        </div>
+        <div class="card-controls">
+          <button class="btn-secondary" onclick="toggleMetaDrawer('meta-credit')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            View Live JSON-LD
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="creditSvgContainer">
+          <!-- Live SVG injected here -->
+        </div>
+      </div>
+      <div class="meta-drawer" id="meta-credit">
+        <div class="meta-toolbar">
+          <span class="meta-tag-label">&lt;script type="application/ld+json"&gt; (Credit Spreads)</span>
+          <button class="copy-btn" onclick="copyJsonLd('jsonld-credit-code')">Copy JSON-LD</button>
+        </div>
+        <code id="jsonld-credit-code">Loading...</code>
+      </div>
+    </section>
+
+    <!-- 5. LIQUIDITY RISK PREMIUM (LRP) BY RATING -->
+    <section class="chart-card" id="section-lrp">
+      <div class="card-top">
+        <div class="card-title-area">
+          <h2>
+            Liquiditätsrisikoprämie (Liquidity Risk Premium by Rating)
+            <span class="badge-endpoint">/LRP_AverageLRPs</span>
+          </h2>
+          <p>Min and Max Range of Liquidity Risk Premium across Credit Ratings (AA to CCC)</p>
+        </div>
+        <div class="card-controls">
+          <button class="btn-secondary" onclick="toggleMetaDrawer('meta-lrp')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            View Live JSON-LD
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="lrpSvgContainer">
+          <!-- Live SVG injected here -->
+        </div>
+      </div>
+      <div class="meta-drawer" id="meta-lrp">
+        <div class="meta-toolbar">
+          <span class="meta-tag-label">&lt;script type="application/ld+json"&gt; (LRP Ratings)</span>
+          <button class="copy-btn" onclick="copyJsonLd('jsonld-lrp-code')">Copy JSON-LD</button>
+        </div>
+        <code id="jsonld-lrp-code">Loading...</code>
+      </div>
+    </section>
+
+    <!-- 6. AEM COPY-PASTE & INTEGRATION GUIDE -->
+    <section class="aem-instructions-card" id="section-aem">
+      <h3>
+        <svg width="20" height="20" fill="none" stroke="#00338D" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        AEM Integration Guide: How to use this in Adobe Experience Manager
+      </h3>
+      <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;">
+        Is page ka code pure Vanilla JavaScript aur responsive SVG me likha gaya hai. Isko aap AEM me 2 aasan tareeqon se use kar sakte hain:
+      </p>
+
+      <div class="step-grid">
+        <div class="step-box">
+          <h4>Tareeqa 1: AEM Embed Component (Quickest)</h4>
+          <p>
+            AEM page editor me <strong>Embed / Raw HTML Component</strong> drag & drop karein. Is page ke relevant chart ka HTML container aur script block copy karke paste kar dein. Direct client-side API fetch se chart aur SEO metadata dono turant chal jayenge.
+          </p>
+        </div>
+        <div class="step-box">
+          <h4>Tareeqa 2: Custom AEM Component + Clientlib</h4>
+          <p>
+            1. HTL template (<code class="inline-code">chart.html</code>) me SVG container div banayein.<br>
+            2. CSS ko component ki <code class="inline-code">clientlib-site/css</code> me dalein.<br>
+            3. JS fetch logic ko <code class="inline-code">clientlib-site/js</code> me dalein.<br>
+            AEM dialog me API endpoint ka authorable field bhi de sakte hain.
+          </p>
+        </div>
+        <div class="step-box">
+          <h4>Tareeqa 3: SEO Metadata in &lt;head&gt;</h4>
+          <p>
+            Script automatic dynamic <code class="inline-code">&lt;script type="application/ld+json"&gt;</code> inject karti hai. Google Search bot modern client-side JSON-LD ko poori tarah index karta hai. "View Live JSON-LD" button se aap inspect kar sakte hain.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT: API FETCHING, DYNAMIC SVG GENERATION & SCHEMA.ORG INJECTION -->
+  <script>
+    const API_BASE = "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium";
+
+    // Global Data Cache
+    const State = {
+      waccData: [],
+      multiplesData: [],
+      mrpData: [],
+      creditSpreadData: [],
+      lrpData: []
+    };
+
+    // Format helper
+    const fmtPct = (val) => (val * 100).toFixed(1) + "%";
+    const fmtNum = (val, decimals = 1) => Number(val).toFixed(decimals);
+    const fmtDate = (isoStr) => {
+      if (!isoStr) return "";
+      const d = new Date(isoStr);
+      const q = Math.floor(d.getMonth() / 3) + 1;
+      return `Q${q} ${d.getFullYear()}`;
+    };
+
+    // Init App
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchAllApiData();
+    });
+
+    async function fetchAllApiData() {
+      const pill = document.getElementById("globalStatusPill");
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+
+      try {
+        const [waccRes, multRes, mrpRes, creditRes, lrpRes] = await Promise.all([
+          fetch(`${API_BASE}/WACC_Values`),
+          fetch(`${API_BASE}/Multiples_Values`),
+          fetch(`${API_BASE}/MRP_BZ`),
+          fetch(`${API_BASE}/BZ_CreditSpread`),
+          fetch(`${API_BASE}/LRP_AverageLRPs`)
+        ]);
+
+        State.waccData = await waccRes.json();
+        State.multiplesData = await multRes.json();
+        State.mrpData = await mrpRes.json();
+        State.creditSpreadData = await creditRes.json();
+        State.lrpData = await lrpRes.json();
+
+        dot.className = "status-dot online";
+        text.textContent = "Live Connected to KPMG Freemium API";
+
+        populateWaccQuarters();
+        populateMultiplesQuarters();
+
+        renderWaccChart();
+        renderMultiplesChart();
+        renderMrpChart();
+        renderCreditChart();
+        renderLrpChart();
+
+      } catch (err) {
+        console.error("API Fetch Error:", err);
+        dot.className = "status-dot error";
+        text.textContent = "API offline/blocked. Using cached snapshot.";
+        loadFallbackData();
+      }
+    }
+
+    /* =========================================================================
+       1. WACC BY INDUSTRY (HORIZONTAL BAND & MEDIAN CHART)
+       ========================================================================= */
+    function populateWaccQuarters() {
+      const select = document.getElementById("waccQuarterSelect");
+      const uniqueDates = [...new Set(State.waccData.map(d => d.Date_Data))].sort().reverse();
+      select.innerHTML = uniqueDates.map(d => `<option value="${d}">${fmtDate(d)}</option>`).join("");
+    }
+
+    function renderWaccChart() {
+      const container = document.getElementById("waccSvgContainer");
+      const quarterSelect = document.getElementById("waccQuarterSelect");
+      const selectedDate = quarterSelect.value || State.waccData[0]?.Date_Data;
+
+      const sectorItems = State.waccData.filter(d => d.Date_Data === selectedDate);
+      if (!sectorItems.length) return;
+
+      const width = 960;
+      const rowHeight = 44;
+      const paddingLeft = 230;
+      const paddingRight = 60;
+      const paddingTop = 40;
+      const height = paddingTop + sectorItems.length * rowHeight + 50;
+      const chartWidth = width - paddingLeft - paddingRight;
+
+      // Axis bounds: e.g. 4% to 12%
+      const minVal = 0.04;
+      const maxVal = 0.12;
+      const scaleX = (val) => paddingLeft + ((val - minVal) / (maxVal - minVal)) * chartWidth;
+
+      // Grid marks
+      const ticks = [0.04, 0.06, 0.08, 0.10, 0.12];
+      let gridSvg = ticks.map(t => {
+        const x = scaleX(t);
+        return `
+          <line x1="${x}" y1="${paddingTop}" x2="${x}" y2="${height - 40}" stroke="#E2E8F0" stroke-width="1" />
+          <text x="${x}" y="${height - 20}" fill="#5C585C" font-size="11" text-anchor="middle">${(t * 100).toFixed(0)}%</text>
+        `;
+      }).join("");
+
+      // Rows
+      let rowsSvg = "";
+      let tooltipsSvg = "";
+
+      sectorItems.forEach((item, idx) => {
+        const y = paddingTop + idx * rowHeight + 14;
+        const xMin = scaleX(item.WACC_Value_Lower);
+        const xMax = scaleX(item.WACC_Value_Upper);
+        const xMed = scaleX(item.WACC_Value_Median);
+        const bandW = Math.max(xMax - xMin, 4);
+        const rowId = `wacc-${idx}`;
+
+        rowsSvg += `
+          <g class="parent-item" data-target="${rowId}">
+            <!-- Alternating row background for readability -->
+            <rect x="10" y="${y - 12}" width="${width - 20}" height="${rowHeight - 4}" fill="${idx % 2 === 0 ? '#FAFCFF' : '#FFFFFF'}" />
+            
+            <!-- Industry Label -->
+            <text x="${paddingLeft - 18}" y="${y + 7}" fill="#262527" font-size="12" font-weight="500" text-anchor="end">
+              ${item.Sector_name_EN}
+            </text>
+
+            <!-- Base Range Bar (Light Blue) -->
+            <rect x="${xMin}" y="${y - 7}" width="${bandW}" height="18" fill="#E0F2FE" stroke="#7FDBFA" stroke-width="1.5" />
+
+            <!-- Range Extents (Caps) -->
+            <line x1="${xMin}" y1="${y - 9}" x2="${xMin}" y2="${y + 13}" stroke="#00b8f5" stroke-width="2" />
+            <line x1="${xMax}" y1="${y - 9}" x2="${xMax}" y2="${y + 13}" stroke="#00b8f5" stroke-width="2" />
+
+            <!-- Median Point Indicator (KPMG Navy) -->
+            <rect x="${xMed - 3}" y="${y - 10}" width="6" height="24" fill="#00338D" />
+            
+            <!-- Small percentage labels -->
+            <text x="${xMin - 6}" y="${y + 6}" fill="#00b8f5" font-size="10.5" font-weight="600" text-anchor="end">${fmtPct(item.WACC_Value_Lower)}</text>
+            <text x="${xMax + 6}" y="${y + 6}" fill="#00b8f5" font-size="10.5" font-weight="600" text-anchor="start">${fmtPct(item.WACC_Value_Upper)}</text>
+          </g>
+        `;
+
+        // Tooltip
+        const ttWidth = 260;
+        const ttHeight = 84;
+        const ttX = Math.min(Math.max(xMed - ttWidth / 2, 20), width - ttWidth - 20);
+        const ttY = y - ttHeight - 8 > 10 ? y - ttHeight - 8 : y + 24;
+
+        tooltipsSvg += `
+          <g class="hover-tooltip-group" id="${rowId}">
+            <rect x="${ttX}" y="${ttY}" width="${ttWidth}" height="${ttHeight}" fill="#1E293B" style="filter: drop-shadow(0 6px 16px rgba(0,0,0,0.25));" />
+            <text x="${ttX + 14}" y="${ttY + 22}" fill="#7FDBFA" font-size="12.5" font-weight="700">${item.Sector_name_EN}</text>
+            <text x="${ttX + 14}" y="${ttY + 42}" fill="#FFFFFF" font-size="11.5">Median WACC: <tspan font-weight="700" fill="#10B981">${fmtPct(item.WACC_Value_Median)}</tspan></text>
+            <text x="${ttX + 14}" y="${ttY + 60}" fill="#E2E8F0" font-size="11">Range: ${fmtPct(item.WACC_Value_Lower)} – ${fmtPct(item.WACC_Value_Upper)}</text>
+            <text x="${ttX + 14}" y="${ttY + 74}" fill="#94A3B8" font-size="10">Cost of Equity: ${fmtPct(item.LevCostOfEquity)} | Equity Ratio: ${fmtPct(item.Equity_ratio)}</text>
+          </g>
+        `;
+      });
+
+      const legendSvg = `
+        <g transform="translate(${width / 2 - 50}, ${height - 15})">
+          <rect x="0" y="-10" width="12" height="12" fill="#00338D"/>
+          <text x="18" y="0" fill="#5C585C" font-size="11" font-family="Inter, Arial, sans-serif">Range of WACC</text>
+        </g>
+      `;
+
+      container.innerHTML = `
+        <svg class="dynamic-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+          ${gridSvg}
+          ${rowsSvg}
+          ${legendSvg}
+          ${tooltipsSvg}
+        </svg>
+      `;
+
+      attachHoverInteractions(container);
+      updateWaccMetadata(sectorItems, selectedDate);
+    }
+
+    function updateWaccMetadata(items, selectedDate) {
+      const observations = items.map(item => ({
+        "@type": "Observation",
+        "name": item.Sector_name_EN,
+        "value": {
+          "minValue": +(item.WACC_Value_Lower * 100).toFixed(1),
+          "maxValue": +(item.WACC_Value_Upper * 100).toFixed(1),
+          "unitText": "%"
+        }
+      }));
+
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "@id": window.location.href + "#wacc-by-industry",
+        "name": "Gewichtete Kapitalkosten (WACC) nach Branche",
+        "alternateName": "Weighted Average Cost of Capital (WACC) by Industry",
+        "description": "Horizontales Banddiagramm, das die Bandbreite der gewichteten Kapitalkosten (WACC) in Prozent über verschiedene Branchen hinweg darstellt.",
+        "keywords": ["WACC", "Weighted Average Cost of Capital", "Industry Comparison", "Corporate Finance", "KPMG"],
+        "creator": {
+          "@type": "Organization",
+          "name": "KPMG DPS Analytics"
+        },
+        "variableMeasured": [
+          { "@type": "PropertyValue", "name": "Industry" },
+          { "@type": "PropertyValue", "name": "WACC Range", "unitText": "percentage" }
+        ],
+        "measurementTechnique": "Industry benchmark analysis",
+        "temporalCoverage": fmtDate(selectedDate),
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": `${API_BASE}/WACC_Values`
+        },
+        "hasPart": observations
+      };
+
+      injectOrUpdateScriptTag("jsonld-wacc", schemaData);
+      document.getElementById("jsonld-wacc-code").textContent = JSON.stringify(schemaData, null, 2);
+    }
+
+    /* =========================================================================
+       2. VALUATION MULTIPLES (EBITDA / EBIT) COLUMN CHART
+       Matches svg-AEM-Use.html interactive structure!
+       ========================================================================= */
+    function populateMultiplesQuarters() {
+      const select = document.getElementById("multipleQuarterSelect");
+      const uniqueDates = [...new Set(State.multiplesData.map(d => d.Date_Data))].sort().reverse();
+      select.innerHTML = uniqueDates.map(d => `<option value="${d}">${fmtDate(d)}</option>`).join("");
+    }
+
+    function renderMultiplesChart() {
+      const container = document.getElementById("multiplesSvgContainer");
+      const multType = document.getElementById("multipleTypeSelect").value;
+      const dateSelect = document.getElementById("multipleQuarterSelect");
+      const selectedDate = dateSelect.value || State.multiplesData[0]?.Date_Data;
+
+      const items = State.multiplesData.filter(d => d.Multiple_Name === multType && d.Date_Data === selectedDate);
+      if (!items.length) {
+        container.innerHTML = `<p style="padding:40px; text-align:center; color:#666;">No data for selected combination.</p>`;
+        return;
+      }
+
+      const width = 960;
+      const height = 400;
+      const paddingLeft = 50;
+      const paddingRight = 30;
+      const paddingTop = 40;
+      const paddingBottom = 90;
+      const chartH = height - paddingTop - paddingBottom;
+      const chartW = width - paddingLeft - paddingRight;
+
+      // Check max multiple in selected items
+      const maxDataVal = Math.max(
+        ...items.map(d => Math.max(Number(d.Multiple_Value_Upper || 0), Number(d.Multiple_Value_Lower || 0))),
+        0
+      );
+      // Tiered Y-axis scale:
+      // value 20+ -> 25.0x, 25+ -> 30.0x, 30+ -> 35.0x, 35+ -> 40.0x, 40+ -> 45.0x, 45+ -> 50.0x, 50+ -> 60.0x
+      let maxMult = 25.0;
+      let yStep = 5.0;
+      if (maxDataVal > 50.0) {
+        maxMult = 60.0;
+        yStep = 10.0;
+        if (maxDataVal > 60.0) {
+          maxMult = Math.ceil(maxDataVal / 10) * 10;
+        }
+      } else if (maxDataVal > 45.0) {
+        maxMult = 50.0;
+        yStep = 5.0;
+      } else if (maxDataVal > 40.0) {
+        maxMult = 45.0;
+        yStep = 5.0;
+      } else if (maxDataVal > 35.0) {
+        maxMult = 40.0;
+        yStep = 5.0;
+      } else if (maxDataVal > 30.0) {
+        maxMult = 35.0;
+        yStep = 5.0;
+      } else if (maxDataVal > 25.0) {
+        maxMult = 30.0;
+        yStep = 5.0;
+      } else if (maxDataVal > 20.0) {
+        maxMult = 25.0;
+        yStep = 5.0;
+      } else {
+        maxMult = 20.0;
+        yStep = 5.0;
+      }
+      const scaleY = (val) => paddingTop + chartH - (val / maxMult) * chartH;
+
+      let gridSvg = "";
+      for (let t = 0; t <= maxMult + 0.01; t += yStep) {
+        const y = scaleY(t);
+        gridSvg += `
+          <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" stroke="#E2E8F0" stroke-width="1" />
+          <text x="${paddingLeft - 8}" y="${y + 4}" fill="#5C585C" font-size="11" text-anchor="end">${t.toFixed(1)}x</text>
+        `;
+      }
+
+      // Bar Columns
+      const colWidth = chartW / items.length;
+      let barsSvg = "";
+      let tooltipsSvg = "";
+
+      items.forEach((item, idx) => {
+        const colCenter = paddingLeft + idx * colWidth + colWidth / 2;
+        const barW = Math.min(colWidth * 0.55, 36);
+        const colLeft = colCenter - barW / 2;
+
+        const yLower = scaleY(item.Multiple_Value_Lower);
+        const yUpper = scaleY(item.Multiple_Value_Upper);
+        const barH = Math.max(yLower - yUpper, 6);
+        const colId = `mult-col-${idx}`;
+
+        barsSvg += `
+          <g class="parent-item" data-target="${colId}">
+            <!-- Background hover trigger hit-box -->
+            <rect x="${colCenter - colWidth / 2}" y="${paddingTop}" width="${colWidth}" height="${chartH}" fill="transparent" />
+
+            <!-- Primary Range Column Bar -->
+            <rect x="${colLeft}" y="${yUpper}" width="${barW}" height="${barH}" fill="#00338D" />
+            
+            <!-- Highlight Accent Top Bar -->
+            <rect x="${colLeft}" y="${yUpper}" width="${barW}" height="4" fill="#7FDBFA" />
+
+            <!-- Upper Value Label on top of bar -->
+            <text x="${colCenter}" y="${yUpper - 6}" fill="#00338D" font-size="10.5" font-weight="700" text-anchor="middle">
+              ${fmtNum(item.Multiple_Value_Upper)}x
+            </text>
+
+            <!-- Lower Value Label below bar -->
+            <text x="${colCenter}" y="${yLower + 14}" fill="#5C585C" font-size="9.5" font-weight="500" text-anchor="middle">
+              ${fmtNum(item.Multiple_Value_Lower)}x
+            </text>
+
+            <!-- Rotated Sector Name -->
+            <text x="${colCenter}" y="${height - paddingBottom + 20}" fill="#262527" font-size="10.5" font-weight="500" text-anchor="end" transform="rotate(-35, ${colCenter}, ${height - paddingBottom + 20})">
+              ${item.Sector_name_EN}
+            </text>
+          </g>
+        `;
+
+        // Tooltip Box
+        const ttW = 230;
+        const ttH = 76;
+        const ttX = Math.min(Math.max(colCenter - ttW / 2, 10), width - ttW - 10);
+        const ttY = Math.max(yUpper - ttH - 12, 10);
+
+        tooltipsSvg += `
+          <g class="hover-tooltip-group" id="${colId}">
+            <rect x="${ttX}" y="${ttY}" width="${ttW}" height="${ttH}" fill="#1E293B" style="filter: drop-shadow(0 4px 14px rgba(0,0,0,0.25));" />
+            <text x="${ttX + 12}" y="${ttY + 20}" fill="#7FDBFA" font-size="12" font-weight="700">${item.Sector_name_EN}</text>
+            <text x="${ttX + 12}" y="${ttY + 38}" fill="#FFFFFF" font-size="11">${multType}: <tspan font-weight="700" fill="#7FDBFA">${fmtNum(item.Multiple_Value_Lower)}x – ${fmtNum(item.Multiple_Value_Upper)}x</tspan></text>
+            <text x="${ttX + 12}" y="${ttY + 54}" fill="#CBD5E1" font-size="10.5">Quarter: ${fmtDate(item.Date_Data)} | N = ${item.N_values || 'N/A'}</text>
+          </g>
+        `;
+      });
+
+      container.innerHTML = `
+        <svg class="dynamic-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+          ${gridSvg}
+          ${barsSvg}
+          ${tooltipsSvg}
+        </svg>
+      `;
+
+      attachHoverInteractions(container);
+      updateMultiplesMetadata(items, multType, selectedDate);
+    }
+
+    function updateMultiplesMetadata(items, multType, selectedDate) {
+      const observations = items.map(item => ({
+        "@type": "Observation",
+        "name": item.Sector_name_EN,
+        "value": {
+          "minValue": item.Multiple_Value_Lower,
+          "maxValue": item.Multiple_Value_Upper,
+          "unitText": "multiple (x)"
+        }
+      }));
+
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "@id": window.location.href + "#multiples-" + multType.toLowerCase(),
+        "name": `Unternehmensbewertung ${multType} nach Branche`,
+        "alternateName": `${multType} Valuation Multiples by Industry`,
+        "description": `Verteilung der ${multType} Bandbreiten über weltweite Branchen benchmarks hinweg.`,
+        "temporalCoverage": fmtDate(selectedDate),
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": `${API_BASE}/Multiples_Values`
+        },
+        "hasPart": observations
+      };
+
+      injectOrUpdateScriptTag("jsonld-multiples", schemaData);
+      document.getElementById("jsonld-multiples-code").textContent = JSON.stringify(schemaData, null, 2);
+    }
+
+    /* =========================================================================
+       3. MRP & BASE RATE OVER TIME (STACKED TREND CHART)
+       ========================================================================= */
+    function renderMrpChart() {
+      const container = document.getElementById("mrpSvgContainer");
+      const data = State.mrpData;
+      if (!data.length) return;
+
+      const width = 960;
+      const height = 340;
+      const paddingLeft = 60;
+      const paddingRight = 40;
+      const paddingTop = 30;
+      const paddingBottom = 60;
+      const chartH = height - paddingTop - paddingBottom;
+      const chartW = width - paddingLeft - paddingRight;
+
+      const maxRate = 0.12; // 12%
+      const scaleY = (val) => paddingTop + chartH - (val / maxRate) * chartH;
+      const colWidth = chartW / data.length;
+
+      // Y Ticks
+      const ticks = [0, 0.03, 0.06, 0.09, 0.12];
+      let gridSvg = ticks.map(t => {
+        const y = scaleY(t);
+        return `
+          <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" stroke="#E2E8F0" stroke-width="1" />
+          <text x="${paddingLeft - 8}" y="${y + 4}" fill="#5C585C" font-size="11" text-anchor="end">${(t * 100).toFixed(0)}%</text>
+        `;
+      }).join("");
+
+      let barsSvg = "";
+      let tooltipsSvg = "";
+
+      data.forEach((item, idx) => {
+        const colCenter = paddingLeft + idx * colWidth + colWidth / 2;
+        const barW = Math.min(colWidth * 0.45, 48);
+        const colLeft = colCenter - barW / 2;
+
+        const yBase = scaleY(item.Basiszins);
+        const hBase = paddingTop + chartH - yBase;
+
+        const yTotal = scaleY(item.Gesamtrendite);
+        const hMrp = yBase - yTotal;
+
+        const id = `mrp-item-${idx}`;
+
+        barsSvg += `
+          <g class="parent-item" data-target="${id}">
+            <!-- Base Rate (Dark Blue) -->
+            <rect x="${colLeft}" y="${yBase}" width="${barW}" height="${hBase}" fill="#00338D" />
+            
+            <!-- MRP on top of Base Rate (Cyan Blue) -->
+            <rect x="${colLeft}" y="${yTotal}" width="${barW}" height="${hMrp}" fill="#00b8f5" />
+
+            <!-- Total Label -->
+            <text x="${colCenter}" y="${yTotal - 8}" fill="#666666" font-size="11" font-weight="700" text-anchor="middle">
+              ${fmtPct(item.Gesamtrendite)}
+            </text>
+
+            <!-- Date Label -->
+            <text x="${colCenter}" y="${height - paddingBottom + 24}" fill="#262527" font-size="11" font-weight="500" text-anchor="middle">
+              ${fmtDate(item.Date)}
+            </text>
+          </g>
+        `;
+
+        const ttW = 200;
+        const ttH = 70;
+        const ttX = Math.min(Math.max(colCenter - ttW / 2, 10), width - ttW - 10);
+        const ttY = yTotal - ttH - 10;
+
+        tooltipsSvg += `
+          <g class="hover-tooltip-group" id="${id}">
+            <rect x="${ttX}" y="${ttY}" width="${ttW}" height="${ttH}" fill="#1E293B" />
+            <text x="${ttX + 12}" y="${ttY + 20}" fill="#7FDBFA" font-size="12" font-weight="700">${fmtDate(item.Date)}</text>
+            <text x="${ttX + 12}" y="${ttY + 38}" fill="#FFFFFF" font-size="11">Total: <tspan font-weight="700">${fmtPct(item.Gesamtrendite)}</tspan></text>
+            <text x="${ttX + 12}" y="${ttY + 54}" fill="#E2E8F0" font-size="10.5">Basiszins: ${fmtPct(item.Basiszins)} | MRP: ${fmtPct(item.MRP)}</text>
+          </g>
+        `;
+      });
+
+      // Legend
+      const legendSvg = `
+        <g transform="translate(${width - 240}, 10)">
+          <rect x="0" y="0" width="12" height="12" fill="#00b8f5"/>
+          <text x="18" y="10" font-size="11" fill="#5C585C">Marktrisikoprämie (MRP)</text>
+          <rect x="0" y="18" width="12" height="12" fill="#00338D"/>
+          <text x="18" y="28" font-size="11" fill="#5C585C">Basiszins (Rf)</text>
+        </g>
+      `;
+
+      container.innerHTML = `
+        <svg class="dynamic-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+          ${gridSvg}
+          ${legendSvg}
+          ${barsSvg}
+          ${tooltipsSvg}
+        </svg>
+      `;
+
+      attachHoverInteractions(container);
+      updateMrpMetadata(data);
+    }
+
+    function updateMrpMetadata(data) {
+      const observations = data.map(item => ({
+        "@type": "Observation",
+        "name": fmtDate(item.Date),
+        "value": {
+          "baseRate": fmtPct(item.Basiszins),
+          "marketRiskPremium": fmtPct(item.MRP),
+          "totalReturn": fmtPct(item.Gesamtrendite)
+        }
+      }));
+
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "@id": window.location.href + "#mrp-bz-trend",
+        "name": "Entwicklung der Marktrisikoprämie und des Basiszinses",
+        "alternateName": "Market Risk Premium (MRP) & Base Rate Trend",
+        "description": "Historische Zeitreihe von Basiszins, Marktrisikoprämie und Gesamtrendite laut KPMG Daten.",
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": `${API_BASE}/MRP_BZ`
+        },
+        "hasPart": observations
+      };
+
+      injectOrUpdateScriptTag("jsonld-mrp", schemaData);
+      document.getElementById("jsonld-mrp-code").textContent = JSON.stringify(schemaData, null, 2);
+    }
+
+    /* =========================================================================
+       4. CREDIT SPREAD BY TENURE CURVE
+       ========================================================================= */
+    function renderCreditChart() {
+      const container = document.getElementById("creditSvgContainer");
+      const data = State.creditSpreadData;
+      if (!data.length) return;
+
+      const width = 960;
+      const height = 320;
+      const paddingLeft = 60;
+      const paddingRight = 40;
+      const paddingTop = 30;
+      const paddingBottom = 50;
+      const chartH = height - paddingTop - paddingBottom;
+      const chartW = width - paddingLeft - paddingRight;
+
+      const maxTenure = Math.max(...data.map(d => d.Tenure));
+      const maxSpread = 0.04; // 4%
+      const scaleX = (t) => paddingLeft + ((t - 1) / (maxTenure - 1)) * chartW;
+      const scaleY = (v) => paddingTop + chartH - (v / maxSpread) * chartH;
+
+      // Y Ticks
+      const yTicks = [0, 0.01, 0.02, 0.03, 0.04];
+      let gridSvg = yTicks.map(t => {
+        const y = scaleY(t);
+        return `
+          <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" stroke="#E2E8F0" stroke-width="1" />
+          <text x="${paddingLeft - 8}" y="${y + 4}" fill="#5C585C" font-size="11" text-anchor="end">${(t * 100).toFixed(1)}%</text>
+        `;
+      }).join("");
+
+      // Points & Line path
+      const points = data.map(d => ({ x: scaleX(d.Tenure), y: scaleY(d.Spread), raw: d }));
+      const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(" ");
+
+      let pointsSvg = "";
+      let tooltipsSvg = "";
+
+      points.forEach((p, idx) => {
+        const id = `cs-pt-${idx}`;
+        pointsSvg += `
+          <g class="parent-item" data-target="${id}">
+            
+            <rect x="${p.x - 10}" y="${paddingTop}" width="20" height="${chartH}" fill="transparent" />
+          </g>
+        `;
+
+        const ttW = 180;
+        const ttH = 64;
+        const ttX = Math.min(Math.max(p.x - ttW / 2, 10), width - ttW - 10);
+        const ttY = p.y - ttH - 10 > 10 ? p.y - ttH - 10 : p.y + 14;
+
+        tooltipsSvg += `
+          <g class="hover-tooltip-group" id="${id}">
+            <rect x="${ttX}" y="${ttY}" width="${ttW}" height="${ttH}" fill="#1E293B" />
+            <text x="${ttX + 10}" y="${ttY + 20}" fill="#7FDBFA" font-size="12" font-weight="700">Tenure: ${p.raw.Tenure} Year(s)</text>
+            <text x="${ttX + 10}" y="${ttY + 38}" fill="#FFFFFF" font-size="11">Spread (${p.raw.Rating}): <tspan font-weight="700">${fmtPct(p.raw.Spread)}</tspan></text>
+            <text x="${ttX + 10}" y="${ttY + 52}" fill="#CBD5E1" font-size="10.5">Base Rate (BZ): ${fmtPct(p.raw.BZ)}</text>
+          </g>
+        `;
+      });
+
+      container.innerHTML = `
+        <svg class="dynamic-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+          ${gridSvg}
+          <path d="${pathD}" fill="none" stroke="#00338D" stroke-width="3" stroke-linejoin="round" />
+          ${pointsSvg}
+          ${tooltipsSvg}
+          <text x="${width / 2}" y="${height - 10}" fill="#5C585C" font-size="11" font-weight="500" text-anchor="middle">Laufzeit in Jahren (Tenure Years)</text>
+        </svg>
+      `;
+
+      attachHoverInteractions(container);
+      updateCreditMetadata(data);
+    }
+
+    function updateCreditMetadata(data) {
+      const observations = data.map(item => ({
+        "@type": "Observation",
+        "name": `Tenure ${item.Tenure} Years`,
+        "value": {
+          "rating": item.Rating,
+          "spread": fmtPct(item.Spread),
+          "baseRate": fmtPct(item.BZ)
+        }
+      }));
+
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "@id": window.location.href + "#credit-spread-tenure",
+        "name": "Credit Spread Kurve nach Laufzeit (BBB)",
+        "alternateName": "Credit Spread Structure by Tenure",
+        "description": "Zinsstrukturkurve der Credit Spreads für BBB-Ratings über 1 bis 30 Jahre.",
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": `${API_BASE}/BZ_CreditSpread`
+        },
+        "hasPart": observations
+      };
+
+      injectOrUpdateScriptTag("jsonld-credit", schemaData);
+      document.getElementById("jsonld-credit-code").textContent = JSON.stringify(schemaData, null, 2);
+    }
+
+    /* =========================================================================
+       5. LIQUIDITY RISK PREMIUM (LRP) BY RATING
+       ========================================================================= */
+    function renderLrpChart() {
+      const container = document.getElementById("lrpSvgContainer");
+      const data = State.lrpData;
+      if (!data.length) return;
+
+      const order = ["CCC", "B", "BB", "BBB", "A", "AA"];
+      const sortedData = [...data].sort((a,b) => order.indexOf(a.Rating) - order.indexOf(b.Rating));
+
+      const width = 960;
+      const height = 340;
+      const paddingLeft = 80;
+      const paddingRight = 40;
+      const paddingTop = 30;
+      const paddingBottom = 60;
+      const chartH = height - paddingTop - paddingBottom;
+      const chartW = width - paddingLeft - paddingRight;
+
+      const maxX = 0.09; // 9.0%
+      const scaleX = (v) => paddingLeft + (v / maxX) * chartW;
+
+      // Vertical grid lines 0.0% to 9.0%
+      let gridSvg = "";
+      for (let v = 0; v <= 0.0901; v += 0.01) {
+        const x = scaleX(v);
+        gridSvg += `
+          <line x1="${x}" y1="${paddingTop}" x2="${x}" y2="${paddingTop + chartH}" stroke="#E2E8F0" stroke-width="1"/>
+          <line x1="${x}" y1="${paddingTop + chartH}" x2="${x}" y2="${paddingTop + chartH + 4}" stroke="#94A3B8" stroke-width="1"/>
+          <text x="${x}" y="${paddingTop + chartH + 18}" fill="#5C585C" font-size="11" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
+        `;
+      }
+
+      let barsSvg = "";
+      let tooltipsSvg = "";
+      const rowH = chartH / (sortedData.length || 1);
+
+      sortedData.forEach((item, idx) => {
+        const y = paddingTop + (idx + 0.5) * rowH;
+        const x1 = scaleX(item.Min);
+        const x2 = scaleX(item.Max);
+        const barW = Math.max(x2 - x1, 4);
+        const barH = 18;
+        const id = `lrp-item-${idx}`;
+
+        barsSvg += `
+          <line x1="${paddingLeft}" y1="${y}" x2="${paddingLeft + chartW}" y2="${y}" stroke="#F8FAFC" stroke-width="1"/>
+          <text x="${paddingLeft - 14}" y="${y + 4}" fill="#262527" font-size="12" font-weight="600" text-anchor="end">${item.Rating}</text>
+          <g class="parent-item" data-target="${id}">
+            <rect x="${x1}" y="${y - barH / 2}" width="${barW}" height="${barH}" fill="#00b8f5" />
+          </g>
+        `;
+
+        const ttW = 190;
+        const ttH = 64;
+        const ttX = Math.min(Math.max((x1 + x2) / 2 - ttW / 2, 10), width - ttW - 10);
+        const ttY = y - barH / 2 - ttH - 8 > 10 ? y - barH / 2 - ttH - 8 : y + barH / 2 + 8;
+
+        tooltipsSvg += `
+          <g class="hover-tooltip-group" id="${id}">
+            <rect x="${ttX}" y="${ttY}" width="${ttW}" height="${ttH}" fill="#1E293B" />
+            <text x="${ttX + 12}" y="${ttY + 20}" fill="#7FDBFA" font-size="12" font-weight="700">Rating: ${item.Rating}</text>
+            <text x="${ttX + 12}" y="${ttY + 38}" fill="#FFFFFF" font-size="11">Max Premium: <tspan font-weight="700">${fmtPct(item.Max)}</tspan></text>
+            <text x="${ttX + 12}" y="${ttY + 52}" fill="#CBD5E1" font-size="11">Min Premium: <tspan font-weight="700">${fmtPct(item.Min)}</tspan></text>
+          </g>
+        `;
+      });
+
+      const legendSvg = `
+        <g transform="translate(${width / 2 - 95}, ${paddingTop + chartH + 42})">
+          <rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/>
+          <text x="18" y="0" fill="#5C585C" font-size="11" font-family="Inter, Arial, sans-serif">Range of country risk premium</text>
+        </g>
+      `;
+
+      container.innerHTML = `
+        <svg class="dynamic-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+          <!-- Axes -->
+          <line x1="${paddingLeft}" y1="${paddingTop}" x2="${paddingLeft}" y2="${paddingTop + chartH}" stroke="#CBD5E1" stroke-width="1"/>
+          <line x1="${paddingLeft}" y1="${paddingTop + chartH}" x2="${paddingLeft + chartW}" y2="${paddingTop + chartH}" stroke="#CBD5E1" stroke-width="1"/>
+          ${gridSvg}
+          ${barsSvg}
+          ${legendSvg}
+          ${tooltipsSvg}
+        </svg>
+      `;
+
+      attachHoverInteractions(container);
+      updateLrpMetadata(data);
+    }
+
+    function updateLrpMetadata(data) {
+      const observations = data.map(item => ({
+        "@type": "Observation",
+        "name": `Rating ${item.Rating}`,
+        "value": {
+          "min": fmtPct(item.Min),
+          "max": fmtPct(item.Max),
+          "unitText": "%"
+        }
+      }));
+
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "@id": window.location.href + "#lrp-by-rating",
+        "name": "Liquiditätsrisikoprämie (LRP) nach Rating",
+        "alternateName": "Liquidity Risk Premium by Rating",
+        "description": "Bandbreiten der Liquiditätsrisikoprämien über verschiedene Ratingstufen.",
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": `${API_BASE}/LRP_AverageLRPs`
+        },
+        "hasPart": observations
+      };
+
+      injectOrUpdateScriptTag("jsonld-lrp", schemaData);
+      document.getElementById("jsonld-lrp-code").textContent = JSON.stringify(schemaData, null, 2);
+    }
+
+    /* =========================================================================
+       HELPER UTILITIES: HOVER EVENTS, METADATA TAGS & CLIPBOARD
+       ========================================================================= */
+    function attachHoverInteractions(container) {
+      const parents = container.querySelectorAll(".parent-item");
+      const tooltips = container.querySelectorAll(".hover-tooltip-group");
+
+      const hideAll = () => {
+        tooltips.forEach(el => el.classList.remove("visible"));
+      };
+
+      parents.forEach(p => {
+        const targetId = p.dataset.target;
+        const targetTooltip = container.querySelector(`#${targetId}`);
+
+        p.style.cursor = "pointer";
+
+        p.addEventListener("mouseenter", () => {
+          hideAll();
+          if (targetTooltip) {
+            targetTooltip.classList.add("visible");
+            targetTooltip.parentNode.appendChild(targetTooltip);
+          }
+        });
+
+        p.addEventListener("mouseleave", hideAll);
+      });
+    }
+
+    function injectOrUpdateScriptTag(tagId, dataObj) {
+      let script = document.querySelector(`script[data-id="${tagId}"]`);
+      if (!script) {
+        script = document.createElement("script");
+        script.type = "application/ld+json";
+        script.dataset.id = tagId;
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(dataObj);
+    }
+
+    function toggleMetaDrawer(drawerId) {
+      const el = document.getElementById(drawerId);
+      el.classList.toggle("open");
+    }
+
+    function copyJsonLd(codeElementId) {
+      const code = document.getElementById(codeElementId).textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("JSON-LD Schema copied to clipboard!");
+      });
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fallback Mock snapshot in case of network issue
+    function loadFallbackData() {
+      State.waccData = [
+        {"Sector_name_EN":"Automotive","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.085,"WACC_Value_Median":0.089,"WACC_Value_Upper":0.093,"LevCostOfEquity":0.0977,"Equity_ratio":0.8998},
+        {"Sector_name_EN":"Chemicals & Pharmaceuticals","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.078,"WACC_Value_Median":0.085,"WACC_Value_Upper":0.092,"LevCostOfEquity":0.089,"Equity_ratio":0.82},
+        {"Sector_name_EN":"Consumer Markets","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.074,"WACC_Value_Median":0.084,"WACC_Value_Upper":0.096,"LevCostOfEquity":0.091,"Equity_ratio":0.80},
+        {"Sector_name_EN":"Energy & Natural Resources","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.052,"WACC_Value_Median":0.063,"WACC_Value_Upper":0.076,"LevCostOfEquity":0.072,"Equity_ratio":0.75},
+        {"Sector_name_EN":"Healthcare","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.070,"WACC_Value_Median":0.082,"WACC_Value_Upper":0.098,"LevCostOfEquity":0.089,"Equity_ratio":0.85},
+        {"Sector_name_EN":"Industrial Manufacturing","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.084,"WACC_Value_Median":0.093,"WACC_Value_Upper":0.105,"LevCostOfEquity":0.099,"Equity_ratio":0.86},
+        {"Sector_name_EN":"Media & Telecommunications","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.064,"WACC_Value_Median":0.076,"WACC_Value_Upper":0.091,"LevCostOfEquity":0.081,"Equity_ratio":0.78},
+        {"Sector_name_EN":"Real Estate","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.060,"WACC_Value_Median":0.072,"WACC_Value_Upper":0.087,"LevCostOfEquity":0.078,"Equity_ratio":0.70},
+        {"Sector_name_EN":"Technology","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.082,"WACC_Value_Median":0.091,"WACC_Value_Upper":0.100,"LevCostOfEquity":0.095,"Equity_ratio":0.88},
+        {"Sector_name_EN":"Transport & Leisure","Date_Data":"2026-09-30T00:00:00","WACC_Value_Lower":0.070,"WACC_Value_Median":0.081,"WACC_Value_Upper":0.091,"LevCostOfEquity":0.088,"Equity_ratio":0.81}
+      ];
+
+      State.multiplesData = [
+        {"Sector_name_EN":"Automotive","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":4.4,"Multiple_Value_Upper":13.0,"N_values":313},
+        {"Sector_name_EN":"Consumer Goods","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":6.2,"Multiple_Value_Upper":15.4,"N_values":420},
+        {"Sector_name_EN":"Energy & Resources","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":5.1,"Multiple_Value_Upper":11.8,"N_values":280},
+        {"Sector_name_EN":"Healthcare","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":8.5,"Multiple_Value_Upper":19.2,"N_values":340},
+        {"Sector_name_EN":"Industrial Mfg","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":5.8,"Multiple_Value_Upper":14.0,"N_values":510},
+        {"Sector_name_EN":"Info Technology","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":10.2,"Multiple_Value_Upper":26.5,"N_values":640},
+        {"Sector_name_EN":"Real Estate","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":11.0,"Multiple_Value_Upper":22.0,"N_values":190},
+        {"Sector_name_EN":"Telecommunications","Multiple_Name":"EBITDA-Multiple","Date_Data":"2026-09-30T00:00:00","Multiple_Value_Lower":4.8,"Multiple_Value_Upper":9.5,"N_values":150}
+      ];
+
+      State.mrpData = [
+        {"Date":"2025-03-31T00:00:00","Basiszins":0.0275,"MRP":0.0625,"Gesamtrendite":0.0900},
+        {"Date":"2025-06-30T00:00:00","Basiszins":0.0300,"MRP":0.0600,"Gesamtrendite":0.0900},
+        {"Date":"2025-09-30T00:00:00","Basiszins":0.0325,"MRP":0.0575,"Gesamtrendite":0.0900},
+        {"Date":"2025-12-31T00:00:00","Basiszins":0.0325,"MRP":0.0525,"Gesamtrendite":0.0850},
+        {"Date":"2026-03-31T00:00:00","Basiszins":0.0350,"MRP":0.0525,"Gesamtrendite":0.0875},
+        {"Date":"2026-06-30T00:00:00","Basiszins":0.0350,"MRP":0.0525,"Gesamtrendite":0.0875},
+        {"Date":"2026-09-30T00:00:00","Basiszins":0.0375,"MRP":0.0525,"Gesamtrendite":0.0900}
+      ];
+
+      State.creditSpreadData = [
+        {"Tenure":1,"Rating":"BBB","BZ":0.0275,"Spread":0.0062},
+        {"Tenure":2,"Rating":"BBB","BZ":0.0275,"Spread":0.0066},
+        {"Tenure":5,"Rating":"BBB","BZ":0.0300,"Spread":0.0089},
+        {"Tenure":10,"Rating":"BBB","BZ":0.0325,"Spread":0.0125},
+        {"Tenure":15,"Rating":"BBB","BZ":0.0335,"Spread":0.0145},
+        {"Tenure":20,"Rating":"BBB","BZ":0.0340,"Spread":0.0160},
+        {"Tenure":30,"Rating":"BBB","BZ":0.0350,"Spread":0.0180}
+      ];
+
+      State.lrpData = [
+        {"Rating":"AA","Min":0.0030,"Max":0.0040},
+        {"Rating":"A","Min":0.0050,"Max":0.0100},
+        {"Rating":"BBB","Min":0.0090,"Max":0.0190},
+        {"Rating":"BB","Min":0.0164,"Max":0.0268},
+        {"Rating":"B","Min":0.0310,"Max":0.0484},
+        {"Rating":"CCC","Min":0.0570,"Max":0.0848}
+      ];
+
+      populateWaccQuarters();
+      populateMultiplesQuarters();
+      renderWaccChart();
+      renderMultiplesChart();
+      renderMrpChart();
+      renderCreditChart();
+      renderLrpChart();
+    }
+  </script>
+</body>
+</html>

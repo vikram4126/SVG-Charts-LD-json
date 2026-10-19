@@ -1,0 +1,137 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "@id": "https://kpmg.com/de/de/themen/business-performance-und-resilienz/kapitalkostenstudie.html",
+  "name": "Gewichtete Kapitalkosten (WACC) nach Branche",
+  "alternateName": "Weighted Average Cost of Capital (WACC) by Industry",
+  "description": "Horizontales Balkendiagramm, das die Bandbreite der gewichteten Kapitalkosten (WACC) in Prozent über verschiedene Branchen hinweg darstellt.",
+  "keywords": [
+    "WACC",
+    "Weighted Average Cost of Capital",
+    "Industry Comparison",
+    "Corporate Finance",
+    "Cost of Capital"
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "Example Analytics Team"
+  },
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "Industry"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "WACC Range",
+      "unitText": "percentage"
+    }
+  ],
+  "measurementTechnique": "Industry benchmark analysis",
+  "temporalCoverage": "2025",
+  "isBasedOn": {
+    "@type": "CreativeWork",
+    "name": "Industry WACC Benchmarks"
+  },
+  "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://example.com/api/wacc-by-industry"
+  },
+  "hasPart": [
+    {
+      "@type": "Observation",
+      "name": "Automotive",
+      "value": {
+        "minValue": 8.5,
+        "maxValue": 9.3,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Chemicals & Pharmaceuticals",
+      "value": {
+        "minValue": 7.8,
+        "maxValue": 9.2,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Consumer Markets",
+      "value": {
+        "minValue": 7.4,
+        "maxValue": 9.6,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Energy & Natural Resources",
+      "value": {
+        "minValue": 5.2,
+        "maxValue": 7.6,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Healthcare",
+      "value": {
+        "minValue": 7.0,
+        "maxValue": 9.8,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Industrial Manufacturing",
+      "value": {
+        "minValue": 8.4,
+        "maxValue": 10.5,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Media & Telecommunications",
+      "value": {
+        "minValue": 6.4,
+        "maxValue": 9.1,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Real Estate",
+      "value": {
+        "minValue": 6.0,
+        "maxValue": 8.7,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Technology",
+      "value": {
+        "minValue": 8.2,
+        "maxValue": 10.0,
+        "unitText": "%"
+      }
+    },
+    {
+      "@type": "Observation",
+      "name": "Transport & Leisure",
+      "value": {
+        "minValue": 7.0,
+        "maxValue": 9.1,
+        "unitText": "%"
+      }
+    }
+  ]
+}
+</script>
+
+``
