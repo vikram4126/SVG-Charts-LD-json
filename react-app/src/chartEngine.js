@@ -1619,66 +1619,66 @@ export function getChartDetails(category, templateId, sector) {
     case "wacc_band_over_time":
       title = `${sector} - Weighted average cost of capital over time`;
       subtitle = "Range of WACC (Teal Band) and Median of WACC (Navy Line) over quarters";
-      renderedHtml = renderWaccBand(sector);
+      renderedHtml = renderWaccBandOverTime(sector);
       break;
     case "wacc_params_table":
-      title = `${sector} - Cost of Capital Parameters Breakdown`;
-      subtitle = "Current and historical quarterly parameters (Equity & Debt Beta, Rf, Cost of Debt)";
+      title = `${sector} - Weighted average cost of capital as at 30/09/2026`;
+      subtitle = "Detailed financial parameter breakdown (Cost of Equity & Cost of Debt)";
       renderedHtml = renderWaccParamsTable(sector);
       break;
     case "wacc_countries_table":
-      title = `${sector} - Origin of Companies`;
-      subtitle = "Geographic distribution of constituent companies";
-      renderedHtml = renderWaccCountriesTable(sector);
+      title = `${sector} - Origin of all companies included in the entire database`;
+      subtitle = "Number of analyzed companies grouped by country of origin";
+      renderedHtml = renderCountriesTable("WACC_Countries", sector);
       break;
     case "wacc_subindustries_table":
-      title = `${sector} - Sub-Sectors Breakdown`;
-      subtitle = "Industry sub-segment distribution and company counts";
-      renderedHtml = renderWaccSubindustriesTable(sector);
+      title = `${sector} - Sub-sectors included in the entire database`;
+      subtitle = "Granular industry breakdown and sample count";
+      renderedHtml = renderSubIndustriesTable("WACC_SubIndustries", sector);
       break;
     case "wacc_full_grid":
       title = `${sector} - Complete Cost of Capital Dashboard`;
-      subtitle = "Executive Summary View";
-      renderedHtml = renderFullWaccDashboard(sector);
+      subtitle = "Comprehensive multi-component view for Cost of Capital";
+      renderedHtml = renderFullWaccGrid(sector);
       break;
     case "multiples_columns_over_time":
-      title = `${sector} - Average Multiples Over Time`;
-      subtitle = "Quarterly valuation multiples range and median";
+      title = `${sector} - Average multiples over time`;
+      subtitle = "Dual column chart: Range of EBITDA (Navy) & EBIT (Cyan) multiples";
       renderedHtml = renderMultiplesColumnsOverTime(sector);
       break;
     case "multiples_forecast_bars":
-      title = `${sector} - Valuation Multiples Forecasts`;
-      subtitle = "+1 Year and +2 Years forward valuation projections";
+      title = `${sector} - Average multiples as at 30/09/2026`;
+      subtitle = "Horizontal range comparisons: Actual (2026), +1Y Estimate (2027), +2Y Estimate (2028)";
       renderedHtml = renderMultiplesForecastBars(sector);
       break;
     case "multiples_countries_table":
-      title = `${sector} - Multiples: Origin of Companies`;
-      subtitle = "Geographic distribution for multiples dataset";
-      renderedHtml = renderMultiplesCountriesTable(sector);
+      title = `${sector} - Origin of all companies (Multiples Database)`;
+      subtitle = "Companies count by country";
+      renderedHtml = renderCountriesTable("Multiples_Countries", sector);
       break;
     case "multiples_subindustries_table":
-      title = `${sector} - Multiples: Sub-Sectors Breakdown`;
-      subtitle = "Sub-industry classification distribution";
-      renderedHtml = renderMultiplesSubindustriesTable(sector);
+      title = `${sector} - Sub-sectors included (Multiples Database)`;
+      subtitle = "Sub-industries breakdown";
+      renderedHtml = renderSubIndustriesTable("Multiples_SubIndustries", sector);
       break;
     case "multiples_full_grid":
-      title = `${sector} - Complete Valuation Multiples Dashboard`;
-      subtitle = "Full multiples overview dashboard";
-      renderedHtml = renderFullMultiplesDashboard(sector);
+      title = `${sector} - Complete Multiples Dashboard`;
+      subtitle = "Multi-component view with columns, forecast bars, and origin tables";
+      renderedHtml = renderFullMultiplesGrid(sector);
       break;
     case "mrp_3line_trend":
-      title = "Development of total return, risk-free base rate and market risk premium";
-      subtitle = "Quarterly trend over the last 2 years (Values in %)";
+      title = "Total rate of return, risk-free rate and market risk premium for Germany over time";
+      subtitle = "Historical 3-line trend from Q3 2024 to Q3 2026";
       renderedHtml = renderMrp3LineTrend();
       break;
     case "mrp_tenure_step_curve":
-      title = "Risk-free rate (Base rate) term structure across tenures";
-      subtitle = "Yield curve step progression for maturities 1 through 30 years";
-      renderedHtml = renderMrpTenureStepCurve();
+      title = "Current risk-free rates";
+      subtitle = "Risk-free rate (rounded) step curve by Tenure (1 to 30 years)";
+      renderedHtml = renderTenureStepCurve();
       break;
     case "mrp_full_page":
-      title = "Market risk premium and base rate as at 30/09/2026";
-      subtitle = "Recommended market risk premium is 5.25% - Base rate according to IDW S 1 is 3.75%";
+      title = "Market risk premium as at 30/09/2026";
+      subtitle = "The market risk premium for Germany proposed by KPMG as at 30/09/2026 is 5.25%.";
       renderedHtml = renderFullMrpPage();
       break;
     case "crp_rating_lines":

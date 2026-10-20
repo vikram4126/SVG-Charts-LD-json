@@ -17,10 +17,11 @@ export default function App() {
   const sectors = getSectors();
   const currentTemplates = TEMPLATES[category] || [];
   const activeTemplate = currentTemplates.find(t => t.id === templateId) || currentTemplates[0];
+  const effectiveTemplateId = activeTemplate ? activeTemplate.id : templateId;
 
   // Recalculate chart details
-  const { title, subtitle, renderedHtml, templateObj } = getChartDetails(category, templateId, sector);
-  const { snippet, schemaString } = generateAemSnippetForReact(renderedHtml, title, templateId, sector, templateObj);
+  const { title, subtitle, renderedHtml, templateObj } = getChartDetails(category, effectiveTemplateId, sector);
+  const { snippet, schemaString } = generateAemSnippetForReact(renderedHtml, title, effectiveTemplateId, sector, templateObj);
 
   // When category changes, reset templateId to first of that category
   const handleCategoryChange = (e) => {
@@ -129,7 +130,6 @@ export default function App() {
               REACT 19
             </span>
           </div>
-          <p className="sub-title">Live API Connector • Standalone SVG Charts & Tables • Valid Schema.org JSON-LD Dataset Metadata</p>
         </div>
       </header>
 
