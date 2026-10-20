@@ -7,8 +7,8 @@ import {
 } from './chartEngine';
 
 export default function App() {
-  const [category, setCategory] = useState('mrp');
-  const [templateId, setTemplateId] = useState('mrp_full_page');
+  const [category, setCategory] = useState('cost_of_capital');
+  const [templateId, setTemplateId] = useState('wacc_full_grid');
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -141,9 +141,9 @@ export default function App() {
                 value={category}
                 onChange={handleCategoryChange}
               >
-                <option value="mrp">Market Risk Premium & Base Rate</option>
                 <option value="cost_of_capital">Cost of Capital (WACC)</option>
                 <option value="multiples">Valuation Multiples</option>
+                <option value="mrp">Market Risk Premium & Base Rate</option>
                 <option value="country_risk">Country Risk Premium</option>
                 <option value="overview">Overview Hub Dashboard</option>
               </select>

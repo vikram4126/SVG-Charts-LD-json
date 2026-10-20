@@ -276,21 +276,21 @@ const TEMPLATES = {
         <g transform="translate(${w / 2 - 120}, ${pT + cH + 48})">
           <rect x="0" y="-3" width="22" height="6" fill="#00338D"/>
           <text x="28" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Median of WACC</text>
-          <rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.6"/>
+          <rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/>
           <text x="168" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Range of WACC</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Weighted average cost of capital over time</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Weighted average cost of capital over time</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
             <line x1="${pL}" y1="${pT + cH}" x2="${w - pR}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
             ${gridLines}
             <!-- Light Blue Range Band -->
-            <path d="${bandD}" fill="#00b8f5" fill-opacity="0.45" />
+            <path d="${bandD}" fill="#00b8f5" fill-opacity="0.80" />
 
             <!-- Dark Navy Median Line -->
             <path d="${medD}" fill="none" stroke="#00338D" stroke-width="2.5" />
@@ -438,7 +438,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Average multiples over time</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Average multiples over time</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -550,7 +550,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Average multiples as at 30/09/2026</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Average multiples as at 30/09/2026</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${h - pB}" stroke="#CBD5E1" stroke-width="1"/>
@@ -570,7 +570,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:14px; font-weight:600;">${sector} - Weighted average cost of capital as at 30/09/2026</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">${sector} - Weighted average cost of capital as at 30/09/2026</h3>
           <table class="atlas-table">
             <thead>
               <tr>
@@ -598,9 +598,9 @@ const TEMPLATES = {
               <tr><td>Debt Ratio</td><td class="num-col">${fmtPct(item.Debt_ratio)}</td></tr>
             </tbody>
             <tfoot>
-              <tr style="border-top:1.5px solid #333; font-weight:700;">
-                <td style="color:#333; font-size:13px; font-weight:600; padding:5px;">Weighted Average Cost of Capital (WACC)</td>
-                <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:5px;">${fmtPct(item.WACC_Value_Median)}</td>
+              <tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;">
+                <td style="color:#333; font-size:13px; font-weight:600; padding:5px; border-bottom:1px solid #333;">Weighted Average Cost of Capital (WACC)</td>
+                <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:5px; border-bottom:1px solid #333;">${fmtPct(item.WACC_Value_Median)}</td>
               </tr>
             </tfoot>
           </table>
@@ -625,7 +625,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - Origin of all companies included in the entire database</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - Origin of all companies included in the entire database</h3>
           <table class="atlas-table">
             <thead>
               <tr>
@@ -655,7 +655,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - Sub-sectors included in the entire database</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - Sub-sectors included in the entire database</h3>
           <table class="atlas-table">
             <thead>
               <tr>
@@ -763,7 +763,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">Total rate of return, risk-free rate and market risk premium for Germany over time</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Total rate of return, risk-free rate and market risk premium for Germany over time</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -852,7 +852,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">Current risk-free rates</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current risk-free rates</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -951,7 +951,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">Country risk premium over time for countries with BBB rating codes</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Country risk premium over time for countries with BBB rating codes</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -984,7 +984,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:14px; font-weight:600;">Country risk premium for selected countries at current reporting date</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">Country risk premium for selected countries at current reporting date</h3>
           <table class="atlas-table" style="border-bottom:1.5px solid #CBD5E1;">
             <thead>
               <tr>
@@ -1062,7 +1062,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">Current weighted average cost of capital (WACC)</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current weighted average cost of capital (WACC)</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1142,7 +1142,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">Current Industry Multiple Ranges</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current Industry Multiple Ranges</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1202,7 +1202,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; color:#666666; margin-bottom:8px; font-weight:600;">Current country risk premium per rating</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current country risk premium per rating</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1781,6 +1781,7 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
 <!-- Ready to paste into AEM Embed / Custom HTML Component -->
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
+    .kpmg-atlas-chart-container h3 { font-size:16px; font-family:inherit; }
     .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; }
     .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
     .kpmg-atlas-chart-container .atlas-table td { padding:5px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
