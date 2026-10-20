@@ -124,12 +124,7 @@ export default function App() {
       {/* Small Centered Main Header */}
       <header className="app-header">
         <div className="header-inner">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <h1 className="main-title">API to SVG+LD_Json</h1>
-            <span style={{ fontSize: '11px', background: '#E0F2FE', color: '#0369A1', fontWeight: 700, padding: '2px 8px', borderRadius: '4px' }}>
-              REACT 19
-            </span>
-          </div>
+          <h1 className="main-title">API to SVG+LD_Json</h1>
         </div>
       </header>
 
