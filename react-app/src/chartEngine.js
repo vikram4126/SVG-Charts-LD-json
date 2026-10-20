@@ -252,7 +252,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 10}" y="${y + 4}" fill="#5C585C" font-size="10.5" text-anchor="end">${(v * 100).toFixed(2)} %</text>
+          <text x="${pL - 10}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(2)} %</text>
         `;
       }
 
@@ -267,17 +267,17 @@ const TEMPLATES = {
         const qStr = parts[0] || "";
         const yrStr = parts[1] || "";
         return `
-          <text x="${scaleX(i)}" y="${pT + cH + 16}" fill="#5C585C" font-size="10.5" font-weight="500" text-anchor="middle">${qStr}</text>
-          <text x="${scaleX(i)}" y="${pT + cH + 29}" fill="#5C585C" font-size="10" text-anchor="middle">${yrStr}</text>
+          <text x="${scaleX(i)}" y="${pT + cH + 16}" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">${qStr}</text>
+          <text x="${scaleX(i)}" y="${pT + cH + 29}" fill="#666" font-size="10" text-anchor="middle">${yrStr}</text>
         `;
       }).join("");
 
       const legend = `
         <g transform="translate(${w / 2 - 120}, ${pT + cH + 48})">
           <rect x="0" y="-3" width="22" height="6" fill="#00338D"/>
-          <text x="28" y="3" font-size="11" fill="#262527" font-family="Inter, Arial, sans-serif">Median of WACC</text>
+          <text x="28" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Median of WACC</text>
           <rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.6"/>
-          <text x="168" y="3" font-size="11" fill="#262527" font-family="Inter, Arial, sans-serif">Range of WACC</text>
+          <text x="168" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Range of WACC</text>
         </g>
       `;
 
@@ -289,22 +289,48 @@ const TEMPLATES = {
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
             <line x1="${pL}" y1="${pT + cH}" x2="${w - pR}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
             ${gridLines}
+            <!-- Light Blue Range Band -->
             <path d="${bandD}" fill="#00b8f5" fill-opacity="0.45" />
+
+            <!-- Dark Navy Median Line -->
             <path d="${medD}" fill="none" stroke="#00338D" stroke-width="2.5" />
+
+            <!-- Range of WACC Hitboxes (Triggers ONLY when hovering on the light blue area) -->
             ${rows.map((r, i) => {
               const parts = fmtDateQ(r.Date_Data).split(" ");
-              const qHeader = `${parts[0] || ""},${parts[1] || ""}`;
-              const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.WACC_Value_Median)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+              const qHeader = `${parts[0] || ""} ${parts[1] || ""}`;
+              const colW = cW / (rows.length - 1);
+              const xL = scaleX(i) - colW / 2;
+              const yTop = scaleY(r.WACC_Value_Upper);
+              const yBottom = scaleY(r.WACC_Value_Lower);
+              const bandH = Math.max(yBottom - yTop, 8);
+              const rangeTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;strong style='color:#FFFFFF;'&gt;[${fmtPct(r.WACC_Value_Lower)}, ${fmtPct(r.WACC_Value_Upper)}]&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
               return `
-                <g class="has-tooltip" data-tooltip="${tipHtml}" style="cursor:pointer;">
-                  <rect x="${scaleX(i) - 18}" y="${pT}" width="36" height="${cH}" fill="transparent"/>
+                <g class="has-tooltip" data-tooltip="${rangeTip}" style="cursor:pointer;">
+                  <rect x="${xL}" y="${yTop}" width="${colW}" height="${bandH}" fill="transparent" />
+                </g>
+              `;
+            }).join("")}
+
+            <!-- Median of WACC Hitboxes (Placed on top so hovering on the navy line triggers ONLY Median) -->
+            ${rows.map((r, i) => {
+              const parts = fmtDateQ(r.Date_Data).split(" ");
+              const qHeader = `${parts[0] || ""} ${parts[1] || ""}`;
+              const colW = cW / (rows.length - 1);
+              const xL = scaleX(i) - colW / 2;
+              const yMed = scaleY(r.WACC_Value_Median);
+              const medTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.WACC_Value_Median)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+              return `
+                <g class="has-tooltip median-point" data-tooltip="${medTip}" style="cursor:pointer;">
+                  <rect x="${xL}" y="${yMed - 10}" width="${colW}" height="20" fill="transparent" />
+                  <circle cx="${scaleX(i)}" cy="${yMed}" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
                 </g>
               `;
             }).join("")}
             ${xLabels}
             ${legend}
             <!-- Rotated Y-axis label with plenty of clearance from percentage values -->
-            <text x="18" y="${pT + cH/2}" fill="#5C585C" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">WACC (in %)</text>
+            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">WACC (in %)</text>
           </svg>
         </div>
       `;
@@ -366,7 +392,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#5C585C" font-size="10.5" text-anchor="end">${v.toFixed(1)} x</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${v.toFixed(1)} x</text>
         `;
       }
 
@@ -396,17 +422,17 @@ const TEMPLATES = {
         }
 
         bars += `
-          <text x="${gX + colGroupW/2}" y="${h - pB + 16}" fill="#5C585C" font-size="10" font-weight="500" text-anchor="middle">${qStr}</text>
-          <text x="${gX + colGroupW/2}" y="${h - pB + 29}" fill="#5C585C" font-size="9.5" text-anchor="middle">${yrStr}</text>
+          <text x="${gX + colGroupW/2}" y="${h - pB + 16}" fill="#666" font-size="10" font-weight="500" text-anchor="middle">${qStr}</text>
+          <text x="${gX + colGroupW/2}" y="${h - pB + 29}" fill="#666" font-size="9.5" text-anchor="middle">${yrStr}</text>
         `;
       });
 
       const legend = `
         <g transform="translate(${w / 2 - 140}, ${h - 15})">
           <rect x="0" y="0" width="12" height="12" fill="#00338D"/>
-          <text x="18" y="10" font-size="11" fill="#262527">Range of EBITDA multiples</text>
+          <text x="18" y="10" font-size="11" fill="#333">Range of EBITDA multiples</text>
           <rect x="170" y="0" width="12" height="12" fill="#00b8f5"/>
-          <text x="188" y="10" font-size="11" fill="#262527">Range of EBIT multiples</text>
+          <text x="188" y="10" font-size="11" fill="#333">Range of EBIT multiples</text>
         </g>
       `;
 
@@ -486,7 +512,7 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${h - pB}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${x}" y="${h - pB + 16}" fill="#5C585C" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
+          <text x="${x}" y="${h - pB + 16}" fill="#666" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
         `;
       }
 
@@ -496,7 +522,7 @@ const TEMPLATES = {
         const ebitda = currentRows.find(r => r.Multiple_Name === "EBITDA-Multiple" && (r.Multiple_Date || "").startsWith(hItem.date.slice(0,4))) || currentRows.find(r => r.Multiple_Name === "EBITDA-Multiple");
         const ebit = currentRows.find(r => r.Multiple_Name === "EBIT-Multiple" && (r.Multiple_Date || "").startsWith(hItem.date.slice(0,4))) || currentRows.find(r => r.Multiple_Name === "EBIT-Multiple");
 
-        bars += `<text x="${pL - 14}" y="${yCenter + 4}" fill="#262527" font-size="11" font-weight="500" text-anchor="end">${hItem.label}</text>`;
+        bars += `<text x="${pL - 14}" y="${yCenter + 4}" fill="#333" font-size="11" font-weight="500" text-anchor="end">${hItem.label}</text>`;
 
         if (ebitda) {
           const x1 = scaleX(ebitda.Multiple_Value_Lower);
@@ -516,9 +542,9 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 140}, ${h - 15})">
           <rect x="0" y="0" width="12" height="12" fill="#00338D"/>
-          <text x="18" y="10" font-size="11" fill="#262527">Range of EBITDA multiples</text>
+          <text x="18" y="10" font-size="11" fill="#333">Range of EBITDA multiples</text>
           <rect x="170" y="0" width="12" height="12" fill="#00b8f5"/>
-          <text x="188" y="10" font-size="11" fill="#262527">Range of EBIT multiples</text>
+          <text x="188" y="10" font-size="11" fill="#333">Range of EBIT multiples</text>
         </g>
       `;
 
@@ -547,8 +573,8 @@ const TEMPLATES = {
           <h3 style="font-size:14px; color:#666666; margin-bottom:14px; font-weight:600;">${sector} - Weighted average cost of capital as at 30/09/2026</h3>
           <table class="atlas-table">
             <thead>
-              <tr style="background:#F8FAFC;">
-                <th colspan="2" style="color:#666666; font-size:12px;">Cost Of Equity</th>
+              <tr>
+                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">Cost of Equity</th>
               </tr>
             </thead>
             <tbody>
@@ -560,8 +586,8 @@ const TEMPLATES = {
               <tr><td>Equity Ratio</td><td class="num-col">${fmtPct(item.Equity_ratio)}</td></tr>
             </tbody>
             <thead>
-              <tr style="background:#F8FAFC;">
-                <th colspan="2" style="color:#666666; font-size:12px;">Cost of Debt</th>
+              <tr>
+                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">Cost of Debt</th>
               </tr>
             </thead>
             <tbody>
@@ -572,13 +598,13 @@ const TEMPLATES = {
               <tr><td>Debt Ratio</td><td class="num-col">${fmtPct(item.Debt_ratio)}</td></tr>
             </tbody>
             <tfoot>
-              <tr style="border-top:1.5px solid #262527; font-weight:700;">
-                <td style="color:#666666; font-size:13px; font-weight:600; padding:5px 14px;">Weighted Average Cost of Capital (WACC)</td>
-                <td class="num-col" style="font-size:13px; color:#666666; font-weight:700; padding:5px 14px;">${fmtPct(item.WACC_Value_Median)}</td>
+              <tr style="border-top:1.5px solid #333; font-weight:700;">
+                <td style="color:#333; font-size:13px; font-weight:600; padding:5px;">Weighted Average Cost of Capital (WACC)</td>
+                <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:5px;">${fmtPct(item.WACC_Value_Median)}</td>
               </tr>
             </tfoot>
           </table>
-          <p style="font-size:11px; color:#5C585C; margin-top:14px; line-height:1.45;">
+          <p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">
             *The WACC represents the median of the individual company WACCs within the selected industry and therefore cannot be directly derived from the average values of the individual WACC components presented in this table.
           </p>
         </div>
@@ -592,8 +618,8 @@ const TEMPLATES = {
 
       const trs = topCountries.map(r => `
         <tr>
-          <td style="color:#666666; font-weight:400;">${r.Country_EN}</td>
-          <td class="num-col" style="color:#666666; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
+          <td style="color:#333; font-weight:400;">${r.Country_EN}</td>
+          <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
         </tr>
       `).join("");
 
@@ -622,8 +648,8 @@ const TEMPLATES = {
 
       const trs = topSubs.map(r => `
         <tr>
-          <td style="color:#666666; font-weight:400;">${r.SimpleIndustry_EN || r.SubIndustry_EN}</td>
-          <td class="num-col" style="color:#666666; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
+          <td style="color:#333; font-weight:400;">${r.SimpleIndustry_EN || r.SubIndustry_EN}</td>
+          <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
         </tr>
       `).join("");
 
@@ -648,7 +674,7 @@ const TEMPLATES = {
     // 7. Complete WACC Dashboard
     function renderFullWaccGrid(sector) {
       return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(460px, 1fr)); gap:20px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
           <div style="padding:6px 0;">${renderWaccBandOverTime(sector)}</div>
           <div style="padding:6px 0;">${renderCountriesTable("WACC_Countries", sector)}</div>
           <div style="padding:6px 0;">${renderWaccParamsTable(sector)}</div>
@@ -660,7 +686,7 @@ const TEMPLATES = {
     // 8. Complete Multiples Dashboard
     function renderFullMultiplesGrid(sector) {
       return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(460px, 1fr)); gap:20px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
           <div style="padding:6px 0;">${renderMultiplesColumnsOverTime(sector)}</div>
           <div style="padding:6px 0;">${renderCountriesTable("Multiples_Countries", sector)}</div>
           <div style="padding:6px 0;">${renderMultiplesForecastBars(sector)}</div>
@@ -685,7 +711,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#5C585C" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
         `;
       }
 
@@ -699,8 +725,8 @@ const TEMPLATES = {
         const qStr = parts[0] || "";
         const yrStr = parts[1] || "";
         return `
-          <text x="${scaleX(i)}" y="${pT + cH + 16}" fill="#5C585C" font-size="10.5" font-weight="500" text-anchor="middle">${qStr}</text>
-          <text x="${scaleX(i)}" y="${pT + cH + 29}" fill="#5C585C" font-size="10" text-anchor="middle">${yrStr}</text>
+          <text x="${scaleX(i)}" y="${pT + cH + 16}" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">${qStr}</text>
+          <text x="${scaleX(i)}" y="${pT + cH + 29}" fill="#666" font-size="10" text-anchor="middle">${yrStr}</text>
         `;
       }).join("");
 
@@ -727,11 +753,11 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 180}, ${pT + cH + 48})">
           <line x1="0" y1="0" x2="20" y2="0" stroke="#00338D" stroke-width="3"/>
-          <text x="26" y="4" font-size="11" fill="#262527">Total rate of return</text>
+          <text x="26" y="4" font-size="11" fill="#333">Total rate of return</text>
           <line x1="140" y1="0" x2="160" y2="0" stroke="#00b8f5" stroke-width="3"/>
-          <text x="166" y="4" font-size="11" fill="#262527">Market risk premium</text>
+          <text x="166" y="4" font-size="11" fill="#333">Market risk premium</text>
           <line x1="290" y1="0" x2="310" y2="0" stroke="#fd349c" stroke-width="3"/>
-          <text x="316" y="4" font-size="11" fill="#262527">Risk-free rate</text>
+          <text x="316" y="4" font-size="11" fill="#333">Risk-free rate</text>
         </g>
       `;
 
@@ -757,7 +783,7 @@ const TEMPLATES = {
     // 9b. Complete MRP Page Container (Side-by-side Left and Right Layout)
     function renderFullMrpPage() {
       return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(480px, 1fr)); gap:24px; align-items:start;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">
           <div style="padding:6px 0;">${renderMrp3LineTrend()}</div>
           <div style="padding:6px 0;">${renderTenureStepCurve()}</div>
         </div>
@@ -781,7 +807,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#5C585C" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
         `;
       }
 
@@ -814,13 +840,13 @@ const TEMPLATES = {
 
       let xTicks = "";
       for (let t = 1; t <= 30; t++) {
-        xTicks += `<text x="${scaleX(t)}" y="${pT + cH + 16}" fill="#5C585C" font-size="9" text-anchor="middle">${t}</text>`;
+        xTicks += `<text x="${scaleX(t)}" y="${pT + cH + 16}" fill="#666" font-size="9" text-anchor="middle">${t}</text>`;
       }
 
       const legend = `
         <g transform="translate(${w / 2 - 85}, ${pT + cH + 48})">
           <line x1="0" y1="0" x2="22" y2="0" stroke="#7213ea" stroke-width="3"/>
-          <text x="28" y="4" font-size="11" fill="#262527">Risk-free rate (rounded)</text>
+          <text x="28" y="4" font-size="11" fill="#333">Risk-free rate (rounded)</text>
         </g>
       `;
 
@@ -836,9 +862,9 @@ const TEMPLATES = {
             ${dots}
             ${hitboxes}
             ${xTicks}
-            <text x="${w/2}" y="${pT + cH + 32}" fill="#5C585C" font-size="11" text-anchor="middle">Tenure (in years)</text>
+            <text x="${w/2}" y="${pT + cH + 32}" fill="#666" font-size="11" text-anchor="middle">Tenure (in years)</text>
             <!-- Left Y-axis Rotated Label -->
-            <text x="18" y="${pT + cH/2}" fill="#5C585C" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">Risk-free rate</text>
+            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">Risk-free rate</text>
             ${legend}
           </svg>
         </div>
@@ -864,7 +890,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#5C585C" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
         `;
       }
 
@@ -883,8 +909,8 @@ const TEMPLATES = {
         const qStr = parts[0] || "";
         const yrStr = parts[1] || "";
         return `
-          <text x="${scaleX(i)}" y="${pT + cH + 16}" fill="#5C585C" font-size="10.5" font-weight="500" text-anchor="middle">${qStr}</text>
-          <text x="${scaleX(i)}" y="${pT + cH + 29}" fill="#5C585C" font-size="10" text-anchor="middle">${yrStr}</text>
+          <text x="${scaleX(i)}" y="${pT + cH + 16}" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">${qStr}</text>
+          <text x="${scaleX(i)}" y="${pT + cH + 29}" fill="#666" font-size="10" text-anchor="middle">${yrStr}</text>
         `;
       }).join("");
 
@@ -915,11 +941,11 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 130}, ${pT + cH + 48})">
           <line x1="0" y1="0" x2="20" y2="0" stroke="#00338D" stroke-width="3"/>
-          <text x="26" y="4" font-size="11" fill="#262527">BBB-</text>
+          <text x="26" y="4" font-size="11" fill="#333">BBB-</text>
           <line x1="90" y1="0" x2="110" y2="0" stroke="#00b8f5" stroke-width="3"/>
-          <text x="116" y="4" font-size="11" fill="#262527">BBB</text>
+          <text x="116" y="4" font-size="11" fill="#333">BBB</text>
           <line x1="180" y1="0" x2="200" y2="0" stroke="#fd349c" stroke-width="3"/>
-          <text x="206" y="4" font-size="11" fill="#262527">BBB+</text>
+          <text x="206" y="4" font-size="11" fill="#333">BBB+</text>
         </g>
       `;
 
@@ -935,7 +961,7 @@ const TEMPLATES = {
             ${hitboxes}
             ${xLabels}
             ${legend}
-            <text x="18" y="${pT + cH/2}" fill="#5C585C" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">CRP (in %)</text>
+            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">CRP (in %)</text>
           </svg>
         </div>
       `;
@@ -948,11 +974,11 @@ const TEMPLATES = {
 
       const trs = rows.map(r => `
         <tr>
-          <td style="color:#666666; font-weight:400; padding:5px 14px;">${r.Rating}</td>
-          <td style="color:#666666; font-weight:400; padding:5px 14px;">${r.Ctry_Name_EN}</td>
-          <td class="num-col" style="color:#666666; font-weight:400; text-align:right; padding:5px 14px;">${fmtPct(r.CRP_6m)}</td>
-          <td class="num-col" style="color:#666666; font-weight:400; text-align:right; padding:5px 14px;">${fmtPct(r.CRP_1y)}</td>
-          <td class="num-col" style="color:#666666; font-weight:400; text-align:right; padding:5px 14px;">${fmtPct(r.CRP_2y)}</td>
+          <td style="color:#333; font-weight:400; padding:5px;">${r.Rating}</td>
+          <td style="color:#333; font-weight:400; padding:5px;">${r.Ctry_Name_EN}</td>
+          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px;">${fmtPct(r.CRP_6m)}</td>
+          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px;">${fmtPct(r.CRP_1y)}</td>
+          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px;">${fmtPct(r.CRP_2y)}</td>
         </tr>
       `).join("");
 
@@ -962,14 +988,14 @@ const TEMPLATES = {
           <table class="atlas-table" style="border-bottom:1.5px solid #CBD5E1;">
             <thead>
               <tr>
-                <th rowspan="2" style="vertical-align:bottom; padding:5px 14px; color:#666666; border-bottom:1.5px solid #CBD5E1;">RATING</th>
-                <th rowspan="2" style="vertical-align:bottom; padding:5px 14px; color:#666666; border-bottom:1.5px solid #CBD5E1;">COUNTRY</th>
-                <th colspan="3" style="text-align:right; padding:5px 14px 4px 14px; color:#666666; border-bottom:1px solid #E2E8F0; letter-spacing:0.5px;">COUNTRY RISK PREMIUM</th>
+                <th rowspan="2" style="vertical-align:bottom; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">RATING</th>
+                <th rowspan="2" style="vertical-align:bottom; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">COUNTRY</th>
+                <th colspan="3" style="text-align:right; padding:5px; color:#666666; border-bottom:1px solid #E2E8F0; letter-spacing:0.5px;">COUNTRY RISK PREMIUM</th>
               </tr>
               <tr>
-                <th style="text-align:right; padding:4px 14px 5px 14px; color:#666666; border-bottom:1.5px solid #CBD5E1;">6 MONTHS</th>
-                <th style="text-align:right; padding:4px 14px 5px 14px; color:#666666; border-bottom:1.5px solid #CBD5E1;">1 YEAR</th>
-                <th style="text-align:right; padding:4px 14px 5px 14px; color:#666666; border-bottom:1.5px solid #CBD5E1;">2 YEARS</th>
+                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">6 MONTHS</th>
+                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">1 YEAR</th>
+                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">2 YEARS</th>
               </tr>
             </thead>
             <tbody>
@@ -983,7 +1009,7 @@ const TEMPLATES = {
     // 14. Full Country Risk Page (Side-by-side Left and Right Layout)
     function renderFullCrpPage() {
       return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(480px, 1fr)); gap:24px; align-items:start;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">
           <div style="padding:6px 0;">${renderCrpRatingLines()}</div>
           <div style="padding:6px 0;">${renderSelectedCountriesCrpTable()}</div>
         </div>
@@ -1007,8 +1033,8 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
-          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#94A3B8" stroke-width="1"/>
-          <text x="${x}" y="${pT + cH + 17}" fill="#5C585C" font-size="10.5" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
+          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#666" stroke-width="1"/>
+          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
         `;
       }
 
@@ -1030,7 +1056,7 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 50}, ${pT + cH + 42})">
           <rect x="0" y="-10" width="12" height="12" fill="#00338D"/>
-          <text x="18" y="0" fill="#5C585C" font-size="11" font-family="Inter, Arial, sans-serif">Range of WACC</text>
+          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of WACC</text>
         </g>
       `;
 
@@ -1067,8 +1093,8 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
-          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#94A3B8" stroke-width="1"/>
-          <text x="${x}" y="${pT + cH + 17}" fill="#5C585C" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
+          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#666" stroke-width="1"/>
+          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
         `;
       }
 
@@ -1107,10 +1133,10 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 145}, ${pT + cH + 42})">
           <rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/>
-          <text x="18" y="0" fill="#5C585C" font-size="11" font-family="Inter, Arial, sans-serif">Range of EBIT multiples</text>
+          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of EBIT multiples</text>
           
           <rect x="175" y="-10" width="12" height="12" fill="#00338D"/>
-          <text x="193" y="0" fill="#5C585C" font-size="11" font-family="Inter, Arial, sans-serif">Range of EBITDA multiples</text>
+          <text x="193" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of EBITDA multiples</text>
         </g>
       `;
 
@@ -1147,8 +1173,8 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
-          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#94A3B8" stroke-width="1"/>
-          <text x="${x}" y="${pT + cH + 17}" fill="#5C585C" font-size="11" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
+          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#666" stroke-width="1"/>
+          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="11" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
         `;
       }
 
@@ -1170,7 +1196,7 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 95}, ${pT + cH + 40})">
           <rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/>
-          <text x="18" y="0" fill="#5C585C" font-size="11" font-family="Inter, Arial, sans-serif">Range of country risk premium</text>
+          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of country risk premium</text>
         </g>
       `;
 
@@ -1192,7 +1218,7 @@ const TEMPLATES = {
     // 18. Full Overview Dashboard Grid
     function renderFullOverviewGrid() {
       return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(460px, 1fr)); gap:20px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
           <div style="padding:6px 0;">${renderOverviewWaccHoriz()}</div>
           <div style="padding:6px 0;">${renderOverviewMultiplesHoriz()}</div>
           <div style="padding:6px 0;">${renderMrp3LineTrend()}</div>
@@ -1495,10 +1521,9 @@ const TEMPLATES = {
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
     .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 14px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:5px 14px; border-bottom:1px solid #F1F5F9; color:#666666; font-weight:400; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#666666; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:600; color:#666666; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
+    .kpmg-atlas-chart-container .atlas-table td { padding:5px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
+    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; }
   </style>
   ${renderedMarkup}
   <style>
@@ -1757,9 +1782,9 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
     .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 14px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:5px 14px; border-bottom:1px solid #F1F5F9; color:#666666; font-weight:400; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:600; color:#666666; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
+    .kpmg-atlas-chart-container .atlas-table td { padding:5px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
+    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; }
   </style>
   ${renderedMarkup}
   <style>
