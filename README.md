@@ -1,6 +1,12 @@
 # KPMG Atlas | SVG Chart & Schema.org JSON-LD Studio
 
-This repository provides two complete implementations of the KPMG Chart & Schema.org Studio:
+This repository provides two complete implementations of the KPMG Chart & Schema.org Studio, converting raw REST API data into standalone vector SVG graphics and Google-crawlable Schema.org JSON-LD dataset metadata.
+
+---
+
+## 📖 Team Documentation & Architecture Guides
+- **Word Document (.docx)**: [KPMG_API_to_SVG_and_JSONLD_Architecture_Guide.docx](file:///Users/vikram/Desktop/Antigravity/SVG-charts/KPMG_API_to_SVG_and_JSONLD_Architecture_Guide.docx) (Formatted report for team meetings & stakeholder sharing)
+- **Technical Explainer (.md)**: [EXPLAINER_API_TO_SVG_AND_LD_JSON.md](file:///Users/vikram/Desktop/Antigravity/SVG-charts/EXPLAINER_API_TO_SVG_AND_LD_JSON.md) (Complete mathematical breakdown, coordinate scaling formulas, and Schema.org mapping)
 
 ---
 
