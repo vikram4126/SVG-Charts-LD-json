@@ -56,8 +56,9 @@ body {
 
 /* Control Panel */
 .control-panel-wrap {
-  max-width: 1400px;
-  margin: 22px auto 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 16px 0 0;
   padding: 0 24px;
 }
 
@@ -116,8 +117,9 @@ body {
 
 /* Workspace Stage */
 .stage-wrap {
-  max-width: 1400px;
-  margin: 20px auto 40px;
+  width: 100%;
+  max-width: 100%;
+  margin: 16px 0 32px;
   padding: 0 24px;
 }
 
