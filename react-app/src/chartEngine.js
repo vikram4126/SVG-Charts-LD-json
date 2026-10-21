@@ -178,35 +178,35 @@ export const I18N = {
 
 const TEMPLATES = {
       cost_of_capital: [
-        { id: "wacc_band_over_time", name: "WACC Over Time (Area Band + Median Line)", ep: "/WACC_Values", needsSector: true },
-        { id: "wacc_params_table", name: "Parameter Breakdown Table (Equity & Debt Beta, Rf)", ep: "/WACC_Values", needsSector: true },
-        { id: "wacc_countries_table", name: "Origin of Companies Table", ep: "/WACC_Countries", needsSector: true },
-        { id: "wacc_subindustries_table", name: "Sub-Sectors Breakdown Table", ep: "/WACC_SubIndustries", needsSector: true },
-        { id: "wacc_full_grid", name: "Complete Cost of Capital Dashboard", ep: "/WACC_Values", needsSector: true },
+        { id: "wacc_band_over_time", name: "WACC Over Time (Area Band + Median Line)", nameDE: "WACC im Zeitverlauf (Bereichsband + Median)", ep: "/WACC_Values", needsSector: true },
+        { id: "wacc_params_table", name: "Parameter Breakdown Table (Equity & Debt Beta, Rf)", nameDE: "Parameterübersicht (Eigen- & Fremdkapital, Rf)", ep: "/WACC_Values", needsSector: true },
+        { id: "wacc_countries_table", name: "Origin of Companies Table", nameDE: "Herkunft der Unternehmen (Tabelle)", ep: "/WACC_Countries", needsSector: true },
+        { id: "wacc_subindustries_table", name: "Sub-Sectors Breakdown Table", nameDE: "Teilsektoren-Aufschlüsselung (Tabelle)", ep: "/WACC_SubIndustries", needsSector: true },
+        { id: "wacc_full_grid", name: "Complete Cost of Capital Dashboard", nameDE: "Gesamtes Kapitalkosten-Dashboard", ep: "/WACC_Values", needsSector: true },
       ],
       multiples: [
-        { id: "multiples_columns_over_time", name: "Average Multiples Over Time (Dual Columns)", ep: "/Multiples_Values", needsSector: true },
-        { id: "multiples_forecast_bars", name: "Multiples Forecasts (+1y, +2y Horizon Bars)", ep: "/Multiples_Values", needsSector: true },
-        { id: "multiples_countries_table", name: "Origin of Companies Table", ep: "/Multiples_Countries", needsSector: true },
-        { id: "multiples_subindustries_table", name: "Sub-Sectors Breakdown Table", ep: "/Multiples_SubIndustries", needsSector: true },
-        { id: "multiples_full_grid", name: "Complete Multiples Dashboard", ep: "/Multiples_Values", needsSector: true },
+        { id: "multiples_columns_over_time", name: "Average Multiples Over Time (Dual Columns)", nameDE: "Durchschnittliche Multiples im Zeitverlauf (Säulen)", ep: "/Multiples_Values", needsSector: true },
+        { id: "multiples_forecast_bars", name: "Multiples Forecasts (+1y, +2y Horizon Bars)", nameDE: "Multiples-Prognosen (+1J, +2J Balken)", ep: "/Multiples_Values", needsSector: true },
+        { id: "multiples_countries_table", name: "Origin of Companies Table", nameDE: "Herkunft der Unternehmen (Tabelle)", ep: "/Multiples_Countries", needsSector: true },
+        { id: "multiples_subindustries_table", name: "Sub-Sectors Breakdown Table", nameDE: "Teilsektoren-Aufschlüsselung (Tabelle)", ep: "/Multiples_SubIndustries", needsSector: true },
+        { id: "multiples_full_grid", name: "Complete Multiples Dashboard", nameDE: "Gesamtes Multiples-Dashboard", ep: "/Multiples_Values", needsSector: true },
       ],
       mrp: [
-        { id: "mrp_3line_trend", name: "Total Return, Risk-Free & MRP Trend (3 Lines)", ep: "/MRP_BZ", needsSector: false },
-        { id: "mrp_tenure_step_curve", name: "Current Risk-Free Rate Step Curve (Tenure 1-30)", ep: "/BZ_CreditSpread", needsSector: false },
-        { id: "mrp_full_page", name: "Complete MRP & Risk-Free Page", ep: "/MRP_BZ", needsSector: false },
+        { id: "mrp_3line_trend", name: "Total Return, Risk-Free & MRP Trend (3 Lines)", nameDE: "Gesamtrendite, Basiszinssatz & MRP Trend (3 Linien)", ep: "/MRP_BZ", needsSector: false },
+        { id: "mrp_tenure_step_curve", name: "Current Risk-Free Rate Step Curve (Tenure 1-30)", nameDE: "Aktuelle Basiszinssatz-Stufenkurve (Laufzeit 1-30)", ep: "/BZ_CreditSpread", needsSector: false },
+        { id: "mrp_full_page", name: "Complete MRP & Risk-Free Page", nameDE: "Gesamte MRP- & Basiszinssatz-Seite", ep: "/MRP_BZ", needsSector: false },
       ],
       country_risk: [
-        { id: "crp_rating_lines", name: "Country Risk Premium Over Time (BBB-, BBB, BBB+)", ep: "/LRP_AverageOverTime", needsSector: false },
-        { id: "crp_countries_table", name: "Selected Countries Reporting Table", ep: "/LRP_SelectedCountries", needsSector: false },
-        { id: "crp_full_page", name: "Complete Country Risk Page", ep: "/LRP_AverageOverTime", needsSector: false },
+        { id: "crp_rating_lines", name: "Country Risk Premium Over Time (BBB-, BBB, BBB+)", nameDE: "Länderrisikoprämie im Zeitverlauf (BBB-, BBB, BBB+)", ep: "/LRP_AverageOverTime", needsSector: false },
+        { id: "crp_countries_table", name: "Selected Countries Reporting Table", nameDE: "Länderrisikoprämie ausgewählter Länder (6M, 1J, 2J)", ep: "/LRP_SelectedCountries", needsSector: false },
+        { id: "crp_full_page", name: "Complete Country Risk Page", nameDE: "Gesamte Länderrisiko-Seite", ep: "/LRP_AverageOverTime", needsSector: false },
       ],
       overview: [
-        { id: "ov_wacc_horiz", name: "Current WACC by Industry (Horizontal Range Bars)", ep: "/WACC_Values", needsSector: false },
-        { id: "ov_multiples_horiz", name: "Current Industry Multiple Ranges (Horizontal Dual Bars)", ep: "/Multiples_Values", needsSector: false },
-        { id: "ov_mrp_trend", name: "Market Risk Premium Trend", ep: "/MRP_BZ", needsSector: false },
-        { id: "ov_crp_bars", name: "Country Risk Premium by Rating (Floating Bands)", ep: "/LRP_AverageLRPs", needsSector: false },
-        { id: "ov_full_grid", name: "Complete Overview Dashboard", ep: "/WACC_Values", needsSector: false },
+        { id: "ov_wacc_horiz", name: "Current WACC by Industry (Horizontal Range Bars)", nameDE: "WACC nach Branchen (Horizontale Balken)", ep: "/WACC_Values", needsSector: false },
+        { id: "ov_multiples_horiz", name: "Current Industry Multiple Ranges (Horizontal Dual Bars)", nameDE: "Multiples-Bandbreiten nach Branchen (Doppelbalken)", ep: "/Multiples_Values", needsSector: false },
+        { id: "ov_mrp_trend", name: "Market Risk Premium Trend", nameDE: "MRP & Rendite-Trend (Letzte 2 Jahre)", ep: "/MRP_BZ", needsSector: false },
+        { id: "ov_crp_bars", name: "Country Risk Premium by Rating (Floating Bands)", nameDE: "Länderrisiko nach Rating (Schwebende Balken)", ep: "/LRP_AverageLRPs", needsSector: false },
+        { id: "ov_full_grid", name: "Complete Overview Dashboard", nameDE: "Vollständiges Gesamtübersicht-Dashboard", ep: "/WACC_Values", needsSector: false },
       ]
     };
 
@@ -477,7 +477,7 @@ const TEMPLATES = {
               const yTop = scaleY(r.WACC_Value_Upper);
               const yBottom = scaleY(r.WACC_Value_Lower);
               const bandH = Math.max(yBottom - yTop, 8);
-              const rangeTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;strong style='color:#FFFFFF;'&gt;[${fmtPct(r.WACC_Value_Lower)}, ${fmtPct(r.WACC_Value_Upper)}]&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+              const rangeTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(r.WACC_Value_Lower)}, ${fmtPct(r.WACC_Value_Upper)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
               return `
                 <g class="has-tooltip" data-tooltip="${rangeTip}" style="cursor:pointer;">
                   <rect x="${xL}" y="${yTop}" width="${colW}" height="${bandH}" fill="transparent" />
@@ -492,7 +492,7 @@ const TEMPLATES = {
               const colW = cW / (rows.length - 1);
               const xL = scaleX(i) - colW / 2;
               const yMed = scaleY(r.WACC_Value_Median);
-              const medTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.WACC_Value_Median)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+              const medTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.WACC_Value_Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
               return `
                 <g class="has-tooltip median-point" data-tooltip="${medTip}" style="cursor:pointer;">
                   <rect x="${xL}" y="${yMed - 10}" width="${colW}" height="20" fill="transparent" />
@@ -510,7 +510,10 @@ const TEMPLATES = {
     }
 
     // 2. Multiples Over Time Dual Columns
-    function renderMultiplesColumnsOverTime(sector) {
+    function renderMultiplesColumnsOverTime(sector, lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
+      const ebitLabel = lang === "DE" ? "Bandbreite der EBIT-Multiplikatoren" : "Range of EBIT multiples";
+      const ebitdaLabel = lang === "DE" ? "Bandbreite der EBITDA-Multiplikatoren" : "Range of EBITDA multiples";
       const allRows = (DB.Multiples_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const dates = [...new Set(allRows.map(d => d.Date_Data))].sort();
 
@@ -578,19 +581,19 @@ const TEMPLATES = {
         const parts = fmtDateQ(d).split(" ");
         const qStr = parts[0] || "";
         const yrStr = parts[1] || "";
-        const qHeader = `${qStr},${yrStr}`;
+        const qHeader = `${qStr}, ${yrStr}`;
 
         const bW = 10;
         if (ebitda) {
           const yU = scaleY(ebitda.Multiple_Value_Upper);
           const yL = scaleY(ebitda.Multiple_Value_Lower);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples [${Number(ebitda.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebitda.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples [${Number(ebitda.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebitda.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${gX + colGroupW*0.25 - bW/2}" y="${yU}" width="${bW}" height="${Math.max(yL - yU, 4)}" fill="#00338D" style="cursor:pointer;"/>`;
         }
         if (ebit) {
           const yU = scaleY(ebit.Multiple_Value_Upper);
           const yL = scaleY(ebit.Multiple_Value_Lower);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples [${Number(ebit.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebit.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples [${Number(ebit.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebit.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitTip}" x="${gX + colGroupW*0.65 - bW/2}" y="${yU}" width="${bW}" height="${Math.max(yL - yU, 4)}" fill="#00b8f5" style="cursor:pointer;"/>`;
         }
 
@@ -603,15 +606,15 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 140}, ${h - 15})">
           <rect x="0" y="0" width="12" height="12" fill="#00338D"/>
-          <text x="18" y="10" font-size="11" fill="#333">Range of EBITDA multiples</text>
-          <rect x="170" y="0" width="12" height="12" fill="#00b8f5"/>
-          <text x="188" y="10" font-size="11" fill="#333">Range of EBIT multiples</text>
+          <text x="18" y="10" font-size="11" fill="#333">${ebitdaLabel}</text>
+          <rect x="${lang === "DE" ? 200 : 170}" y="0" width="12" height="12" fill="#00b8f5"/>
+          <text x="${lang === "DE" ? 218 : 188}" y="10" font-size="11" fill="#333">${ebitLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Average multiples over time</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - ${dict.multiples_trend_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -625,15 +628,18 @@ const TEMPLATES = {
     }
 
     // 3. Multiples Forecast Horizon Bars
-    function renderMultiplesForecastBars(sector) {
+    function renderMultiplesForecastBars(sector, lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
+      const ebitLabel = lang === "DE" ? "Bandbreite der EBIT-Multiplikatoren" : "Range of EBIT multiples";
+      const ebitdaLabel = lang === "DE" ? "Bandbreite der EBITDA-Multiplikatoren" : "Range of EBITDA multiples";
       const allRows = (DB.Multiples_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const latestDate = allRows.reduce((m, r) => r.Date_Data > m ? r.Date_Data : m, "");
       const currentRows = allRows.filter(r => r.Date_Data === latestDate);
 
       const horizons = [
-        { label: "+2 Year Estimate (2028)", date: "2028-12-31" },
-        { label: "+1 Year Estimate (2027)", date: "2027-12-31" },
-        { label: "Actual (2026)", date: "2026-12-31" }
+        { label: lang === "DE" ? "+2J Prognose (2028)" : "+2 Year Estimate (2028)", date: "2028-12-31" },
+        { label: lang === "DE" ? "+1J Prognose (2027)" : "+1 Year Estimate (2027)", date: "2027-12-31" },
+        { label: lang === "DE" ? "Ist (2026)" : "Actual (2026)", date: "2026-12-31" }
       ];
 
       const w = 620, h = 260;
@@ -700,14 +706,14 @@ const TEMPLATES = {
         if (ebitda) {
           const x1 = scaleX(ebitda.Multiple_Value_Lower);
           const x2 = scaleX(ebitda.Multiple_Value_Upper);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples [${Number(ebitda.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebitda.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples [${Number(ebitda.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebitda.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${x1}" y="${yCenter - 14}" width="${Math.max(x2 - x1, 4)}" height="11" fill="#00338D" style="cursor:pointer;"/>`;
         }
 
         if (ebit) {
           const x1 = scaleX(ebit.Multiple_Value_Lower);
           const x2 = scaleX(ebit.Multiple_Value_Upper);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples [${Number(ebit.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebit.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples [${Number(ebit.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebit.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitTip}" x="${x1}" y="${yCenter + 3}" width="${Math.max(x2 - x1, 4)}" height="11" fill="#00b8f5" style="cursor:pointer;"/>`;
         }
       });
@@ -715,15 +721,15 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 140}, ${h - 15})">
           <rect x="0" y="0" width="12" height="12" fill="#00338D"/>
-          <text x="18" y="10" font-size="11" fill="#333">Range of EBITDA multiples</text>
-          <rect x="170" y="0" width="12" height="12" fill="#00b8f5"/>
-          <text x="188" y="10" font-size="11" fill="#333">Range of EBIT multiples</text>
+          <text x="18" y="10" font-size="11" fill="#333">${ebitdaLabel}</text>
+          <rect x="${lang === "DE" ? 200 : 170}" y="0" width="12" height="12" fill="#00b8f5"/>
+          <text x="${lang === "DE" ? 218 : 188}" y="10" font-size="11" fill="#333">${ebitLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Average multiples as at 30/09/2026</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - ${dict.multiples_bars_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${h - pB}" stroke="#CBD5E1" stroke-width="1"/>
@@ -752,8 +758,8 @@ const TEMPLATES = {
             </thead>
             <tbody>
               <tr><td>${(I18N[lang] || I18N.EN).rf}</td><td class="num-col">${fmtPct(item.Rf)}</td></tr>
-              <tr><td>Unlevered Beta</td><td class="num-col">${fmtNum(item.UnlevBeta, 2)}</td></tr>
-              <tr><td>Debt Beta</td><td class="num-col">${fmtNum(item.BetaRelevered, 2)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).unlev_beta || 'Unlevered Beta'}</td><td class="num-col">${fmtNum(item.UnlevBeta, 2)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).debt_beta || 'Debt Beta'}</td><td class="num-col">${fmtNum(item.BetaRelevered, 2)}</td></tr>
               <tr><td>${(I18N[lang] || I18N.EN).mrp}</td><td class="num-col">${fmtPct(item.MRP)}</td></tr>
               <tr style="border-top:1px solid #CBD5E1;"><td>${(I18N[lang] || I18N.EN).lev_cost_equity}</td><td class="num-col">${fmtPct(item.LevCostOfEquity)}</td></tr>
               <tr><td>${(I18N[lang] || I18N.EN).equity_ratio}</td><td class="num-col">${fmtPct(item.Equity_ratio)}</td></tr>
@@ -765,8 +771,8 @@ const TEMPLATES = {
             </thead>
             <tbody>
               <tr><td>${(I18N[lang] || I18N.EN).rf}</td><td class="num-col">${fmtPct(item.Rf)}</td></tr>
-              <tr><td>Credit Spread</td><td class="num-col">${fmtPct(item.CreditSpread)}</td></tr>
-              <tr><td>Tax Shield</td><td class="num-col">${fmtPct(item.TaxRate)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).credit_spread || 'Credit Spread'}</td><td class="num-col">${fmtPct(item.CreditSpread)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).tax_shield || 'Tax Shield'}</td><td class="num-col">${fmtPct(item.TaxRate)}</td></tr>
               <tr style="border-top:1px solid #CBD5E1;"><td>${(I18N[lang] || I18N.EN).cost_of_debt}</td><td class="num-col">${fmtPct(item.CostOfDebtAfterTax)}</td></tr>
               <tr><td>${(I18N[lang] || I18N.EN).debt_ratio}</td><td class="num-col">${fmtPct(item.Debt_ratio)}</td></tr>
             </tbody>
@@ -857,19 +863,23 @@ const TEMPLATES = {
     }
 
     // 8. Complete Multiples Dashboard
-    function renderFullMultiplesGrid(sector) {
+    function renderFullMultiplesGrid(sector, lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div style="padding:6px 0;">${renderMultiplesColumnsOverTime(sector)}</div>
-          <div style="padding:6px 0;">${renderCountriesTable("Multiples_Countries", sector)}</div>
-          <div style="padding:6px 0;">${renderMultiplesForecastBars(sector)}</div>
-          <div style="padding:6px 0;">${renderSubIndustriesTable("Multiples_SubIndustries", sector)}</div>
+          <div style="padding:6px 0;">${renderMultiplesColumnsOverTime(sector, lang)}</div>
+          <div style="padding:6px 0;">${renderCountriesTable("Multiples_Countries", sector, lang)}</div>
+          <div style="padding:6px 0;">${renderMultiplesForecastBars(sector, lang)}</div>
+          <div style="padding:6px 0;">${renderSubIndustriesTable("Multiples_SubIndustries", sector, lang)}</div>
         </div>
       `;
     }
 
     // 9. MRP 3-Line Trend (Matches exact Photo 1 design with unified 3-metric tooltip)
-    function renderMrp3LineTrend() {
+    function renderMrp3LineTrend(lang = "EN", isDashboard = false) {
+      const dict = I18N[lang] || I18N.EN;
+      const totalLabel = lang === "DE" ? "Gesamtrendite" : "Total rate of return";
+      const mrpLabel = lang === "DE" ? "Marktrisikoprämie" : "Market risk premium";
+      const rfLabel = lang === "DE" ? "Basiszinssatz" : "Risk-free rate";
       const rows = DB.MRP_BZ || [];
       const w = 640, h = 340;
       const pL = 55, pR = 25, pT = 30, pB = 65;
@@ -909,9 +919,9 @@ const TEMPLATES = {
         const parts = fmtDateQ(r.Date).split(" ");
         const qHeader = `${parts[0] || ""},${parts[1] || ""}`;
         const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:6px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;` +
-          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Total rate of return: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.Gesamtrendite)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;` +
-          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Market risk premium: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.MRP)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;` +
-          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;Risk-free rate: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.Basiszins)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Total rate of return: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.Gesamtrendite)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` +
+          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Market risk premium: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.MRP)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` +
+          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Risk-free rate: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.Basiszins)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
 
         return `
           <g class="has-tooltip mrp-col" data-tooltip="${tipHtml}" style="cursor:pointer;">
@@ -924,19 +934,19 @@ const TEMPLATES = {
       }).join("");
 
       const legend = `
-        <g transform="translate(${w / 2 - 180}, ${pT + cH + 48})">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#00338D" stroke-width="3"/>
-          <text x="26" y="4" font-size="11" fill="#333">Total rate of return</text>
-          <line x1="140" y1="0" x2="160" y2="0" stroke="#00b8f5" stroke-width="3"/>
-          <text x="166" y="4" font-size="11" fill="#333">Market risk premium</text>
-          <line x1="290" y1="0" x2="310" y2="0" stroke="#fd349c" stroke-width="3"/>
-          <text x="316" y="4" font-size="11" fill="#333">Risk-free rate</text>
+        <g transform="translate(${lang === "DE" ? w / 2 - 188 : w / 2 - 206}, ${pT + cH + 48})">
+          <line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/>
+          <text x="32" y="4" font-size="11" fill="#333">${totalLabel}</text>
+          <line x1="${lang === "DE" ? 120 : 145}" y1="0" x2="${lang === "DE" ? 146 : 171}" y2="0" stroke="#00b8f5" stroke-width="5"/>
+          <text x="${lang === "DE" ? 152 : 177}" y="4" font-size="11" fill="#333">${mrpLabel}</text>
+          <line x1="${lang === "DE" ? 270 : 305}" y1="0" x2="${lang === "DE" ? 296 : 331}" y2="0" stroke="#fd349c" stroke-width="5"/>
+          <text x="${lang === "DE" ? 302 : 337}" y="4" font-size="11" fill="#333">${rfLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Total rate of return, risk-free rate and market risk premium for Germany over time</h3>
+          <h3 style="font-size:${isDashboard ? '14px' : '16px'}; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:${isDashboard ? '400' : '600'};">${dict.mrp_trend_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -954,17 +964,21 @@ const TEMPLATES = {
     }
 
     // 9b. Complete MRP Page Container (Side-by-side Left and Right Layout)
-    function renderFullMrpPage() {
+    function renderFullMrpPage(lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">
-          <div style="padding:6px 0;">${renderMrp3LineTrend()}</div>
-          <div style="padding:6px 0;">${renderTenureStepCurve()}</div>
+          <div style="padding:6px 0;">${renderMrp3LineTrend(lang)}</div>
+          <div style="padding:6px 0;">${renderTenureStepCurve(lang)}</div>
         </div>
       `;
     }
 
     // 10. Risk-Free Rate Step Curve (Matches exact Photo 2 design with tenure hover tooltip)
-    function renderTenureStepCurve() {
+    function renderTenureStepCurve(lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
+      const rfRoundedLabel = lang === "DE" ? "Basiszinssatz (gerundet)" : "Risk-free rate (rounded)";
+      const tenureLabel = lang === "DE" ? "Laufzeit (in Jahren)" : "Tenure (in years)";
+      const rfAxisLabel = lang === "DE" ? "Basiszinssatz" : "Risk-free rate";
       const rows = DB.BZ_CreditSpread || [];
       const w = 640, h = 340;
       const pL = 65, pR = 25, pT = 30, pB = 65;
@@ -1001,7 +1015,7 @@ const TEMPLATES = {
         // Diamond markers are embedded inside interactive hitboxes for hover glow and crisp rendering
 
         // Tooltip matching Photo 2: Row 1 = Tenure number (e.g. 12), Row 2 = ■ Risk-free rate (rounded): X.XX%
-        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${r.Tenure}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Risk-free rate (rounded): &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(r.BZ)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${r.Tenure}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Risk-free rate (rounded): &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.BZ)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
         hitboxes += `
           <g class="has-tooltip tenure-pt" data-tooltip="${tipHtml}" style="cursor:pointer;">
             <rect x="${x - colW/2}" y="${pT}" width="${colW}" height="${cH}" fill="transparent"/>
@@ -1018,14 +1032,14 @@ const TEMPLATES = {
 
       const legend = `
         <g transform="translate(${w / 2 - 85}, ${pT + cH + 48})">
-          <line x1="0" y1="0" x2="22" y2="0" stroke="#7213ea" stroke-width="3"/>
-          <text x="28" y="4" font-size="11" fill="#333">Risk-free rate (rounded)</text>
+          <line x1="0" y1="0" x2="26" y2="0" stroke="#7213ea" stroke-width="5"/>
+          <text x="32" y="4" font-size="11" fill="#333">${rfRoundedLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current risk-free rates</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${dict.mrp_step_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1035,9 +1049,9 @@ const TEMPLATES = {
             ${dots}
             ${hitboxes}
             ${xTicks}
-            <text x="${w/2}" y="${pT + cH + 32}" fill="#666" font-size="11" text-anchor="middle">Tenure (in years)</text>
+            <text x="${w/2}" y="${pT + cH + 32}" fill="#666" font-size="11" text-anchor="middle">${tenureLabel}</text>
             <!-- Left Y-axis Rotated Label -->
-            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">Risk-free rate</text>
+            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">${rfAxisLabel}</text>
             ${legend}
           </svg>
         </div>
@@ -1045,7 +1059,8 @@ const TEMPLATES = {
     }
 
     // 11. CRP by Rating Curve
-    function renderCrpRatingLines() {
+    function renderCrpRatingLines(lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
       const rows = DB.LRP_AverageOverTime || [];
       const ratings = ["BBB-", "BBB", "BBB+"];
       const dates = [...new Set(rows.map(d => d.Date))].sort();
@@ -1097,9 +1112,9 @@ const TEMPLATES = {
         const rPlus = rows.find(r => r.Date === d && r.Rating === "BBB+");
 
         const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:6px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;` +
-          (rMinus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;BBB-: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(rMinus.Median)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
-          (rMid ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;BBB: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(rMid.Median)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
-          (rPlus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border-radius:0px;'&gt;&lt;/span&gt;&lt;span&gt;BBB+: &lt;strong style='color:#FFFFFF;'&gt;${fmtPct(rPlus.Median)}&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;` : "");
+          (rMinus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB-: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rMinus.Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
+          (rMid ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rMid.Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
+          (rPlus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB+: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rPlus.Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "");
 
         return `
           <g class="has-tooltip crp-col" data-tooltip="${tipHtml}" style="cursor:pointer;">
@@ -1112,19 +1127,19 @@ const TEMPLATES = {
       }).join("");
 
       const legend = `
-        <g transform="translate(${w / 2 - 130}, ${pT + cH + 48})">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#00338D" stroke-width="3"/>
-          <text x="26" y="4" font-size="11" fill="#333">BBB-</text>
-          <line x1="90" y1="0" x2="110" y2="0" stroke="#00b8f5" stroke-width="3"/>
-          <text x="116" y="4" font-size="11" fill="#333">BBB</text>
-          <line x1="180" y1="0" x2="200" y2="0" stroke="#fd349c" stroke-width="3"/>
-          <text x="206" y="4" font-size="11" fill="#333">BBB+</text>
+        <g transform="translate(${w / 2 - 140}, ${pT + cH + 48})">
+          <line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/>
+          <text x="32" y="4" font-size="11" fill="#333">BBB-</text>
+          <line x1="100" y1="0" x2="126" y2="0" stroke="#00b8f5" stroke-width="5"/>
+          <text x="132" y="4" font-size="11" fill="#333">BBB</text>
+          <line x1="200" y1="0" x2="226" y2="0" stroke="#fd349c" stroke-width="5"/>
+          <text x="232" y="4" font-size="11" fill="#333">BBB+</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Country risk premium over time for countries with BBB rating codes</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${dict.crp_trend_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1134,7 +1149,7 @@ const TEMPLATES = {
             ${hitboxes}
             ${xLabels}
             ${legend}
-            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">CRP (in %)</text>
+            <text x="18" y="${pT + cH/2}" fill="#666" font-size="11" transform="rotate(-90 18 ${pT + cH/2})" text-anchor="middle">${lang === 'DE' ? 'Länderrisikoprämie (in %)' : 'CRP (in %)'}</text>
           </svg>
         </div>
       `;
@@ -1180,17 +1195,18 @@ const TEMPLATES = {
     }
 
     // 14. Full Country Risk Page (Side-by-side Left and Right Layout)
-    function renderFullCrpPage() {
+    function renderFullCrpPage(lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">
-          <div style="padding:6px 0;">${renderCrpRatingLines()}</div>
-          <div style="padding:6px 0;">${renderSelectedCountriesCrpTable()}</div>
+          <div style="padding:6px 0;">${renderCrpRatingLines(lang)}</div>
+          <div style="padding:6px 0;">${renderSelectedCountriesCrpTable(lang)}</div>
         </div>
       `;
     }
 
     // 15. Overview WACC Horizontal Bars
-    function renderOverviewWaccHoriz() {
+    function renderOverviewWaccHoriz(lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
       const latestDate = (DB.WACC_Values || []).reduce((m, r) => r.Date_Data > m ? r.Date_Data : m, "");
       const items = (DB.WACC_Values || []).filter(r => r.Date_Data === latestDate);
 
@@ -1206,36 +1222,37 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
-          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#666" stroke-width="1"/>
+          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#CBD5E1" stroke-width="1"/>
           <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
         `;
       }
 
       let bars = "";
       const rowH = cH / items.length;
+      const rangeWaccLabel = dict.range_wacc;
       items.forEach((item, idx) => {
         const y = pT + (idx + 0.5) * rowH;
         const x1 = scaleX(item.WACC_Value_Lower);
         const x2 = scaleX(item.WACC_Value_Upper);
+        const secName = (lang === 'DE' && item.Sector_name_DE) ? item.Sector_name_DE : item.Sector_name_EN;
 
-        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${item.Sector_name_EN}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC &lt;strong style='color:#FFFFFF;'&gt;[${fmtPct(item.WACC_Value_Lower)}, ${fmtPct(item.WACC_Value_Upper)}]&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${secName}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${rangeWaccLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(item.WACC_Value_Lower)}, ${fmtPct(item.WACC_Value_Upper)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
         bars += `
-          <line x1="${pL}" y1="${y}" x2="${pL + cW}" y2="${y}" stroke="#F8FAFC" stroke-width="1"/>
-          <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${item.Sector_name_EN}</text>
+          <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${secName}</text>
           <rect class="has-tooltip" data-tooltip="${tipHtml}" x="${x1}" y="${y - 4}" width="${Math.max(x2 - x1, 4)}" height="8" fill="#00338D" style="cursor:pointer;"/>
         `;
       });
 
       const legend = `
-        <g transform="translate(${w / 2 - 50}, ${pT + cH + 42})">
+        <g transform="translate(${w / 2 - (lang === 'DE' ? 75 : 50)}, ${pT + cH + 42})">
           <rect x="0" y="-10" width="12" height="12" fill="#00338D"/>
-          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of WACC</text>
+          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${rangeWaccLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current weighted average cost of capital (WACC)</h3>
+          <h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">${dict.ov_wacc_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1249,10 +1266,12 @@ const TEMPLATES = {
     }
 
     // 16. Overview Multiples Horizontal Dual Bars
-    function renderOverviewMultiplesHoriz() {
+    function renderOverviewMultiplesHoriz(lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
       const latestDate = (DB.Multiples_Values || []).reduce((m, r) => r.Date_Data > m ? r.Date_Data : m, "");
       const allRows = (DB.Multiples_Values || []).filter(r => r.Date_Data === latestDate);
-      const sectors = [...new Set(allRows.map(r => r.Sector_name_EN))];
+      const secKey = lang === 'DE' ? 'Sector_name_DE' : 'Sector_name_EN';
+      const sectors = [...new Set(allRows.map(r => r[secKey] || r.Sector_name_EN))];
 
       const w = 640, h = 360;
       const pL = 150, pR = 30, pT = 25, pB = 60;
@@ -1266,37 +1285,37 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
-          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#666" stroke-width="1"/>
+          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#CBD5E1" stroke-width="1"/>
           <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
         `;
       }
+
+      const ebitLabel = lang === 'DE' ? 'Bandbreite der EBIT-Multiplikatoren' : 'Range of EBIT multiples';
+      const ebitdaLabel = lang === 'DE' ? 'Bandbreite der EBITDA-Multiplikatoren' : 'Range of EBITDA multiples';
 
       let bars = "";
       const rowH = cH / sectors.length;
       sectors.forEach((sec, idx) => {
         const y = pT + (idx + 0.5) * rowH;
-        const ebitda = allRows.find(r => r.Sector_name_EN === sec && r.Multiple_Name === "EBITDA-Multiple");
-        const ebit = allRows.find(r => r.Sector_name_EN === sec && r.Multiple_Name === "EBIT-Multiple");
+        const ebitda = allRows.find(r => (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBITDA-Multiple");
+        const ebit = allRows.find(r => (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBIT-Multiple");
 
         bars += `
-          <line x1="${pL}" y1="${y}" x2="${pL + cW}" y2="${y}" stroke="#F8FAFC" stroke-width="1"/>
           <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${sec}</text>
         `;
 
-        // Top bar: Pacific Blue #00b8f5 (EBIT-Multiple) matching Photo 2
         if (ebit) {
           const x1 = scaleX(ebit.Multiple_Value_Lower);
           const x2 = scaleX(ebit.Multiple_Value_Upper);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples &lt;strong style='color:#FFFFFF;'&gt;[${ebit.Multiple_Value_Lower.toFixed(1)}x, ${ebit.Multiple_Value_Upper.toFixed(1)}x]&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${ebit.Multiple_Value_Lower.toFixed(1)}x, ${ebit.Multiple_Value_Upper.toFixed(1)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
           bars += `
             <rect class="has-tooltip" data-tooltip="${ebitTip}" x="${x1}" y="${y - 6}" width="${Math.max(x2 - x1, 4)}" height="5" fill="#00b8f5" style="cursor:pointer;"/>
           `;
         }
-        // Bottom bar: Primary Blue #00338D (EBITDA-Multiple) matching Photo 2
         if (ebitda) {
           const x1 = scaleX(ebitda.Multiple_Value_Lower);
           const x2 = scaleX(ebitda.Multiple_Value_Upper);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples &lt;strong style='color:#FFFFFF;'&gt;[${ebitda.Multiple_Value_Lower.toFixed(1)}x, ${ebitda.Multiple_Value_Upper.toFixed(1)}x]&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${ebitda.Multiple_Value_Lower.toFixed(1)}x, ${ebitda.Multiple_Value_Upper.toFixed(1)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
           bars += `
             <rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${x1}" y="${y + 1}" width="${Math.max(x2 - x1, 4)}" height="5" fill="#00338D" style="cursor:pointer;"/>
           `;
@@ -1304,18 +1323,18 @@ const TEMPLATES = {
       });
 
       const legend = `
-        <g transform="translate(${w / 2 - 145}, ${pT + cH + 42})">
+        <g transform="translate(${w / 2 - (lang === 'DE' ? 180 : 145)}, ${pT + cH + 42})">
           <rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/>
-          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of EBIT multiples</text>
+          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${ebitLabel}</text>
           
-          <rect x="175" y="-10" width="12" height="12" fill="#00338D"/>
-          <text x="193" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of EBITDA multiples</text>
+          <rect x="${lang === 'DE' ? 205 : 175}" y="-10" width="12" height="12" fill="#00338D"/>
+          <text x="${lang === 'DE' ? 223 : 193}" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${ebitdaLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current Industry Multiple Ranges</h3>
+          <h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">${dict.ov_mult_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1329,7 +1348,8 @@ const TEMPLATES = {
     }
 
     // 17. Overview Country Risk Bars
-    function renderOverviewCrpBars() {
+    function renderOverviewCrpBars(lang = "EN") {
+      const dict = I18N[lang] || I18N.EN;
       const rows = DB.LRP_AverageLRPs || [];
       const order = ["CCC", "B", "BB", "BBB", "A", "AA"];
       const sortedRows = [...rows].sort((a,b) => order.indexOf(a.Rating) - order.indexOf(b.Rating));
@@ -1346,10 +1366,12 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
-          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#666" stroke-width="1"/>
+          <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#CBD5E1" stroke-width="1"/>
           <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="11" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
         `;
       }
+
+      const crpLabel = lang === 'DE' ? 'Bandbreite der Länderrisikoprämie' : 'Range of country risk premium';
 
       let bars = "";
       const rowH = cH / (sortedRows.length || 1);
@@ -1358,24 +1380,23 @@ const TEMPLATES = {
         const x1 = scaleX(r.Min);
         const x2 = scaleX(r.Max);
 
-        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${r.Rating}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border-radius:0px; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of country risk premium &lt;strong style='color:#FFFFFF;'&gt;[${fmtPct(r.Min)}, ${fmtPct(r.Max)}]&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;`;
+        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${r.Rating}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${crpLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(r.Min)}, ${fmtPct(r.Max)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
         bars += `
-          <line x1="${pL}" y1="${y}" x2="${pL + cW}" y2="${y}" stroke="#F8FAFC" stroke-width="1"/>
           <text x="${pL - 12}" y="${y + 4}" fill="#666666" font-size="12" font-weight="500" text-anchor="end">${r.Rating}</text>
           <rect class="has-tooltip" data-tooltip="${tipHtml}" x="${x1}" y="${y - 9}" width="${Math.max(x2 - x1, 4)}" height="18" fill="#00b8f5" style="cursor:pointer;"/>
         `;
       });
 
       const legend = `
-        <g transform="translate(${w / 2 - 95}, ${pT + cH + 40})">
+        <g transform="translate(${w / 2 - (lang === 'DE' ? 115 : 95)}, ${pT + cH + 40})">
           <rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/>
-          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">Range of country risk premium</text>
+          <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${crpLabel}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Current country risk premium per rating</h3>
+          <h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">${dict.ov_crp_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1389,13 +1410,13 @@ const TEMPLATES = {
     }
 
     // 18. Full Overview Dashboard Grid
-    function renderFullOverviewGrid() {
+    function renderFullOverviewGrid(lang = "EN") {
       return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div style="padding:6px 0;">${renderOverviewWaccHoriz()}</div>
-          <div style="padding:6px 0;">${renderOverviewMultiplesHoriz()}</div>
-          <div style="padding:6px 0;">${renderMrp3LineTrend()}</div>
-          <div style="padding:6px 0;">${renderOverviewCrpBars()}</div>
+        <div class="overview-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
+          <div style="padding:6px 0;">${renderOverviewWaccHoriz(lang)}</div>
+          <div style="padding:6px 0;">${renderOverviewMultiplesHoriz(lang)}</div>
+          <div style="padding:6px 0;">${renderMrp3LineTrend(lang, true)}</div>
+          <div style="padding:6px 0;">${renderOverviewCrpBars(lang)}</div>
         </div>
       `;
     }
@@ -1404,8 +1425,9 @@ const TEMPLATES = {
        COMPLETE SCHEMA.ORG GENERATOR (100% VALID DATASET SPECIFICATION)
        All sub-items are valid Schema.org Datasets with PropertyValue metrics
        ========================================================================= */
-    function buildDetailedObservations(templateId, sector) {
+    function buildDetailedObservations(templateId, sector, lang = "EN") {
       const obs = [];
+      const isDE = lang === "DE";
 
       if (templateId === "wacc_band_over_time" || templateId === "wacc_full_grid") {
         const rows = (DB.WACC_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => a.Date_Data.localeCompare(b.Date_Data));
@@ -1417,7 +1439,7 @@ const TEMPLATES = {
             "variableMeasured": [
               {
                 "@type": "PropertyValue",
-                "name": "Median of WACC",
+                "name": isDE ? "Median des WACC" : "Median of WACC",
                 "value": Number((r.WACC_Value_Median * 100).toFixed(2)),
                 "minValue": Number((r.WACC_Value_Lower * 100).toFixed(2)),
                 "maxValue": Number((r.WACC_Value_Upper * 100).toFixed(2)),
@@ -1434,20 +1456,20 @@ const TEMPLATES = {
         if (item.Date_Data) {
           obs.push({
             "@type": "Dataset",
-            "name": `${sector} - Financial Parameters (${fmtDateQ(item.Date_Data)})`,
+            "name": `${sector} - ${isDE ? "Finanzielle Parameter" : "Financial Parameters"} (${fmtDateQ(item.Date_Data)})`,
             "temporalCoverage": item.Date_Data.split("T")[0],
             "variableMeasured": [
-              { "@type": "PropertyValue", "name": "Risk-Free Rate (Cost of Equity)", "value": Number((item.Rf * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Basiszinssatz (Eigenkapitalkosten)" : "Risk-Free Rate (Cost of Equity)", "value": Number((item.Rf * 100).toFixed(2)), "unitText": "%" },
               { "@type": "PropertyValue", "name": "Unlevered Beta", "value": Number(Number(item.UnlevBeta).toFixed(2)) },
               { "@type": "PropertyValue", "name": "Debt Beta", "value": Number(Number(item.BetaRelevered).toFixed(2)) },
-              { "@type": "PropertyValue", "name": "Market Risk Premium", "value": Number((item.MRP * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Levered Cost of Equity", "value": Number((item.LevCostOfEquity * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Equity Ratio", "value": Number((item.Equity_ratio * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Marktrisikoprämie" : "Market Risk Premium", "value": Number((item.MRP * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Verschuldete Eigenkapitalkosten" : "Levered Cost of Equity", "value": Number((item.LevCostOfEquity * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Eigenkapitalquote" : "Equity Ratio", "value": Number((item.Equity_ratio * 100).toFixed(2)), "unitText": "%" },
               { "@type": "PropertyValue", "name": "Credit Spread", "value": Number((item.CreditSpread * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Tax Shield", "value": Number((item.TaxRate * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Cost of Debt", "value": Number((item.CostOfDebtAfterTax * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Debt Ratio", "value": Number((item.Debt_ratio * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "${(I18N[lang] || I18N.EN).wacc_label}", "value": Number((item.WACC_Value_Median * 100).toFixed(2)), "unitText": "%" }
+              { "@type": "PropertyValue", "name": isDE ? "Steuerschild" : "Tax Shield", "value": Number((item.TaxRate * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Fremdkapitalkosten nach Steuern" : "Cost of Debt", "value": Number((item.CostOfDebtAfterTax * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Fremdkapitalquote" : "Debt Ratio", "value": Number((item.Debt_ratio * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)", "value": Number((item.WACC_Value_Median * 100).toFixed(2)), "unitText": "%" }
             ]
           });
         }
@@ -1458,12 +1480,12 @@ const TEMPLATES = {
         const rows = (DB[dsKey] || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 15);
         obs.push({
           "@type": "Dataset",
-          "name": `${sector} - Company Count by Country`,
+          "name": `${sector} - ${isDE ? "Anzahl der Unternehmen nach Land" : "Company Count by Country"}`,
           "variableMeasured": rows.map(r => ({
             "@type": "PropertyValue",
-            "name": r.Country_EN,
+            "name": isDE ? (r.Country_DE || r.Country_EN) : r.Country_EN,
             "value": Number(r.N_Companies),
-            "unitText": "companies"
+            "unitText": isDE ? "Unternehmen" : "companies"
           }))
         });
       }
@@ -1473,12 +1495,12 @@ const TEMPLATES = {
         const rows = (DB[dsKey] || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 15);
         obs.push({
           "@type": "Dataset",
-          "name": `${sector} - Company Count by Sub-Industry`,
+          "name": `${sector} - ${isDE ? "Anzahl der Unternehmen nach Teilsektor" : "Company Count by Sub-Industry"}`,
           "variableMeasured": rows.map(r => ({
             "@type": "PropertyValue",
-            "name": r.SimpleIndustry_EN || r.SubIndustry_EN,
+            "name": isDE ? (r.SimpleIndustry_DE || r.SubIndustry_DE || r.SimpleIndustry_EN || r.SubIndustry_EN) : (r.SimpleIndustry_EN || r.SubIndustry_EN),
             "value": Number(r.N_Companies),
-            "unitText": "companies"
+            "unitText": isDE ? "Unternehmen" : "companies"
           }))
         });
       }
@@ -1493,7 +1515,7 @@ const TEMPLATES = {
           if (ebitda) {
             vars.push({
               "@type": "PropertyValue",
-              "name": "EBITDA Multiple Range",
+              "name": isDE ? "Bandbreite der EBITDA-Multiplikatoren" : "EBITDA Multiple Range",
               "minValue": Number(ebitda.Multiple_Value_Lower),
               "maxValue": Number(ebitda.Multiple_Value_Upper),
               "unitText": "x"
@@ -1502,7 +1524,7 @@ const TEMPLATES = {
           if (ebit) {
             vars.push({
               "@type": "PropertyValue",
-              "name": "EBIT Multiple Range",
+              "name": isDE ? "Bandbreite der EBIT-Multiplikatoren" : "EBIT Multiple Range",
               "minValue": Number(ebit.Multiple_Value_Lower),
               "maxValue": Number(ebit.Multiple_Value_Upper),
               "unitText": "x"
@@ -1524,7 +1546,7 @@ const TEMPLATES = {
         currentRows.forEach(r => {
           obs.push({
             "@type": "Dataset",
-            "name": `${sector} - ${r.Multiple_Name} (${r.Multiple_Date ? r.Multiple_Date.slice(0,4) : 'Forecast'})`,
+            "name": `${sector} - ${r.Multiple_Name} (${r.Multiple_Date ? r.Multiple_Date.slice(0,4) : (isDE ? 'Prognose' : 'Forecast')})`,
             "temporalCoverage": r.Multiple_Date ? r.Multiple_Date.slice(0,10) : "",
             "variableMeasured": [
               {
@@ -1544,11 +1566,11 @@ const TEMPLATES = {
         const items = (DB.WACC_Values || []).filter(r => r.Date_Data === latestDate);
         obs.push({
           "@type": "Dataset",
-          "name": "WACC Ranges by Sector",
+          "name": isDE ? "WACC-Bandbreiten nach Sektor" : "WACC Ranges by Sector",
           "temporalCoverage": latestDate ? latestDate.split("T")[0] : "",
           "variableMeasured": items.map(item => ({
             "@type": "PropertyValue",
-            "name": `${item.Sector_name_EN} WACC`,
+            "name": `${isDE ? (item.Sector_name_DE || item.Sector_name_EN) : item.Sector_name_EN} WACC`,
             "value": Number((item.WACC_Value_Median * 100).toFixed(2)),
             "minValue": Number((item.WACC_Value_Lower * 100).toFixed(2)),
             "maxValue": Number((item.WACC_Value_Upper * 100).toFixed(2)),
@@ -1562,11 +1584,11 @@ const TEMPLATES = {
         const allRows = (DB.Multiples_Values || []).filter(r => r.Date_Data === latestDate);
         obs.push({
           "@type": "Dataset",
-          "name": "Valuation Multiples Ranges by Sector",
+          "name": isDE ? "Bewertungsmultiplikatoren-Bandbreiten nach Sektor" : "Valuation Multiples Ranges by Sector",
           "temporalCoverage": latestDate ? latestDate.split("T")[0] : "",
           "variableMeasured": allRows.map(r => ({
             "@type": "PropertyValue",
-            "name": `${r.Sector_name_EN} (${r.Multiple_Name})`,
+            "name": `${isDE ? (r.Sector_name_DE || r.Sector_name_EN) : r.Sector_name_EN} (${r.Multiple_Name})`,
             "minValue": Number(r.Multiple_Value_Lower),
             "maxValue": Number(r.Multiple_Value_Upper),
             "unitText": "x"
@@ -1579,12 +1601,12 @@ const TEMPLATES = {
         rows.forEach(r => {
           obs.push({
             "@type": "Dataset",
-            "name": `Germany Valuation Rates (${fmtDateQ(r.Date)})`,
+            "name": isDE ? `Deutschland Bewertungssätze (${fmtDateQ(r.Date)})` : `Germany Valuation Rates (${fmtDateQ(r.Date)})`,
             "temporalCoverage": r.Date.split("T")[0],
             "variableMeasured": [
-              { "@type": "PropertyValue", "name": "Total Return (Gesamtrendite)", "value": Number((r.Gesamtrendite * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Base Rate (Basiszins)", "value": Number((r.Basiszins * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Market Risk Premium (MRP)", "value": Number((r.MRP * 100).toFixed(2)), "unitText": "%" }
+              { "@type": "PropertyValue", "name": isDE ? "Gesamtrendite" : "Total Return (Gesamtrendite)", "value": Number((r.Gesamtrendite * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Basiszinssatz" : "Base Rate (Basiszins)", "value": Number((r.Basiszins * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Marktrisikoprämie" : "Market Risk Premium (MRP)", "value": Number((r.MRP * 100).toFixed(2)), "unitText": "%" }
             ]
           });
         });
@@ -1594,10 +1616,10 @@ const TEMPLATES = {
         const rows = DB.BZ_CreditSpread || [];
         obs.push({
           "@type": "Dataset",
-          "name": "Risk-Free Rates Curve by Tenure",
+          "name": isDE ? "Basiszinssatzkurve nach Laufzeit" : "Risk-Free Rates Curve by Tenure",
           "variableMeasured": rows.map(r => ({
             "@type": "PropertyValue",
-            "name": `Tenure ${r.Tenure} Year(s)`,
+            "name": isDE ? `Laufzeit ${r.Tenure} Jahr(e)` : `Tenure ${r.Tenure} Year(s)`,
             "value": Number((r.BZ * 100).toFixed(2)),
             "unitText": "%"
           }))
@@ -1609,12 +1631,12 @@ const TEMPLATES = {
         rows.forEach(r => {
           obs.push({
             "@type": "Dataset",
-            "name": `Country Risk Premium: Rating ${r.Rating} (${fmtDateQ(r.Date)})`,
+            "name": isDE ? `Länderrisikoprämie: Rating ${r.Rating} (${fmtDateQ(r.Date)})` : `Country Risk Premium: Rating ${r.Rating} (${fmtDateQ(r.Date)})`,
             "temporalCoverage": r.Date.split("T")[0],
             "variableMeasured": [
               {
                 "@type": "PropertyValue",
-                "name": `CRP (Rating ${r.Rating})`,
+                "name": `CRP (${r.Rating})`,
                 "value": Number((r.Median * 100).toFixed(2)),
                 "unitText": "%"
               }
@@ -1628,11 +1650,11 @@ const TEMPLATES = {
         rows.forEach(r => {
           obs.push({
             "@type": "Dataset",
-            "name": `${r.Ctry_Name_EN} (Rating ${r.Rating})`,
+            "name": `${isDE ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN} (Rating ${r.Rating})`,
             "variableMeasured": [
-              { "@type": "PropertyValue", "name": "6 Months CRP", "value": Number((r.CRP_6m * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "1 Year CRP", "value": Number((r.CRP_1y * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "2 Years CRP", "value": Number((r.CRP_2y * 100).toFixed(2)), "unitText": "%" }
+              { "@type": "PropertyValue", "name": isDE ? "Länderrisikoprämie 6 Monate" : "6 Months CRP", "value": Number((r.CRP_6m * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Länderrisikoprämie 1 Jahr" : "1 Year CRP", "value": Number((r.CRP_1y * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Länderrisikoprämie 2 Jahre" : "2 Years CRP", "value": Number((r.CRP_2y * 100).toFixed(2)), "unitText": "%" }
             ]
           });
         });
@@ -1643,7 +1665,7 @@ const TEMPLATES = {
         rows.forEach(r => {
           obs.push({
             "@type": "Dataset",
-            "name": `Rating ${r.Rating} CRP Range`,
+            "name": isDE ? `Rating ${r.Rating} Länderrisikoprämie-Bandbreite` : `Rating ${r.Rating} CRP Range`,
             "variableMeasured": [
               {
                 "@type": "PropertyValue",
@@ -1663,17 +1685,18 @@ const TEMPLATES = {
     /* =========================================================================
        CODE GENERATION & CLIPBOARD
        ========================================================================= */
-    function updateGeneratedCode(renderedMarkup, chartTitle, templateId, sector, templateObj) {
-      const includeDropdown = document.getElementById("includeDropdownCheck").checked;
+    function updateGeneratedCode(renderedMarkup, chartTitle, templateId, sector, templateObj, lang = "EN") {
+      const includeDropdown = document.getElementById("includeDropdownCheck")?.checked;
 
       // Build complete Schema.org JSON-LD with full observation data
-      const detailedObservations = buildDetailedObservations(templateId, sector);
+      const detailedObservations = buildDetailedObservations(templateId, sector, lang);
 
       const fullSchemaJson = {
         "@context": "https://schema.org",
         "@type": "Dataset",
         "name": chartTitle,
-        "description": `${chartTitle} structured dataset published via KPMG Atlas.`,
+        "inLanguage": lang === "DE" ? "de-DE" : "en-US",
+        "description": lang === "DE" ? `${chartTitle} strukturierter Datensatz veröffentlicht über KPMG Atlas.` : `${chartTitle} structured dataset published via KPMG Atlas.`,
         "creator": {
           "@type": "Organization",
           "name": "KPMG Deal Advisory"
@@ -1705,8 +1728,34 @@ const TEMPLATES = {
     .tenure-pt .tenure-glow { opacity: 0; transition: opacity 0.15s ease; }
     .tenure-pt:hover .tenure-glow { opacity: 0.35 !important; }
     .tenure-pt:hover .tenure-diamond { filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8)); }
+    .kpmg-chart-tooltip.arrow-right::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 7px solid #1E293B;
+      pointer-events: none;
+    }
+    .kpmg-chart-tooltip.arrow-left::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-right: 7px solid #1E293B;
+      pointer-events: none;
+    }
   </style>
-  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:rgba(15,23,42,0.88); color:#fff; padding:8px 14px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); transform:translate(-50%, -125%); white-space:nowrap;"></div>
+  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 14px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap;"></div>
   <script>
   (function() {
     var c = document.currentScript.closest('.kpmg-atlas-chart-container');
@@ -1717,19 +1766,23 @@ const TEMPLATES = {
       if (t && tip) {
         tip.innerHTML = t.getAttribute('data-tooltip');
         tip.style.display = 'block';
-        var tipW = tip.offsetWidth || 190;
+        var tipW = tip.offsetWidth || 210;
         var tipH = tip.offsetHeight || 65;
         var left = e.clientX + 14;
-        var top = e.clientY - tipH - 10;
+        var placement = 'right';
         if (left + tipW > window.innerWidth - 12) {
           left = e.clientX - tipW - 14;
+          placement = 'left';
         }
-        if (top < 10) {
-          top = e.clientY + 18;
+        var top = e.clientY - tipH / 2;
+        if (top < 10) top = 10;
+        if (top + tipH > window.innerHeight - 10) {
+          top = window.innerHeight - tipH - 10;
         }
         tip.style.left = left + 'px';
         tip.style.top = top + 'px';
         tip.style.transform = 'none';
+        tip.className = 'kpmg-chart-tooltip ' + (placement === 'left' ? 'arrow-right' : 'arrow-left');
       } else if (tip) {
         tip.style.display = 'none';
       }
@@ -1781,21 +1834,25 @@ ${window.currentSchemaString || ""}
       d.classList.toggle("open");
     }
 
-    // Global Floating Tooltip Positioning (Smart Placement above-right of cursor)
+    // Global Floating Tooltip Positioning (Smart Placement with Vertically Centered Triangle)
     function positionTooltip(e, tip) {
-      const tipWidth = tip.offsetWidth || 190;
+      const tipWidth = tip.offsetWidth || 210;
       const tipHeight = tip.offsetHeight || 65;
       let left = e.clientX + 14;
-      let top = e.clientY - tipHeight - 10;
+      let placement = 'right';
       if (left + tipWidth > window.innerWidth - 12) {
         left = e.clientX - tipWidth - 14;
+        placement = 'left';
       }
-      if (top < 10) {
-        top = e.clientY + 18;
+      let top = e.clientY - tipHeight / 2;
+      if (top < 10) top = 10;
+      if (top + tipHeight > window.innerHeight - 10) {
+        top = window.innerHeight - tipHeight - 10;
       }
       tip.style.left = left + "px";
       tip.style.top = top + "px";
       tip.style.transform = "none";
+      tip.className = 'kpmg-chart-tooltip ' + (placement === 'left' ? 'arrow-right' : 'arrow-left');
     }
 
     
@@ -1817,23 +1874,23 @@ export function getChartDetails(category, templateId, sector, lang = "EN") {
 
   switch (activeTemplateId) {
     case "wacc_band_over_time":
-      title = `${sector} - Weighted average cost of capital over time`;
-      subtitle = "Range of WACC (Teal Band) and Median of WACC (Navy Line) over quarters";
+      title = `${sector} - ${dict.wacc_band_title}`;
+      subtitle = dict.wacc_band_subtitle;
       renderedHtml = renderWaccBandOverTime(sector, lang);
       break;
     case "wacc_params_table":
-      title = `${sector} - Weighted average cost of capital as at 30/09/2026`;
-      subtitle = "Detailed financial parameter breakdown (Cost of Equity & Cost of Debt)";
+      title = `${sector} - ${dict.wacc_params_title}`;
+      subtitle = dict.wacc_params_subtitle;
       renderedHtml = renderWaccParamsTable(sector, lang);
       break;
     case "wacc_countries_table":
-      title = `${sector} - Origin of all companies included in the entire database`;
-      subtitle = "Number of analyzed companies grouped by country of origin";
+      title = `${sector} - ${dict.countries_title}`;
+      subtitle = dict.countries_subtitle;
       renderedHtml = renderCountriesTable("WACC_Countries", sector, lang);
       break;
     case "wacc_subindustries_table":
-      title = `${sector} - Sub-sectors included in the entire database`;
-      subtitle = "Granular industry breakdown and sample count";
+      title = `${sector} - ${dict.subind_title}`;
+      subtitle = dict.subind_subtitle;
       renderedHtml = renderSubIndustriesTable("WACC_SubIndustries", sector, lang);
       break;
     case "wacc_full_grid":
@@ -1842,49 +1899,49 @@ export function getChartDetails(category, templateId, sector, lang = "EN") {
       renderedHtml = renderFullWaccGrid(sector, lang);
       break;
     case "multiples_columns_over_time":
-      title = `${sector} - Average multiples over time`;
-      subtitle = "Dual column chart: Range of EBITDA (Navy) & EBIT (Cyan) multiples";
-      renderedHtml = renderMultiplesColumnsOverTime(sector);
+      title = `${sector} - ${dict.multiples_trend_title}`;
+      subtitle = dict.multiples_trend_subtitle;
+      renderedHtml = renderMultiplesColumnsOverTime(sector, lang);
       break;
     case "multiples_forecast_bars":
-      title = `${sector} - Average multiples as at 30/09/2026`;
-      subtitle = "Horizontal range comparisons: Actual (2026), +1Y Estimate (2027), +2Y Estimate (2028)";
-      renderedHtml = renderMultiplesForecastBars(sector);
+      title = `${sector} - ${dict.multiples_bars_title}`;
+      subtitle = dict.multiples_bars_subtitle;
+      renderedHtml = renderMultiplesForecastBars(sector, lang);
       break;
     case "multiples_countries_table":
-      title = `${sector} - Origin of all companies (Multiples Database)`;
-      subtitle = "Companies count by country";
-      renderedHtml = renderCountriesTable("Multiples_Countries", sector);
+      title = `${sector} - ${dict.countries_title}`;
+      subtitle = dict.countries_subtitle;
+      renderedHtml = renderCountriesTable("Multiples_Countries", sector, lang);
       break;
     case "multiples_subindustries_table":
-      title = `${sector} - Sub-sectors included (Multiples Database)`;
-      subtitle = "Sub-industries breakdown";
-      renderedHtml = renderSubIndustriesTable("Multiples_SubIndustries", sector);
+      title = `${sector} - ${dict.subind_title}`;
+      subtitle = dict.subind_subtitle;
+      renderedHtml = renderSubIndustriesTable("Multiples_SubIndustries", sector, lang);
       break;
     case "multiples_full_grid":
-      title = `${sector} - Complete Multiples Dashboard`;
-      subtitle = "Multi-component view with columns, forecast bars, and origin tables";
-      renderedHtml = renderFullMultiplesGrid(sector);
+      title = `${sector} - ${dict.multiples_grid_title}`;
+      subtitle = dict.multiples_grid_subtitle;
+      renderedHtml = renderFullMultiplesGrid(sector, lang);
       break;
     case "mrp_3line_trend":
-      title = "Total rate of return, risk-free rate and market risk premium for Germany over time";
-      subtitle = "Historical 3-line trend from Q3 2024 to Q3 2026";
-      renderedHtml = renderMrp3LineTrend();
+      title = dict.mrp_trend_title;
+      subtitle = dict.mrp_trend_subtitle;
+      renderedHtml = renderMrp3LineTrend(lang);
       break;
     case "mrp_tenure_step_curve":
-      title = "Current risk-free rates";
-      subtitle = "Risk-free rate (rounded) step curve by Tenure (1 to 30 years)";
-      renderedHtml = renderTenureStepCurve();
+      title = dict.mrp_step_title;
+      subtitle = dict.mrp_step_subtitle;
+      renderedHtml = renderTenureStepCurve(lang);
       break;
     case "mrp_full_page":
-      title = "Market risk premium as at 30/09/2026";
-      subtitle = "The market risk premium for Germany proposed by KPMG as at 30/09/2026 is 5.25%.";
-      renderedHtml = renderFullMrpPage();
+      title = dict.mrp_page_title;
+      subtitle = dict.mrp_page_subtitle;
+      renderedHtml = renderFullMrpPage(lang);
       break;
     case "crp_rating_lines":
-      title = "Country risk premium over time for countries with BBB rating codes";
-      subtitle = "Trends across BBB-, BBB, and BBB+ ratings";
-      renderedHtml = renderCrpRatingLines();
+      title = dict.crp_trend_title;
+      subtitle = dict.crp_trend_subtitle;
+      renderedHtml = renderCrpRatingLines(lang);
       break;
     case "crp_countries_table":
       title = dict.crp_table_title;
@@ -1892,37 +1949,37 @@ export function getChartDetails(category, templateId, sector, lang = "EN") {
       renderedHtml = renderSelectedCountriesCrpTable(lang);
       break;
     case "crp_full_page":
-      title = "Country risk premia as at 30/09/2026";
-      subtitle = "Average country risk premium for BBB rating is 1.10%";
-      renderedHtml = renderFullCrpPage();
+      title = dict.crp_page_title;
+      subtitle = dict.crp_page_subtitle;
+      renderedHtml = renderFullCrpPage(lang);
       break;
     case "ov_wacc_horiz":
-      title = "Current weighted average cost of capital (WACC)";
-      subtitle = "Horizontal range bars across all 13 industries";
-      renderedHtml = renderOverviewWaccHoriz();
+      title = dict.ov_wacc_title;
+      subtitle = dict.ov_wacc_subtitle;
+      renderedHtml = renderOverviewWaccHoriz(lang);
       break;
     case "ov_multiples_horiz":
-      title = "Current Industry Multiple Ranges";
-      subtitle = "Horizontal dual range bars (EBITDA & EBIT) across all industries";
-      renderedHtml = renderOverviewMultiplesHoriz();
+      title = dict.ov_mult_title;
+      subtitle = dict.ov_mult_subtitle;
+      renderedHtml = renderOverviewMultiplesHoriz(lang);
       break;
     case "ov_mrp_trend":
-      title = "Market Risk Premium Trend";
-      subtitle = "Quarterly trend over the last 2 years";
-      renderedHtml = renderMrp3LineTrend();
+      title = dict.mrp_trend_title;
+      subtitle = dict.mrp_trend_subtitle;
+      renderedHtml = renderMrp3LineTrend(lang, true);
       break;
     case "ov_crp_bars":
-      title = "Current country risk premium per rating";
-      subtitle = "Stepped floating range bars (AA to CCC)";
-      renderedHtml = renderOverviewCrpBars();
+      title = dict.ov_crp_title;
+      subtitle = dict.ov_crp_subtitle;
+      renderedHtml = renderOverviewCrpBars(lang);
       break;
     case "ov_full_grid":
-      title = "Cost of Capital & Multiples Overview Dashboard";
-      subtitle = "Complete Executive Overview Dashboard";
-      renderedHtml = renderFullOverviewGrid();
+      title = dict.ov_grid_title;
+      subtitle = dict.ov_grid_subtitle;
+      renderedHtml = renderFullOverviewGrid(lang);
       break;
     default:
-      title = "Select Template";
+      title = lang === "DE" ? "Vorlage wählen" : "Select Template";
       subtitle = "";
       renderedHtml = "<p>Please select a template</p>";
   }
@@ -1931,7 +1988,7 @@ export function getChartDetails(category, templateId, sector, lang = "EN") {
 }
 
 export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateId, sector, templateObj, lang = "EN") {
-  const detailedObservations = buildDetailedObservations(templateId, sector);
+  const detailedObservations = buildDetailedObservations(templateId, sector, lang);
 
   const fullSchemaJson = {
     "@context": "https://schema.org",
@@ -1970,8 +2027,34 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
     .tenure-pt .tenure-glow { opacity: 0; transition: opacity 0.15s ease; }
     .tenure-pt:hover .tenure-glow { opacity: 0.35 !important; }
     .tenure-pt:hover .tenure-diamond { filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8)); }
+    .kpmg-chart-tooltip.arrow-right::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 7px solid #1E293B;
+      pointer-events: none;
+    }
+    .kpmg-chart-tooltip.arrow-left::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-right: 7px solid #1E293B;
+      pointer-events: none;
+    }
   </style>
-  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:rgba(15,23,42,0.88); color:#fff; padding:8px 14px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); transform:translate(-50%, -125%); white-space:nowrap;"></div>
+  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 14px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap;"></div>
   <script>
   (function() {
     var c = document.currentScript.closest(".kpmg-atlas-chart-container");
@@ -1982,19 +2065,23 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       if (t && tip) {
         tip.innerHTML = t.getAttribute("data-tooltip");
         tip.style.display = "block";
-        var tipW = tip.offsetWidth || 190;
+        var tipW = tip.offsetWidth || 210;
         var tipH = tip.offsetHeight || 65;
         var left = e.clientX + 14;
-        var top = e.clientY - tipH - 10;
+        var placement = 'right';
         if (left + tipW > window.innerWidth - 12) {
           left = e.clientX - tipW - 14;
+          placement = 'left';
         }
-        if (top < 10) {
-          top = e.clientY + 18;
+        var top = e.clientY - tipH / 2;
+        if (top < 10) top = 10;
+        if (top + tipH > window.innerHeight - 10) {
+          top = window.innerHeight - tipH - 10;
         }
         tip.style.left = left + "px";
         tip.style.top = top + "px";
         tip.style.transform = "none";
+        tip.className = 'kpmg-chart-tooltip ' + (placement === 'left' ? 'arrow-right' : 'arrow-left');
       } else if (tip) {
         tip.style.display = "none";
       }

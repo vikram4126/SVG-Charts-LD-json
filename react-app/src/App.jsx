@@ -14,7 +14,7 @@ export default function App() {
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0 });
+  const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
 
   const sectors = getSectors(lang);
   const currentTemplates = TEMPLATES[category] || [];
@@ -83,26 +83,29 @@ export default function App() {
     const target = e.target.closest('[data-tooltip]');
     if (target) {
       const tipHtml = target.getAttribute('data-tooltip');
-      const tipW = 200;
-      const tipH = 70;
+      const tipW = 210;
+      const tipH = 65;
       let left = e.clientX + 14;
-      let top = e.clientY - tipH - 10;
+      let placement = 'right';
       if (left + tipW > window.innerWidth - 12) {
         left = e.clientX - tipW - 14;
+        placement = 'left';
       }
-      if (top < 10) {
-        top = e.clientY + 18;
+      let top = e.clientY - tipH / 2;
+      if (top < 10) top = 10;
+      if (top + tipH > window.innerHeight - 10) {
+        top = window.innerHeight - tipH - 10;
       }
-      setTooltip({ visible: true, html: tipHtml, x: left, y: top });
+      setTooltip({ visible: true, html: tipHtml, x: left, y: top, placement });
     } else {
       if (tooltip.visible) {
-        setTooltip({ visible: false, html: '', x: 0, y: 0 });
+        setTooltip({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
       }
     }
   };
 
   const handleStageMouseLeave = () => {
-    setTooltip({ visible: false, html: '', x: 0, y: 0 });
+    setTooltip({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
   };
 
   return (
@@ -114,10 +117,10 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating Hover Tooltip */}
+      {/* Floating Hover Tooltip with Vertically Centered Triangle */}
       {tooltip.visible && (
         <div
-          className="kpmg-tooltip"
+          className={`kpmg-tooltip ${tooltip.placement === 'left' ? 'arrow-right' : 'arrow-left'}`}
           style={{
             position: 'fixed',
             left: `${tooltip.x}px`,
@@ -163,24 +166,24 @@ export default function App() {
 
             {/* 1. Category */}
             <div className="control-group">
-              <label htmlFor="categorySelect">1. Topic / API Category</label>
+              <label htmlFor="categorySelect">{lang === 'DE' ? '1. Thema / API-Kategorie' : '1. Topic / API Category'}</label>
               <select
                 id="categorySelect"
                 className="styled-select"
                 value={category}
                 onChange={handleCategoryChange}
               >
-                <option value="cost_of_capital">Cost of Capital (WACC)</option>
-                <option value="multiples">Valuation Multiples</option>
-                <option value="mrp">Market Risk Premium & Base Rate</option>
-                <option value="country_risk">Country Risk Premium</option>
-                <option value="overview">Overview Hub Dashboard</option>
+                <option value="cost_of_capital">{lang === 'DE' ? 'Kapitalkosten (WACC)' : 'Cost of Capital (WACC)'}</option>
+                <option value="multiples">{lang === 'DE' ? 'Bewertungsmultiplikatoren' : 'Valuation Multiples'}</option>
+                <option value="mrp">{lang === 'DE' ? 'Marktrisikoprämie & Basiszinssatz' : 'Market Risk Premium & Base Rate'}</option>
+                <option value="country_risk">{lang === 'DE' ? 'Länderrisikoprämie' : 'Country Risk Premium'}</option>
+                <option value="overview">{lang === 'DE' ? 'Gesamtübersicht-Dashboard' : 'Overview Hub Dashboard'}</option>
               </select>
             </div>
 
             {/* 2. Template Style */}
             <div className="control-group" style={{ flex: 1.4 }}>
-              <label htmlFor="templateSelect">2. Chart Template Style</label>
+              <label htmlFor="templateSelect">{lang === 'DE' ? '2. Diagramm-Vorlage' : '2. Chart Template Style'}</label>
               <select
                 id="templateSelect"
                 className="styled-select"
@@ -189,7 +192,7 @@ export default function App() {
               >
                 {currentTemplates.map((t) => (
                   <option key={t.id} value={t.id}>
-                    {t.name}
+                    {lang === 'DE' ? (t.nameDE || t.name) : t.name}
                   </option>
                 ))}
               </select>
@@ -198,7 +201,7 @@ export default function App() {
             {/* 3. Industry/Sector (when needed) */}
             {activeTemplate?.needsSector && (
               <div className="control-group" id="sectorControlGroup">
-                <label htmlFor="industrySelect">3. Select Industry / Sector</label>
+                <label htmlFor="industrySelect">{lang === 'DE' ? '3. Branche / Sektor wählen' : '3. Select Industry / Sector'}</label>
                 <select
                   id="industrySelect"
                   className="styled-select"
