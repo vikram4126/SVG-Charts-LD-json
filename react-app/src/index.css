@@ -115,6 +115,45 @@ body {
   box-shadow: 0 0 0 3px rgba(0, 51, 141, 0.12);
 }
 
+/* Language Toggle Segmented Pill */
+.lang-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: #F1F5F9;
+  border: 1.5px solid var(--kpmg-border);
+  border-radius: 6px;
+  padding: 3px;
+  gap: 3px;
+  height: 42px;
+  box-sizing: border-box;
+}
+
+.lang-btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--kpmg-navy);
+  background: #E2E8F0;
+}
+
+.lang-btn.active {
+  background: var(--kpmg-navy);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 51, 141, 0.25);
+}
+
 /* Workspace Stage */
 .stage-wrap {
   width: 100%;

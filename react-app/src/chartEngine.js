@@ -3,6 +3,179 @@ import DB from "./data/kpmg_all_data.json";
 
 export { DB };
 
+export const SECTOR_MAP = {
+  EN_TO_DE: {
+    "Automotive": "Automobilindustrie",
+    "Building & Construction": "Bauwirtschaft",
+    "Consumer Goods & Services": "Konsumgüter",
+    "Energy & Natural Resources": "Energie und Rohstoffe",
+    "Healthcare": "Gesundheitswirtschaft",
+    "Industrial Manufacturing": "Industrielle Produktion",
+    "Information Technology": "Technologie",
+    "Life Sciences & Chemicals": "Pharma und Chemie",
+    "Media & Entertainment": "Medien und Unterhaltung",
+    "Real Estate": "Immobilienwirtschaft",
+    "Retail": "Handel",
+    "Telecommunications": "Telekommunikation",
+    "Transport & Leisure": "Transport und Tourismus"
+  },
+  DE_TO_EN: {
+    "Automobilindustrie": "Automotive",
+    "Bauwirtschaft": "Building & Construction",
+    "Konsumgüter": "Consumer Goods & Services",
+    "Energie und Rohstoffe": "Energy & Natural Resources",
+    "Gesundheitswirtschaft": "Healthcare",
+    "Industrielle Produktion": "Industrial Manufacturing",
+    "Technologie": "Information Technology",
+    "Pharma und Chemie": "Life Sciences & Chemicals",
+    "Medien und Unterhaltung": "Media & Entertainment",
+    "Immobilienwirtschaft": "Real Estate",
+    "Handel": "Retail",
+    "Telekommunikation": "Telecommunications",
+    "Transport und Tourismus": "Transport & Leisure"
+  }
+};
+
+export function convertSector(sector, targetLang) {
+  if (!sector) return sector;
+  if (targetLang === "DE") {
+    return SECTOR_MAP.EN_TO_DE[sector] || sector;
+  }
+  return SECTOR_MAP.DE_TO_EN[sector] || sector;
+}
+
+export const I18N = {
+  EN: {
+    median_wacc: "Median of WACC",
+    range_wacc: "Range of WACC",
+    wacc_band_title: "Weighted average cost of capital over time",
+    wacc_band_subtitle: "Range of WACC (Teal Band) and Median of WACC (Navy Line) over quarters",
+    wacc_params_title: "Weighted average cost of capital as at 30/09/2026",
+    wacc_params_subtitle: "Detailed financial parameter breakdown (Cost of Equity & Cost of Debt)",
+    cost_of_equity: "Cost of Equity",
+    cost_of_debt: "Cost of Debt",
+    rf: "Risk-Free Rate",
+    unlev_beta: "Unlevered Beta",
+    debt_beta: "Debt Beta",
+    mrp: "Market Risk Premium",
+    lev_cost_equity: "Levered Cost of Equity",
+    equity_ratio: "Equity Ratio",
+    credit_spread: "Credit Spread",
+    tax_shield: "Tax Shield",
+    debt_ratio: "Debt Ratio",
+    wacc_label: "${(I18N[lang] || I18N.EN).wacc_label}",
+    wacc_footnote: "${(I18N[lang] || I18N.EN).wacc_footnote}",
+    countries_title: "Origin of all companies included in the entire database",
+    countries_subtitle: "Number of analyzed companies grouped by country of origin",
+    country_col: "Country",
+    num_companies_col: "Number of Companies",
+    subind_title: "Sub-sectors included in the entire database",
+    subind_subtitle: "Granular industry breakdown and sample count",
+    subind_col: "Sub-Industry",
+    wacc_grid_title: "Complete Cost of Capital Dashboard",
+    wacc_grid_subtitle: "Interactive 4-card overview for sector valuation analysis",
+    multiples_trend_title: "Average multiples over time",
+    multiples_trend_subtitle: "Dual column chart: Range of EBITDA (Navy) & EBIT (Cyan) multiples",
+    multiples_bars_title: "Average multiples as at 30/09/2026",
+    multiples_bars_subtitle: "Horizontal range comparisons: Actual (2026), +1Y Estimate (2027), +2Y Estimate (2028)",
+    multiples_grid_title: "Complete Multiples Dashboard",
+    multiples_grid_subtitle: "Multi-component view with columns, forecast bars, and origin tables",
+    mrp_trend_title: "Total rate of return, risk-free rate and market risk premium for Germany over time",
+    mrp_trend_subtitle: "Historical 3-line trend from Q3 2024 to Q3 2026",
+    mrp_step_title: "Current risk-free rates",
+    mrp_step_subtitle: "Risk-free rate (rounded) step curve by Tenure (1 to 30 years)",
+    mrp_page_title: "Market risk premium as at 30/09/2026",
+    mrp_page_subtitle: "The market risk premium for Germany proposed by KPMG as at 30/09/2026 is 5.25%.",
+    crp_trend_title: "Country risk premium over time for countries with BBB rating codes",
+    crp_trend_subtitle: "Trends across BBB-, BBB, and BBB+ ratings",
+    crp_table_title: "Country risk premium for selected countries at current reporting date",
+    crp_table_subtitle: "6 Months, 1 Year, and 2 Years tenor spreads",
+    crp_page_title: "Country risk premia as at 30/09/2026",
+    crp_page_subtitle: "Average country risk premium for BBB rating is 1.10%",
+    ov_wacc_title: "Current weighted average cost of capital (WACC)",
+    ov_wacc_subtitle: "Horizontal range bars across all 13 industries",
+    ov_mult_title: "Current Industry Multiple Ranges",
+    ov_mult_subtitle: "Horizontal dual range bars (EBITDA & EBIT) across all industries",
+    ov_mrp_title: "Market Risk Premium Trend",
+    ov_mrp_subtitle: "Quarterly trend over the last 2 years",
+    ov_crp_title: "Current country risk premium per rating",
+    ov_crp_subtitle: "Stepped floating range bars (AA to CCC)",
+    ov_grid_title: "Cost of Capital & Multiples Overview Dashboard",
+    ov_grid_subtitle: "Complete Executive Overview Dashboard",
+    crp_col_rating: "RATING",
+    crp_col_country: "COUNTRY",
+    crp_col_crp: "COUNTRY RISK PREMIUM",
+    crp_col_6m: "6 MONTHS",
+    crp_col_1y: "1 YEAR",
+    crp_col_2y: "2 YEARS"
+  },
+  DE: {
+    median_wacc: "Median des WACC",
+    range_wacc: "Bandbreite des WACC",
+    wacc_band_title: "Gewichtete durchschnittliche Kapitalkosten im Zeitverlauf",
+    wacc_band_subtitle: "Bandbreite des WACC (Hellblau) und Median des WACC (Dunkelblau) im Quartalsverlauf",
+    wacc_params_title: "Gewichtete durchschnittliche Kapitalkosten zum 30.09.2026",
+    wacc_params_subtitle: "Detaillierte Aufschlüsselung der Finanzparameter (Eigenkapital- und Fremdkapitalkosten)",
+    cost_of_equity: "Eigenkapitalkosten",
+    cost_of_debt: "Fremdkapitalkosten",
+    rf: "Basiszinssatz",
+    unlev_beta: "Unlevered Beta",
+    debt_beta: "Debt Beta",
+    mrp: "Marktrisikoprämie",
+    lev_cost_equity: "Verschuldete Eigenkapitalkosten",
+    equity_ratio: "Eigenkapitalquote",
+    credit_spread: "Credit Spread",
+    tax_shield: "Tax Shield",
+    debt_ratio: "Fremdkapitalquote",
+    wacc_label: "Gewichtete durchschnittliche Kapitalkosten (WACC)",
+    wacc_footnote: "*Der WACC stellt den Median der einzelnen Unternehmens-WACCs innerhalb der ausgewählten Branche dar und kann daher nicht direkt aus den Durchschnittswerten der in dieser Tabelle dargestellten einzelnen WACC-Komponenten abgeleitet werden.",
+    countries_title: "Herkunft aller in der Gesamtdatenbank enthaltenen Unternehmen",
+    countries_subtitle: "Anzahl der analysierten Unternehmen gruppiert nach Herkunftsland",
+    country_col: "Land",
+    num_companies_col: "Anzahl der Unternehmen",
+    subind_title: "In der Gesamtdatenbank enthaltene Teilsektoren",
+    subind_subtitle: "Granulare Branchenaufteilung und Stichprobengröße",
+    subind_col: "Teilsektor",
+    wacc_grid_title: "Gesamtes Kapitalkosten-Dashboard",
+    wacc_grid_subtitle: "Umfassende Mehrkomponentenansicht für die Kapitalkosten",
+    multiples_trend_title: "Durchschnittliche Multiplikatoren im Zeitverlauf",
+    multiples_trend_subtitle: "Doppelsäulendiagramm: Bandbreite der EBITDA- (Navy) & EBIT-Multiplikatoren (Cyan)",
+    multiples_bars_title: "Durchschnittliche Multiplikatoren zum 30.09.2026",
+    multiples_bars_subtitle: "Horizontale Bereichsvergleiche: Ist (2026), +1J Prognose (2027), +2J Prognose (2028)",
+    multiples_grid_title: "Gesamtes Multiples-Dashboard",
+    multiples_grid_subtitle: "Mehrkomponentenansicht mit Säulen, Prognosebalken und Herkunftstabellen",
+    mrp_trend_title: "Gesamtrendite, Basiszinssatz und Marktrisikoprämie für Deutschland im Zeitverlauf",
+    mrp_trend_subtitle: "Historischer 3-Linien-Trend von Q3 2024 bis Q3 2026",
+    mrp_step_title: "Aktuelle Basiszinssätze",
+    mrp_step_subtitle: "Stufenkurve des Basiszinssatzes (gerundet) nach Laufzeit (1 bis 30 Jahre)",
+    mrp_page_title: "Marktrisikoprämie zum 30.09.2026",
+    mrp_page_subtitle: "Die von KPMG vorgeschlagene Marktrisikoprämie für Deutschland zum 30.09.2026 beträgt 5,25 %.",
+    crp_trend_title: "Länderrisikoprämie im Zeitverlauf für Länder mit BBB-Ratingcodes",
+    crp_trend_subtitle: "Entwicklung über die Ratings BBB-, BBB und BBB+",
+    crp_table_title: "Länderrisikoprämie für ausgewählte Länder zum aktuellen Stichtag",
+    crp_table_subtitle: "Laufzeit-Spreads für 6 Monate, 1 Jahr und 2 Jahre",
+    crp_page_title: "Länderrisikoprämien zum 30.09.2026",
+    crp_page_subtitle: "Die durchschnittliche Länderrisikoprämie für das BBB-Rating beträgt 1,10 %",
+    ov_wacc_title: "Aktuelle gewichtete durchschnittliche Kapitalkosten (WACC)",
+    ov_wacc_subtitle: "Horizontale Bereichsbalken über alle 13 Branchen",
+    ov_mult_title: "Aktuelle Bandbreiten der Branchenmultiplikatoren",
+    ov_mult_subtitle: "Horizontale Doppelbereichsbalken (EBITDA & EBIT) über alle Branchen",
+    ov_mrp_title: "Trend der Marktrisikoprämie",
+    ov_mrp_subtitle: "Vierteljährlicher Trend über die letzten 2 Jahre",
+    ov_crp_title: "Aktuelle Länderrisikoprämie nach Rating",
+    ov_crp_subtitle: "Gestufte schwebende Bereichsbalken (AA bis CCC)",
+    ov_grid_title: "Kapitalkosten & Multiples Gesamtübersicht-Dashboard",
+    ov_grid_subtitle: "Vollständiges Management-Dashboard",
+    crp_col_rating: "RATING",
+    crp_col_country: "LAND",
+    crp_col_crp: "LÄNDERRISIKOPRÄMIE",
+    crp_col_6m: "6 MONATE",
+    crp_col_1y: "1 JAHR",
+    crp_col_2y: "2 JAHRE"
+  }
+};
+
+
 const TEMPLATES = {
       cost_of_capital: [
         { id: "wacc_band_over_time", name: "WACC Over Time (Area Band + Median Line)", ep: "/WACC_Values", needsSector: true },
@@ -82,28 +255,28 @@ const TEMPLATES = {
           {
             title = `${sector} - Weighted average cost of capital over time`;
             subtitle = "Range of WACC (Teal Band) and Median of WACC (Navy Line) over quarters";
-            renderedHtml = renderWaccBandOverTime(sector);
+            renderedHtml = renderWaccBandOverTime(sector, lang);
             break;
           }
         case "wacc_params_table":
           {
             title = `${sector} - Weighted average cost of capital as at 30/09/2026`;
             subtitle = "Detailed financial parameter breakdown (Cost of Equity & Cost of Debt)";
-            renderedHtml = renderWaccParamsTable(sector);
+            renderedHtml = renderWaccParamsTable(sector, lang);
             break;
           }
         case "wacc_countries_table":
           {
             title = `${sector} - Origin of all companies included in the entire database`;
             subtitle = "Number of analyzed companies grouped by country of origin";
-            renderedHtml = renderCountriesTable("WACC_Countries", sector);
+            renderedHtml = renderCountriesTable("WACC_Countries", sector, lang);
             break;
           }
         case "wacc_subindustries_table":
           {
             title = `${sector} - Sub-sectors included in the entire database`;
             subtitle = "Granular industry breakdown and sample count";
-            renderedHtml = renderSubIndustriesTable("WACC_SubIndustries", sector);
+            renderedHtml = renderSubIndustriesTable("WACC_SubIndustries", sector, lang);
             break;
           }
         case "wacc_full_grid":
@@ -235,8 +408,8 @@ const TEMPLATES = {
        ========================================================================= */
 
     // 1. WACC Area Band + Median Line Over Time
-    function renderWaccBandOverTime(sector) {
-      const rows = (DB.WACC_Values || []).filter(d => d.Sector_name_EN === sector).sort((a,b) => a.Date_Data.localeCompare(b.Date_Data));
+    function renderWaccBandOverTime(sector, lang = "EN") {
+      const rows = (DB.WACC_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => a.Date_Data.localeCompare(b.Date_Data));
       if (!rows.length) return `<p>No WACC data for ${sector}</p>`;
 
       const w = 640, h = 340;
@@ -275,15 +448,15 @@ const TEMPLATES = {
       const legend = `
         <g transform="translate(${w / 2 - 120}, ${pT + cH + 48})">
           <rect x="0" y="-3" width="22" height="6" fill="#00338D"/>
-          <text x="28" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Median of WACC</text>
+          <text x="28" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">${(I18N[lang] || I18N.EN).median_wacc}</text>
           <rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/>
-          <text x="168" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Range of WACC</text>
+          <text x="168" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">${(I18N[lang] || I18N.EN).range_wacc}</text>
         </g>
       `;
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - Weighted average cost of capital over time</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).wacc_band_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -338,7 +511,7 @@ const TEMPLATES = {
 
     // 2. Multiples Over Time Dual Columns
     function renderMultiplesColumnsOverTime(sector) {
-      const allRows = (DB.Multiples_Values || []).filter(d => d.Sector_name_EN === sector);
+      const allRows = (DB.Multiples_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const dates = [...new Set(allRows.map(d => d.Date_Data))].sort();
 
       const w = 620, h = 320;
@@ -453,7 +626,7 @@ const TEMPLATES = {
 
     // 3. Multiples Forecast Horizon Bars
     function renderMultiplesForecastBars(sector) {
-      const allRows = (DB.Multiples_Values || []).filter(d => d.Sector_name_EN === sector);
+      const allRows = (DB.Multiples_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const latestDate = allRows.reduce((m, r) => r.Date_Data > m ? r.Date_Data : m, "");
       const currentRows = allRows.filter(r => r.Date_Data === latestDate);
 
@@ -563,74 +736,74 @@ const TEMPLATES = {
       `;
     }
 
-    // 4. Parameter Breakdown Table (Matches user's exact photo with Weighted Average Cost of Capital (WACC) row!)
-    function renderWaccParamsTable(sector) {
-      const rows = (DB.WACC_Values || []).filter(d => d.Sector_name_EN === sector);
+    // 4. Parameter Breakdown Table (Matches user's exact photo with ${(I18N[lang] || I18N.EN).wacc_label} row!)
+    function renderWaccParamsTable(sector, lang = "EN") {
+      const rows = (DB.WACC_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const item = rows.reduce((m, r) => r.Date_Data > m.Date_Data ? r : m, rows[0] || {});
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">${sector} - Weighted average cost of capital as at 30/09/2026</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).wacc_params_title}</h3>
           <table class="atlas-table">
             <thead>
               <tr>
-                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">Cost of Equity</th>
+                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">${(I18N[lang] || I18N.EN).cost_of_equity}</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Risk-Free Rate</td><td class="num-col">${fmtPct(item.Rf)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).rf}</td><td class="num-col">${fmtPct(item.Rf)}</td></tr>
               <tr><td>Unlevered Beta</td><td class="num-col">${fmtNum(item.UnlevBeta, 2)}</td></tr>
               <tr><td>Debt Beta</td><td class="num-col">${fmtNum(item.BetaRelevered, 2)}</td></tr>
-              <tr><td>Market Risk Premium</td><td class="num-col">${fmtPct(item.MRP)}</td></tr>
-              <tr style="border-top:1px solid #CBD5E1;"><td>Levered Cost of Equity</td><td class="num-col">${fmtPct(item.LevCostOfEquity)}</td></tr>
-              <tr><td>Equity Ratio</td><td class="num-col">${fmtPct(item.Equity_ratio)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).mrp}</td><td class="num-col">${fmtPct(item.MRP)}</td></tr>
+              <tr style="border-top:1px solid #CBD5E1;"><td>${(I18N[lang] || I18N.EN).lev_cost_equity}</td><td class="num-col">${fmtPct(item.LevCostOfEquity)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).equity_ratio}</td><td class="num-col">${fmtPct(item.Equity_ratio)}</td></tr>
             </tbody>
             <thead>
               <tr>
-                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">Cost of Debt</th>
+                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">${(I18N[lang] || I18N.EN).cost_of_debt}</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Risk-Free Rate</td><td class="num-col">${fmtPct(item.Rf)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).rf}</td><td class="num-col">${fmtPct(item.Rf)}</td></tr>
               <tr><td>Credit Spread</td><td class="num-col">${fmtPct(item.CreditSpread)}</td></tr>
               <tr><td>Tax Shield</td><td class="num-col">${fmtPct(item.TaxRate)}</td></tr>
-              <tr style="border-top:1px solid #CBD5E1;"><td>Cost of Debt</td><td class="num-col">${fmtPct(item.CostOfDebtAfterTax)}</td></tr>
-              <tr><td>Debt Ratio</td><td class="num-col">${fmtPct(item.Debt_ratio)}</td></tr>
+              <tr style="border-top:1px solid #CBD5E1;"><td>${(I18N[lang] || I18N.EN).cost_of_debt}</td><td class="num-col">${fmtPct(item.CostOfDebtAfterTax)}</td></tr>
+              <tr><td>${(I18N[lang] || I18N.EN).debt_ratio}</td><td class="num-col">${fmtPct(item.Debt_ratio)}</td></tr>
             </tbody>
             <tfoot>
               <tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;">
-                <td style="color:#333; font-size:13px; font-weight:600; padding:5px; border-bottom:1px solid #333;">Weighted Average Cost of Capital (WACC)</td>
+                <td style="color:#333; font-size:13px; font-weight:600; padding:5px; border-bottom:1px solid #333;">${(I18N[lang] || I18N.EN).wacc_label}</td>
                 <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:5px; border-bottom:1px solid #333;">${fmtPct(item.WACC_Value_Median)}</td>
               </tr>
             </tfoot>
           </table>
           <p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">
-            *The WACC represents the median of the individual company WACCs within the selected industry and therefore cannot be directly derived from the average values of the individual WACC components presented in this table.
+            ${(I18N[lang] || I18N.EN).wacc_footnote}
           </p>
         </div>
       `;
     }
 
     // 5. Origin of Companies Table
-    function renderCountriesTable(datasetKey, sector) {
-      const rows = (DB[datasetKey] || []).filter(d => d.Sector_name_EN === sector);
+    function renderCountriesTable(datasetKey, sector, lang = "EN") {
+      const rows = (DB[datasetKey] || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const topCountries = rows.sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 10);
 
       const trs = topCountries.map(r => `
         <tr>
-          <td style="color:#333; font-weight:400;">${r.Country_EN}</td>
+          <td style="color:#333; font-weight:400;">${lang === "DE" ? (r.Country_DE || r.Country_EN) : r.Country_EN}</td>
           <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
         </tr>
       `).join("");
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - Origin of all companies included in the entire database</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).countries_title}</h3>
           <table class="atlas-table">
             <thead>
               <tr>
-                <th>Country</th>
-                <th style="text-align:right; color:#666666;">Number of Companies</th>
+                <th>${(I18N[lang] || I18N.EN).country_col}</th>
+                <th style="text-align:right; color:#666666;">${(I18N[lang] || I18N.EN).num_companies_col}</th>
               </tr>
             </thead>
             <tbody>
@@ -642,25 +815,25 @@ const TEMPLATES = {
     }
 
     // 6. Sub-Sectors Breakdown Table
-    function renderSubIndustriesTable(datasetKey, sector) {
-      const rows = (DB[datasetKey] || []).filter(d => d.Sector_name_EN === sector);
+    function renderSubIndustriesTable(datasetKey, sector, lang = "EN") {
+      const rows = (DB[datasetKey] || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
       const topSubs = rows.sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 10);
 
       const trs = topSubs.map(r => `
         <tr>
-          <td style="color:#333; font-weight:400;">${r.SimpleIndustry_EN || r.SubIndustry_EN}</td>
+          <td style="color:#333; font-weight:400;">${lang === "DE" ? (r.SimpleIndustry_DE || r.SubIndustry_DE || r.SimpleIndustry_EN || r.SubIndustry_EN) : (r.SimpleIndustry_EN || r.SubIndustry_EN)}</td>
           <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
         </tr>
       `).join("");
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - Sub-sectors included in the entire database</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).subind_title}</h3>
           <table class="atlas-table">
             <thead>
               <tr>
-                <th>Sub-Industry</th>
-                <th style="text-align:right; color:#666666;">Number of Companies</th>
+                <th>${(I18N[lang] || I18N.EN).subind_col}</th>
+                <th style="text-align:right; color:#666666;">${(I18N[lang] || I18N.EN).num_companies_col}</th>
               </tr>
             </thead>
             <tbody>
@@ -672,13 +845,13 @@ const TEMPLATES = {
     }
 
     // 7. Complete WACC Dashboard
-    function renderFullWaccGrid(sector) {
+    function renderFullWaccGrid(sector, lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div style="padding:6px 0;">${renderWaccBandOverTime(sector)}</div>
-          <div style="padding:6px 0;">${renderCountriesTable("WACC_Countries", sector)}</div>
-          <div style="padding:6px 0;">${renderWaccParamsTable(sector)}</div>
-          <div style="padding:6px 0;">${renderSubIndustriesTable("WACC_SubIndustries", sector)}</div>
+          <div style="padding:6px 0;">${renderWaccBandOverTime(sector, lang)}</div>
+          <div style="padding:6px 0;">${renderCountriesTable("WACC_Countries", sector, lang)}</div>
+          <div style="padding:6px 0;">${renderWaccParamsTable(sector, lang)}</div>
+          <div style="padding:6px 0;">${renderSubIndustriesTable("WACC_SubIndustries", sector, lang)}</div>
         </div>
       `;
     }
@@ -969,13 +1142,13 @@ const TEMPLATES = {
     const renderCrpCurve = renderCrpRatingLines;
 
     // 12. Selected Countries CRP Table (Matches user photo with grouped header and #666 text)
-    function renderSelectedCountriesCrpTable() {
+    function renderSelectedCountriesCrpTable(lang = "EN") {
       const rows = DB.LRP_SelectedCountries || [];
 
       const trs = rows.map(r => `
         <tr>
           <td style="color:#333; font-weight:400; padding:5px;">${r.Rating}</td>
-          <td style="color:#333; font-weight:400; padding:5px;">${r.Ctry_Name_EN}</td>
+          <td style="color:#333; font-weight:400; padding:5px;">${lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN}</td>
           <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px;">${fmtPct(r.CRP_6m)}</td>
           <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px;">${fmtPct(r.CRP_1y)}</td>
           <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px;">${fmtPct(r.CRP_2y)}</td>
@@ -984,18 +1157,18 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">Country risk premium for selected countries at current reporting date</h3>
+          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">${(I18N[lang] || I18N.EN).crp_table_title}</h3>
           <table class="atlas-table" style="border-bottom:1.5px solid #CBD5E1;">
             <thead>
               <tr>
                 <th rowspan="2" style="vertical-align:bottom; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">RATING</th>
-                <th rowspan="2" style="vertical-align:bottom; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">COUNTRY</th>
-                <th colspan="3" style="text-align:right; padding:5px; color:#666666; border-bottom:1px solid #E2E8F0; letter-spacing:0.5px;">COUNTRY RISK PREMIUM</th>
+                <th rowspan="2" style="vertical-align:bottom; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_country}</th>
+                <th colspan="3" style="text-align:right; padding:5px; color:#666666; border-bottom:1px solid #E2E8F0; letter-spacing:0.5px;">${(I18N[lang] || I18N.EN).crp_col_crp}</th>
               </tr>
               <tr>
-                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">6 MONTHS</th>
-                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">1 YEAR</th>
-                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">2 YEARS</th>
+                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_6m}</th>
+                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_1y}</th>
+                <th style="text-align:right; padding:5px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_2y}</th>
               </tr>
             </thead>
             <tbody>
@@ -1235,7 +1408,7 @@ const TEMPLATES = {
       const obs = [];
 
       if (templateId === "wacc_band_over_time" || templateId === "wacc_full_grid") {
-        const rows = (DB.WACC_Values || []).filter(d => d.Sector_name_EN === sector).sort((a,b) => a.Date_Data.localeCompare(b.Date_Data));
+        const rows = (DB.WACC_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => a.Date_Data.localeCompare(b.Date_Data));
         rows.forEach(r => {
           obs.push({
             "@type": "Dataset",
@@ -1256,7 +1429,7 @@ const TEMPLATES = {
       }
 
       if (templateId === "wacc_params_table" || templateId === "wacc_full_grid") {
-        const rows = (DB.WACC_Values || []).filter(d => d.Sector_name_EN === sector);
+        const rows = (DB.WACC_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
         const item = rows.reduce((m, r) => r.Date_Data > m.Date_Data ? r : m, rows[0] || {});
         if (item.Date_Data) {
           obs.push({
@@ -1274,7 +1447,7 @@ const TEMPLATES = {
               { "@type": "PropertyValue", "name": "Tax Shield", "value": Number((item.TaxRate * 100).toFixed(2)), "unitText": "%" },
               { "@type": "PropertyValue", "name": "Cost of Debt", "value": Number((item.CostOfDebtAfterTax * 100).toFixed(2)), "unitText": "%" },
               { "@type": "PropertyValue", "name": "Debt Ratio", "value": Number((item.Debt_ratio * 100).toFixed(2)), "unitText": "%" },
-              { "@type": "PropertyValue", "name": "Weighted Average Cost of Capital (WACC)", "value": Number((item.WACC_Value_Median * 100).toFixed(2)), "unitText": "%" }
+              { "@type": "PropertyValue", "name": "${(I18N[lang] || I18N.EN).wacc_label}", "value": Number((item.WACC_Value_Median * 100).toFixed(2)), "unitText": "%" }
             ]
           });
         }
@@ -1282,7 +1455,7 @@ const TEMPLATES = {
 
       if (templateId === "wacc_countries_table" || templateId === "multiples_countries_table" || templateId === "wacc_full_grid" || templateId === "multiples_full_grid") {
         const dsKey = templateId.includes("multiples") ? "Multiples_Countries" : "WACC_Countries";
-        const rows = (DB[dsKey] || []).filter(d => d.Sector_name_EN === sector).sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 15);
+        const rows = (DB[dsKey] || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 15);
         obs.push({
           "@type": "Dataset",
           "name": `${sector} - Company Count by Country`,
@@ -1297,7 +1470,7 @@ const TEMPLATES = {
 
       if (templateId === "wacc_subindustries_table" || templateId === "multiples_subindustries_table" || templateId === "wacc_full_grid" || templateId === "multiples_full_grid") {
         const dsKey = templateId.includes("multiples") ? "Multiples_SubIndustries" : "WACC_SubIndustries";
-        const rows = (DB[dsKey] || []).filter(d => d.Sector_name_EN === sector).sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 15);
+        const rows = (DB[dsKey] || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector)).sort((a,b) => b.N_Companies - a.N_Companies).slice(0, 15);
         obs.push({
           "@type": "Dataset",
           "name": `${sector} - Company Count by Sub-Industry`,
@@ -1311,7 +1484,7 @@ const TEMPLATES = {
       }
 
       if (templateId === "multiples_columns_over_time" || templateId === "multiples_full_grid") {
-        const allRows = (DB.Multiples_Values || []).filter(d => d.Sector_name_EN === sector);
+        const allRows = (DB.Multiples_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
         const dates = [...new Set(allRows.map(d => d.Date_Data))].sort();
         dates.forEach(d => {
           const ebitda = allRows.find(x => x.Multiple_Name === "EBITDA-Multiple" && x.Date_Data === d);
@@ -1345,7 +1518,7 @@ const TEMPLATES = {
       }
 
       if (templateId === "multiples_forecast_bars" || templateId === "multiples_full_grid") {
-        const allRows = (DB.Multiples_Values || []).filter(d => d.Sector_name_EN === sector);
+        const allRows = (DB.Multiples_Values || []).filter(d => (d.Sector_name_EN === sector || d.Sector_name_DE === sector));
         const latestDate = allRows.reduce((m, r) => r.Date_Data > m ? r.Date_Data : m, "");
         const currentRows = allRows.filter(r => r.Date_Data === latestDate);
         currentRows.forEach(r => {
@@ -1627,12 +1800,14 @@ ${window.currentSchemaString || ""}
 
     
 
-export function getSectors() {
-  const list = (DB.WACC_Values || []).map(d => d.Sector_name_EN).filter(Boolean);
-  return [...new Set(list)].sort();
+export function getSectors(lang = 'EN') {
+  const key = lang === 'DE' ? 'Sector_name_DE' : 'Sector_name_EN';
+  const list = (DB.WACC_Values || []).map(d => d[key]).filter(Boolean);
+  return [...new Set(list)].sort((a,b) => a.localeCompare(b, lang === 'DE' ? 'de' : 'en'));
 }
 
-export function getChartDetails(category, templateId, sector) {
+export function getChartDetails(category, templateId, sector, lang = "EN") {
+  const dict = I18N[lang] || I18N.EN;
   let title = "";
   let subtitle = "";
   let renderedHtml = "";
@@ -1644,27 +1819,27 @@ export function getChartDetails(category, templateId, sector) {
     case "wacc_band_over_time":
       title = `${sector} - Weighted average cost of capital over time`;
       subtitle = "Range of WACC (Teal Band) and Median of WACC (Navy Line) over quarters";
-      renderedHtml = renderWaccBandOverTime(sector);
+      renderedHtml = renderWaccBandOverTime(sector, lang);
       break;
     case "wacc_params_table":
       title = `${sector} - Weighted average cost of capital as at 30/09/2026`;
       subtitle = "Detailed financial parameter breakdown (Cost of Equity & Cost of Debt)";
-      renderedHtml = renderWaccParamsTable(sector);
+      renderedHtml = renderWaccParamsTable(sector, lang);
       break;
     case "wacc_countries_table":
       title = `${sector} - Origin of all companies included in the entire database`;
       subtitle = "Number of analyzed companies grouped by country of origin";
-      renderedHtml = renderCountriesTable("WACC_Countries", sector);
+      renderedHtml = renderCountriesTable("WACC_Countries", sector, lang);
       break;
     case "wacc_subindustries_table":
       title = `${sector} - Sub-sectors included in the entire database`;
       subtitle = "Granular industry breakdown and sample count";
-      renderedHtml = renderSubIndustriesTable("WACC_SubIndustries", sector);
+      renderedHtml = renderSubIndustriesTable("WACC_SubIndustries", sector, lang);
       break;
     case "wacc_full_grid":
-      title = `${sector} - Complete Cost of Capital Dashboard`;
-      subtitle = "Comprehensive multi-component view for Cost of Capital";
-      renderedHtml = renderFullWaccGrid(sector);
+      title = `${sector} - ${dict.wacc_grid_title}`;
+      subtitle = dict.wacc_grid_subtitle;
+      renderedHtml = renderFullWaccGrid(sector, lang);
       break;
     case "multiples_columns_over_time":
       title = `${sector} - Average multiples over time`;
@@ -1712,9 +1887,9 @@ export function getChartDetails(category, templateId, sector) {
       renderedHtml = renderCrpRatingLines();
       break;
     case "crp_countries_table":
-      title = "Country risk premium for selected countries at current reporting date";
-      subtitle = "6 Months, 1 Year, and 2 Years tenor spreads";
-      renderedHtml = renderSelectedCountriesCrpTable();
+      title = dict.crp_table_title;
+      subtitle = dict.crp_table_subtitle;
+      renderedHtml = renderSelectedCountriesCrpTable(lang);
       break;
     case "crp_full_page":
       title = "Country risk premia as at 30/09/2026";
@@ -1755,14 +1930,15 @@ export function getChartDetails(category, templateId, sector) {
   return { title, subtitle, renderedHtml, templateObj };
 }
 
-export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateId, sector, templateObj) {
+export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateId, sector, templateObj, lang = "EN") {
   const detailedObservations = buildDetailedObservations(templateId, sector);
 
   const fullSchemaJson = {
     "@context": "https://schema.org",
     "@type": "Dataset",
     "name": chartTitle,
-    "description": `${chartTitle} structured dataset published via KPMG Atlas.`,
+    "inLanguage": lang === "DE" ? "de-DE" : "en-US",
+    "description": lang === "DE" ? `${chartTitle} strukturierter Datensatz veröffentlicht über KPMG Atlas.` : `${chartTitle} structured dataset published via KPMG Atlas.`,
     "creator": {
       "@type": "Organization",
       "name": "KPMG Deal Advisory"

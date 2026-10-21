@@ -3,10 +3,12 @@ import {
   TEMPLATES,
   getSectors,
   getChartDetails,
-  generateAemSnippetForReact
+  generateAemSnippetForReact,
+  convertSector
 } from './chartEngine';
 
 export default function App() {
+  const [lang, setLang] = useState('EN');
   const [category, setCategory] = useState('cost_of_capital');
   const [templateId, setTemplateId] = useState('wacc_full_grid');
   const [sector, setSector] = useState('Automotive');
@@ -14,14 +16,20 @@ export default function App() {
   const [toastMessage, setToastMessage] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0 });
 
-  const sectors = getSectors();
+  const sectors = getSectors(lang);
   const currentTemplates = TEMPLATES[category] || [];
   const activeTemplate = currentTemplates.find(t => t.id === templateId) || currentTemplates[0];
   const effectiveTemplateId = activeTemplate ? activeTemplate.id : templateId;
 
   // Recalculate chart details
-  const { title, subtitle, renderedHtml, templateObj } = getChartDetails(category, effectiveTemplateId, sector);
-  const { snippet, schemaString } = generateAemSnippetForReact(renderedHtml, title, effectiveTemplateId, sector, templateObj);
+  const { title, subtitle, renderedHtml, templateObj } = getChartDetails(category, effectiveTemplateId, sector, lang);
+  const { snippet, schemaString } = generateAemSnippetForReact(renderedHtml, title, effectiveTemplateId, sector, templateObj, lang);
+
+  const handleLangChange = (newLang) => {
+    if (newLang === lang) return;
+    setLang(newLang);
+    setSector(convertSector(sector, newLang));
+  };
 
   // When category changes, reset templateId to first of that category
   const handleCategoryChange = (e) => {
@@ -132,6 +140,27 @@ export default function App() {
       <div className="control-panel-wrap">
         <div className="control-panel">
           <div className="selectors-row">
+            {/* Language Toggle */}
+            <div className="control-group" style={{ flex: '0 0 auto', minWidth: 'auto' }}>
+              <label>Language</label>
+              <div className="lang-toggle-wrap">
+                <button
+                  type="button"
+                  className={`lang-btn ${lang === 'EN' ? 'active' : ''}`}
+                  onClick={() => handleLangChange('EN')}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  className={`lang-btn ${lang === 'DE' ? 'active' : ''}`}
+                  onClick={() => handleLangChange('DE')}
+                >
+                  DE
+                </button>
+              </div>
+            </div>
+
             {/* 1. Category */}
             <div className="control-group">
               <label htmlFor="categorySelect">1. Topic / API Category</label>
