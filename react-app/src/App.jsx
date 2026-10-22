@@ -328,10 +328,6 @@ export default function App() {
         </>
       )}
 
-      {/* Footer */}
-      <footer style={{ textAlign: 'center', padding: '16px', fontSize: '12px', color: '#94A3B8', borderTop: '1px solid #E2E8F0', background: '#FFFFFF' }}>
-        KPMG Atlas • React Chart Studio & Schema.org JSON-LD Dataset Generator
-      </footer>
-    </div>
+      </div>
   );
 }
