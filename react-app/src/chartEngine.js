@@ -1730,28 +1730,30 @@ const TEMPLATES = {
     .tenure-pt:hover .tenure-diamond { filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8)); }
     .kpmg-chart-tooltip.arrow-right::after {
       content: '';
+      display: block;
       position: absolute;
       top: 50%;
-      right: -7px;
+      right: -6px;
       transform: translateY(-50%);
       width: 0;
       height: 0;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
-      border-left: 7px solid #1E293B;
+      border-left: 8px solid #1E293B;
       pointer-events: none;
     }
     .kpmg-chart-tooltip.arrow-left::after {
       content: '';
+      display: block;
       position: absolute;
       top: 50%;
-      left: -7px;
+      left: -6px;
       transform: translateY(-50%);
       width: 0;
       height: 0;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
-      border-right: 7px solid #1E293B;
+      border-right: 8px solid #1E293B;
       pointer-events: none;
     }
   </style>
@@ -2029,28 +2031,30 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
     .tenure-pt:hover .tenure-diamond { filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8)); }
     .kpmg-chart-tooltip.arrow-right::after {
       content: '';
+      display: block;
       position: absolute;
       top: 50%;
-      right: -7px;
+      right: -6px;
       transform: translateY(-50%);
       width: 0;
       height: 0;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
-      border-left: 7px solid #1E293B;
+      border-left: 8px solid #1E293B;
       pointer-events: none;
     }
     .kpmg-chart-tooltip.arrow-left::after {
       content: '';
+      display: block;
       position: absolute;
       top: 50%;
-      left: -7px;
+      left: -6px;
       transform: translateY(-50%);
       width: 0;
       height: 0;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
-      border-right: 7px solid #1E293B;
+      border-right: 8px solid #1E293B;
       pointer-events: none;
     }
   </style>
