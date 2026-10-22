@@ -47,6 +47,57 @@ body {
   margin: 0;
 }
 
+/* Header Navigation Tabs */
+.header-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.nav-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1px solid var(--kpmg-border);
+  background: #FFFFFF;
+  color: #666666;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nav-tab-btn:hover {
+  background: #F8FAFC;
+  color: var(--kpmg-navy);
+  border-color: #CBD5E1;
+}
+
+.nav-tab-btn.active {
+  background: var(--kpmg-navy);
+  color: #FFFFFF;
+  border-color: var(--kpmg-navy);
+  box-shadow: 0 2px 6px rgba(0, 51, 141, 0.2);
+}
+
+.custom-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #DEF7EC;
+  color: #03543F;
+  border: 1px solid #BCF0DA;
+  cursor: pointer;
+}
+
 .sub-title {
   font-size: 12px;
   color: #666666;

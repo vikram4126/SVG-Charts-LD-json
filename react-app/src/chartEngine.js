@@ -1,7 +1,66 @@
 // KPMG Atlas Chart Engine for React
-import DB from "./data/kpmg_all_data.json";
+import initialDB from "./data/kpmg_all_data.json";
 
-export { DB };
+let DB = initialDB;
+let dbMeta = { isCustom: false, updatedAt: null, sourceUrl: null };
+
+if (typeof window !== "undefined") {
+  try {
+    const saved = localStorage.getItem("kpmg_custom_db");
+    const savedMeta = localStorage.getItem("kpmg_custom_db_meta");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && typeof parsed === "object") {
+        DB = { ...initialDB, ...parsed };
+      }
+    }
+    if (savedMeta) {
+      dbMeta = JSON.parse(savedMeta);
+    }
+  } catch (e) {
+    console.warn("Could not load custom DB from localStorage:", e);
+  }
+}
+
+export { DB, initialDB };
+
+export function getActiveDb() {
+  return DB;
+}
+
+export function getDbMetadata() {
+  return dbMeta;
+}
+
+export function updateActiveDb(newDb, sourceUrl = null) {
+  DB = { ...DB, ...newDb };
+  dbMeta = {
+    isCustom: true,
+    updatedAt: new Date().toISOString(),
+    sourceUrl: sourceUrl || dbMeta.sourceUrl || "Custom Input"
+  };
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem("kpmg_custom_db", JSON.stringify(DB));
+      localStorage.setItem("kpmg_custom_db_meta", JSON.stringify(dbMeta));
+    } catch (e) {
+      console.warn("Could not save custom DB to localStorage:", e);
+    }
+  }
+  return DB;
+}
+
+export function resetActiveDb() {
+  DB = initialDB;
+  dbMeta = { isCustom: false, updatedAt: null, sourceUrl: null };
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.removeItem("kpmg_custom_db");
+      localStorage.removeItem("kpmg_custom_db_meta");
+    } catch (e) {}
+  }
+  return DB;
+}
 
 export const SECTOR_MAP = {
   EN_TO_DE: {
