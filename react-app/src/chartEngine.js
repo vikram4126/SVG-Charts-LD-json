@@ -1,5 +1,4 @@
-// KPMG Atlas Chart Engine for React
-import initialDB from "./data/kpmg_all_data.json";
+import initialDB from "./data/kpmg_all_data.json" with { type: "json" };
 
 let DB = initialDB;
 let dbMeta = { isCustom: false, updatedAt: null, sourceUrl: null };

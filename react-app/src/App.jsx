@@ -10,6 +10,7 @@ import {
   resetActiveDb
 } from './chartEngine';
 import { DEFAULT_BASE_URL, fetchAllEndpoints, ENDPOINTS } from './apiService';
+import { generateLiveAemSnippet } from './liveAemEngine';
 
 export default function App() {
   const [lang, setLang] = useState('EN');
@@ -18,6 +19,7 @@ export default function App() {
   const [templateId, setTemplateId] = useState('wacc_full_grid');
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
+  const [codeTab, setCodeTab] = useState('live'); // 'live' | 'static'
   const [toastMessage, setToastMessage] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
 
@@ -49,6 +51,18 @@ export default function App() {
   // Recalculate chart details (automatically refreshes when dataVersion changes)
   const { title, subtitle, renderedHtml, templateObj } = getChartDetails(category, effectiveTemplateId, sector, lang);
   const { snippet, schemaString } = generateAemSnippetForReact(renderedHtml, title, effectiveTemplateId, sector, templateObj, lang);
+  const liveSnippet = generateLiveAemSnippet({
+    templateId: effectiveTemplateId,
+    category,
+    sector,
+    lang,
+    apiBaseUrl: customUrl || DEFAULT_BASE_URL,
+    title,
+    subtitle,
+    renderedMarkup: renderedHtml,
+    schemaString,
+    templateObj
+  });
 
   const handleLangChange = (newLang) => {
     if (newLang === lang) return;
@@ -135,7 +149,15 @@ export default function App() {
 
   const copyAemCode = () => {
     navigator.clipboard.writeText(snippet).then(() => {
-      showToast('Ready-to-use AEM HTML + Schema.org JSON-LD copied to clipboard!');
+      showToast('Static AEM HTML + Schema.org JSON-LD copied to clipboard!');
+    });
+  };
+
+  const copyLiveAemCode = () => {
+    navigator.clipboard.writeText(liveSnippet).then(() => {
+      showToast(lang === 'DE'
+        ? 'Live AEM-Code kopiert! Auto-Aktualisierung bei Seitenaufruf in AEM aktiv.'
+        : 'Live AEM Code copied! Auto-syncs live data from API upon page load in AEM.');
     });
   };
 
@@ -426,9 +448,13 @@ export default function App() {
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 SVG
               </button>
-              <button className="btn btn-primary" onClick={copyAemCode}>
+              <button className="btn btn-primary" onClick={copyAemCode} title={lang === 'DE' ? 'Statisches AEM-Snippet kopieren' : 'Copy static snapshot AEM snippet'}>
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                Copy AEM Code
+                {lang === 'DE' ? 'Statischer AEM-Code' : 'Static AEM Code'}
+              </button>
+              <button className="btn btn-live-aem" onClick={copyLiveAemCode} title={lang === 'DE' ? 'Dynamischen Live-AEM-Code kopieren (aktualisiert sich automatisch mit der API)' : 'Copy self-contained dynamic AEM code that auto-fetches fresh data from API upon page load'}>
+                <span className="live-pulse-dot"></span>
+                {lang === 'DE' ? 'Live AEM-Code (Auto-Sync)' : 'Live AEM Code (Auto-Sync)'}
               </button>
             </div>
           </div>
@@ -444,13 +470,37 @@ export default function App() {
           {/* Self-Contained AEM Snippet Drawer */}
           {showCodeDrawer && (
             <div className="code-drawer">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingBottom: '8px', borderBottom: '1px solid #334155' }}>
-                <span style={{ color: '#38BDF8', fontWeight: 700 }}>Self-Contained AEM Snippet with Full Schema.org JSON-LD Data</span>
-                <button className="btn btn-primary" style={{ padding: '4px 12px', fontSize: '11.5px' }} onClick={copyAemCode}>
-                  Copy Code
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingBottom: '8px', borderBottom: '1px solid #334155', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button 
+                    type="button" 
+                    className={`drawer-tab-btn ${codeTab === 'live' ? 'active' : ''}`}
+                    onClick={() => setCodeTab('live')}
+                  >
+                    ● Live AEM Code (Auto-Sync)
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`drawer-tab-btn ${codeTab === 'static' ? 'active' : ''}`}
+                    onClick={() => setCodeTab('static')}
+                  >
+                    Static AEM Code (Fixed Snapshot)
+                  </button>
+                </div>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ padding: '4px 12px', fontSize: '11.5px' }} 
+                  onClick={codeTab === 'live' ? copyLiveAemCode : copyAemCode}
+                >
+                  {codeTab === 'live' ? 'Copy Live AEM Code' : 'Copy Static AEM Code'}
                 </button>
               </div>
-              <pre><code>{snippet}</code></pre>
+              <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '8px' }}>
+                {codeTab === 'live'
+                  ? '⚡ Live AEM Mode: Paste directly into AEM Embed / Custom HTML. Whenever visitors open the AEM page, it automatically fetches fresh data from the API in the background!'
+                  : '📄 Static Mode: Instant snapshot with hardcoded SVG and Schema.org dataset without auto-syncing.'}
+              </div>
+              <pre><code>{codeTab === 'live' ? liveSnippet : snippet}</code></pre>
             </div>
           )}
         </div>
