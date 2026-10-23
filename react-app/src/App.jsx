@@ -448,13 +448,13 @@ export default function App() {
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 SVG
               </button>
-              <button className="btn btn-primary" onClick={copyAemCode} title={lang === 'DE' ? 'Statisches AEM-Snippet kopieren' : 'Copy static snapshot AEM snippet'}>
+              <button className="btn btn-secondary" onClick={copyAemCode} title={lang === 'DE' ? 'Statisches AEM-Snapshot kopieren (ohne API-Aktualisierung)' : 'Copy static offline AEM snapshot (fixed numbers)'}>
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                {lang === 'DE' ? 'Statischer AEM-Code' : 'Static AEM Code'}
+                {lang === 'DE' ? 'Statischer Snapshot' : 'Static Snapshot'}
               </button>
-              <button className="btn btn-live-aem" onClick={copyLiveAemCode} title={lang === 'DE' ? 'Dynamischen Live-AEM-Code kopieren (aktualisiert sich automatisch mit der API)' : 'Copy self-contained dynamic AEM code that auto-fetches fresh data from API upon page load'}>
+              <button className="btn btn-live-aem" onClick={copyLiveAemCode} style={{ fontWeight: 700 }} title={lang === 'DE' ? '100% dynamischen Live-AEM-Code kopieren (keine statischen Zeilen, lädt bei jedem Seitenaufruf frisch von der API)' : 'Copy 100% dynamic live AEM code (zero static rows, fetches fresh data from API on every page visit)'}>
                 <span className="live-pulse-dot"></span>
-                {lang === 'DE' ? 'Live AEM-Code (Auto-Sync)' : 'Live AEM Code (Auto-Sync)'}
+                {lang === 'DE' ? '⚡ Live AEM-Code (Auto-Sync)' : '⚡ Live AEM Code (Auto-Sync)'}
               </button>
             </div>
           </div>

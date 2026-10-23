@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AEM Multi-Chart Live Embed Test Page (KPMG Atlas)</title>
+  <title>AEM Multi-Chart Live Embed Test Page (100% Dynamic API)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -63,233 +63,88 @@
 
   <div class="aem-page-container">
     <div class="aem-header-banner">
-      <h1>AEM Page Simulation: Multiple Live KPMG Atlas Charts</h1>
-      <p>Demonstrating multiple dynamic self-contained chart snippets pasted on the same AEM page. Each chart independently auto-fetches fresh live data from the API upon page load, re-renders its SVG / Table dynamically, and generates valid Schema.org JSON-LD.</p>
+      <h1>AEM Page Simulation: 100% Dynamic Live KPMG Atlas Charts</h1>
+      <p>Demonstrating multiple dynamic self-contained chart snippets pasted on the same AEM page. <strong>Zero static rows or numbers are hardcoded</strong>. Each component fetches live data directly from the KPMG API and renders on-the-fly!</p>
     </div>
 
     <!-- AEM Embed Component Slot 1: Chart 1 -->
     <div class="aem-component-slot">
-      <div class="aem-slot-label">📦 AEM Component 1: WACC Band Over Time (Automobilindustrie)</div>
+      <div class="aem-slot-label">📦 AEM Component 1: WACC Band Over Time (Automotive)</div>
       <!-- ========================================================================= -->
-<!-- KPMG Atlas Live Dynamic Component: Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten im Zeitverlauf -->
-<!-- Ready to paste directly into AEM Embed / Custom HTML Component -->
-<!-- Features: Auto-syncs live data from API upon page load, supports multiple charts per page -->
+<!-- KPMG Atlas Dynamic Live Widget: Automotive - WACC Over Time -->
+<!-- 100% Dynamic: Fetches live data directly from API URL upon page load -->
+<!-- No static data is hardcoded. Paste directly into AEM Embed / Custom HTML Component -->
 <!-- ========================================================================= -->
 
-<div id="kpmg_wacc_band_over_time_nx36ob" class="kpmg-atlas-live-container" style="position:relative; width:100%; max-width:100%; font-family:Inter, Arial, sans-serif; background:#FFFFFF; margin:0 0 24px 0; padding:0; box-sizing:border-box;">
+<div id="kpmg_wacc_band_over_time_4i34ab" class="kpmg-atlas-live-widget" 
+     data-api-url="https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Values"
+     data-template="wacc_band_over_time"
+     data-sector="Automotive"
+     data-lang="EN"
+     style="position:relative; width:100%; font-family:Inter, Arial, sans-serif; background:#FFFFFF; margin:0 0 24px 0; padding:0; box-sizing:border-box;">
+
   <style>
-    #kpmg_wacc_band_over_time_nx36ob { font-family: Inter, Arial, sans-serif; color: #1E293B; }
-    #kpmg_wacc_band_over_time_nx36ob h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
-    #kpmg_wacc_band_over_time_nx36ob .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
-    #kpmg_wacc_band_over_time_nx36ob .atlas-table th { text-align: left; padding: 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
-    #kpmg_wacc_band_over_time_nx36ob .atlas-table td { padding: 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
-    #kpmg_wacc_band_over_time_nx36ob .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
-    #kpmg_wacc_band_over_time_nx36ob .kpmg-live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 3px 8px; border-radius: 12px; }
-    #kpmg_wacc_band_over_time_nx36ob .kpmg-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
-    #kpmg_wacc_band_over_time_nx36ob .mrp-col .hover-dot, #kpmg_wacc_band_over_time_nx36ob .crp-col .hover-dot { opacity: 0; transition: opacity 0.15s ease; }
-    #kpmg_wacc_band_over_time_nx36ob .mrp-col:hover .hover-dot, #kpmg_wacc_band_over_time_nx36ob .crp-col:hover .hover-dot { opacity: 1 !important; }
-    #kpmg_wacc_band_over_time_nx36ob .tenure-pt .tenure-glow { opacity: 0; transition: opacity 0.15s ease; }
-    #kpmg_wacc_band_over_time_nx36ob .tenure-pt:hover .tenure-glow { opacity: 0.35 !important; }
-    #kpmg_wacc_band_over_time_nx36ob .tenure-pt:hover .tenure-diamond { filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8)); }
-    #kpmg_wacc_band_over_time_nx36ob .kpmg-chart-tooltip { position: fixed; display: none; background: #1E293B; color: #FFFFFF; padding: 8px 14px; border-radius: 6px; font-size: 12px; line-height: 1.45; pointer-events: none; z-index: 9999999; box-shadow: 0 8px 24px rgba(0,0,0,0.35); white-space: nowrap; }
-    #kpmg_wacc_band_over_time_nx36ob .kpmg-chart-tooltip.arrow-right::after { content: ''; display: block; position: absolute; top: 50%; right: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 8px solid #1E293B; pointer-events: none; }
-    #kpmg_wacc_band_over_time_nx36ob .kpmg-chart-tooltip.arrow-left::after { content: ''; display: block; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 8px solid #1E293B; pointer-events: none; }
+    #kpmg_wacc_band_over_time_4i34ab { font-family: Inter, Arial, sans-serif; color: #1E293B; }
+    #kpmg_wacc_band_over_time_4i34ab h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
+    #kpmg_wacc_band_over_time_4i34ab .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
+    #kpmg_wacc_band_over_time_4i34ab .atlas-table th { text-align: left; padding: 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
+    #kpmg_wacc_band_over_time_4i34ab .atlas-table td { padding: 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
+    #kpmg_wacc_band_over_time_4i34ab .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 3px 8px; border-radius: 12px; }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-loading-box { padding: 36px 20px; text-align: center; color: #64748B; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #F8FAFC; border-radius: 8px; border: 1px dashed #CBD5E1; }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-spinner { width: 16px; height: 16px; border: 2px solid #CBD5E1; border-top-color: #00338D; border-radius: 50%; animation: kpmgSpin 0.8s linear infinite; display: inline-block; }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-chart-tooltip { position: fixed; display: none; background: #1E293B; color: #FFFFFF; padding: 8px 14px; border-radius: 6px; font-size: 12px; line-height: 1.45; pointer-events: none; z-index: 9999999; box-shadow: 0 8px 24px rgba(0,0,0,0.35); white-space: nowrap; }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-chart-tooltip.arrow-right::after { content: ''; display: block; position: absolute; top: 50%; right: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 8px solid #1E293B; pointer-events: none; }
+    #kpmg_wacc_band_over_time_4i34ab .kpmg-chart-tooltip.arrow-left::after { content: ''; display: block; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 8px solid #1E293B; pointer-events: none; }
+    @keyframes kpmgSpin { to { transform: rotate(360deg); } }
   </style>
 
-  <!-- Live Chart Container (Initial baseline renders immediately with 0 delay) -->
+  <!-- Live Chart Container (Rendered on-the-fly directly from API response) -->
   <div class="kpmg-stage-wrapper">
-    
-        <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten im Zeitverlauf</h3>
-          <svg viewBox="0 0 640 340" style="width:100%; height:auto;">
-            <!-- Solid Axes -->
-            <line x1="75" y1="25" x2="75" y2="275" stroke="#CBD5E1" stroke-width="1"/>
-            <line x1="75" y1="275" x2="610" y2="275" stroke="#CBD5E1" stroke-width="1"/>
-            
-          <line x1="75" y1="275" x2="610" y2="275" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="279" fill="#666" font-size="10.5" text-anchor="end">4.00 %</text>
-        
-          <line x1="75" y1="243.75" x2="610" y2="243.75" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="247.75" fill="#666" font-size="10.5" text-anchor="end">5.00 %</text>
-        
-          <line x1="75" y1="212.49999999999997" x2="610" y2="212.49999999999997" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="216.49999999999997" fill="#666" font-size="10.5" text-anchor="end">6.00 %</text>
-        
-          <line x1="75" y1="181.24999999999997" x2="610" y2="181.24999999999997" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="185.24999999999997" fill="#666" font-size="10.5" text-anchor="end">7.00 %</text>
-        
-          <line x1="75" y1="149.99999999999997" x2="610" y2="149.99999999999997" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="153.99999999999997" fill="#666" font-size="10.5" text-anchor="end">8.00 %</text>
-        
-          <line x1="75" y1="118.75" x2="610" y2="118.75" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="122.75" fill="#666" font-size="10.5" text-anchor="end">9.00 %</text>
-        
-          <line x1="75" y1="87.5" x2="610" y2="87.5" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="91.5" fill="#666" font-size="10.5" text-anchor="end">10.00 %</text>
-        
-          <line x1="75" y1="56.25000000000003" x2="610" y2="56.25000000000003" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="60.25000000000003" fill="#666" font-size="10.5" text-anchor="end">11.00 %</text>
-        
-          <line x1="75" y1="25" x2="610" y2="25" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="65" y="29" fill="#666" font-size="10.5" text-anchor="end">12.00 %</text>
-        
-            <!-- Light Blue Range Band -->
-            <path d="M 75,74.6875 141.875,74.6875 208.75,98.12499999999997 275.625,102.1875 342.5,103.4375 409.375,118.43749999999997 476.25,106.25 543.125,108.74999999999997 610,101.24999999999994 L 610,182.5 543.125,189.375 476.25,187.8125 409.375,199.375 342.5,187.1875 275.625,187.1875 208.75,185 141.875,164.375 75,165.3125 Z" fill="#00b8f5" fill-opacity="0.80" />
-
-            <!-- Dark Navy Median Line -->
-            <path d="M 75 124.375 L 141.875 124.375 L 208.75 146.25 L 275.625 147.18749999999997 L 342.5 147.18749999999997 L 409.375 162.8125 L 476.25 150.625 L 543.125 153.4375 L 610 146.56249999999997" fill="none" stroke="#00338D" stroke-width="2.5" />
-
-            <!-- Range of WACC Hitboxes (Triggers ONLY when hovering on the light blue area) -->
-            
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q3 2024&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[7.51%, 10.41%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="41.5625" y="74.6875" width="66.875" height="90.625" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q4 2024&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[7.54%, 10.41%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="108.4375" y="74.6875" width="66.875" height="89.6875" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q1 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.88%, 9.66%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="175.3125" y="98.12499999999997" width="66.875" height="86.87500000000003" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q2 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.81%, 9.53%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="242.1875" y="102.1875" width="66.875" height="85" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q3 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.81%, 9.49%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="309.0625" y="103.4375" width="66.875" height="83.75" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q4 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.42%, 9.01%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="375.9375" y="118.43749999999997" width="66.875" height="80.93750000000003" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q1 2026&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.79%, 9.40%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="442.8125" y="106.25" width="66.875" height="81.5625" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q2 2026&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.74%, 9.32%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="509.6875" y="108.74999999999997" width="66.875" height="80.62500000000003" fill="transparent" />
-                </g>
-              
-                <g class="has-tooltip" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q3 2026&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[6.96%, 9.56%]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="576.5625" y="101.24999999999994" width="66.875" height="81.25000000000006" fill="transparent" />
-                </g>
-              
-
-            <!-- Median of WACC Hitboxes (Placed on top so hovering on the navy line triggers ONLY Median) -->
-            
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q3 2024&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;8.82%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="41.5625" y="114.375" width="66.875" height="20" fill="transparent" />
-                  <circle cx="75" cy="124.375" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q4 2024&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;8.82%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="108.4375" y="114.375" width="66.875" height="20" fill="transparent" />
-                  <circle cx="141.875" cy="124.375" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q1 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;8.12%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="175.3125" y="136.25" width="66.875" height="20" fill="transparent" />
-                  <circle cx="208.75" cy="146.25" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q2 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;8.09%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="242.1875" y="137.18749999999997" width="66.875" height="20" fill="transparent" />
-                  <circle cx="275.625" cy="147.18749999999997" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q3 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;8.09%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="309.0625" y="137.18749999999997" width="66.875" height="20" fill="transparent" />
-                  <circle cx="342.5" cy="147.18749999999997" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q4 2025&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;7.59%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="375.9375" y="152.8125" width="66.875" height="20" fill="transparent" />
-                  <circle cx="409.375" cy="162.8125" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q1 2026&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;7.98%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="442.8125" y="140.625" width="66.875" height="20" fill="transparent" />
-                  <circle cx="476.25" cy="150.625" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q2 2026&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;7.89%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="509.6875" y="143.4375" width="66.875" height="20" fill="transparent" />
-                  <circle cx="543.125" cy="153.4375" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-                <g class="has-tooltip median-point" data-tooltip="&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;Q3 2026&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;8.11%&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="cursor:pointer;">
-                  <rect x="576.5625" y="136.56249999999997" width="66.875" height="20" fill="transparent" />
-                  <circle cx="610" cy="146.56249999999997" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
-                </g>
-              
-            
-          <text x="75" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q3</text>
-          <text x="75" y="304" fill="#666" font-size="10" text-anchor="middle">2024</text>
-        
-          <text x="141.875" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q4</text>
-          <text x="141.875" y="304" fill="#666" font-size="10" text-anchor="middle">2024</text>
-        
-          <text x="208.75" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q1</text>
-          <text x="208.75" y="304" fill="#666" font-size="10" text-anchor="middle">2025</text>
-        
-          <text x="275.625" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q2</text>
-          <text x="275.625" y="304" fill="#666" font-size="10" text-anchor="middle">2025</text>
-        
-          <text x="342.5" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q3</text>
-          <text x="342.5" y="304" fill="#666" font-size="10" text-anchor="middle">2025</text>
-        
-          <text x="409.375" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q4</text>
-          <text x="409.375" y="304" fill="#666" font-size="10" text-anchor="middle">2025</text>
-        
-          <text x="476.25" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q1</text>
-          <text x="476.25" y="304" fill="#666" font-size="10" text-anchor="middle">2026</text>
-        
-          <text x="543.125" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q2</text>
-          <text x="543.125" y="304" fill="#666" font-size="10" text-anchor="middle">2026</text>
-        
-          <text x="610" y="291" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q3</text>
-          <text x="610" y="304" fill="#666" font-size="10" text-anchor="middle">2026</text>
-        
-            
-        <g transform="translate(200, 323)">
-          <rect x="0" y="-3" width="22" height="6" fill="#00338D"/>
-          <text x="28" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Median des WACC</text>
-          <rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/>
-          <text x="168" y="3" font-size="11" fill="#333" font-family="Inter, Arial, sans-serif">Bandbreite des WACC</text>
-        </g>
-      
-            <!-- Rotated Y-axis label with plenty of clearance from percentage values -->
-            <text x="18" y="150" fill="#666" font-size="11" transform="rotate(-90 18 150)" text-anchor="middle">WACC (in %)</text>
-          </svg>
-        </div>
-      
+    <div class="kpmg-loading-box">
+      <span class="kpmg-spinner"></span>
+      <span>Loading live data from KPMG API...</span>
+    </div>
   </div>
 
-  <!-- Live Sync Status Indicator -->
+  <!-- Live Status Bar -->
   <div style="display:flex; justify-content:flex-end; align-items:center; margin-top:8px; padding:0 2px;">
-    <span class="kpmg-live-badge" title="Auto-synchronizes with live API upon page load">
+    <span class="kpmg-live-badge" title="Live synchronized with API URL">
       <span class="kpmg-live-dot"></span>
-      <span class="kpmg-status-text">Live API synchronisiert</span>
+      <span class="kpmg-status-text">Live API Connected</span>
     </span>
   </div>
 
   <!-- Interactive Floating Tooltip -->
   <div class="kpmg-chart-tooltip"></div>
 
-  <!-- Dynamic Live Sync Engine Script -->
+  <!-- Self-Contained Live Fetch & Render Script -->
   <script>
   (function() {
-    var cId = "kpmg_wacc_band_over_time_nx36ob";
+    var cId = "kpmg_wacc_band_over_time_4i34ab";
     var container = document.getElementById(cId);
     if (!container) return;
     var stage = container.querySelector(".kpmg-stage-wrapper");
     var tip = container.querySelector(".kpmg-chart-tooltip");
     var statusText = container.querySelector(".kpmg-status-text");
 
-    // Tooltip Hover Logic
+    var apiUrl = "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Values";
+    var templateId = "wacc_band_over_time";
+    var sector = "Automotive";
+    var lang = "EN";
+
+    // Helper formatters
+    function fmtPct(v) { return (Number(v) * 100).toFixed(2) + "%"; }
+    function fmtNum(v, d) { return Number(v).toFixed(d !== undefined ? d : 1); }
+    function fmtDateQ(iso) {
+      if (!iso) return "";
+      var d = new Date(iso);
+      var q = Math.floor(d.getMonth() / 3) + 1;
+      return "Q" + q + " " + d.getFullYear();
+    }
+
+    // Floating Tooltip Event Listeners
     container.addEventListener("mousemove", function(e) {
       var t = e.target.closest("[data-tooltip]");
       if (t && tip) {
@@ -311,418 +166,536 @@
     });
     container.addEventListener("mouseleave", function() { if (tip) tip.style.display = "none"; });
 
-    // Background Live API Fetcher
-    var targetUrl = "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Values";
-    function fetchAndRefresh() {
-      fetch(targetUrl, { headers: { "Accept": "application/json" } })
+    // Dynamic Chart Generator: Builds SVG/Table HTML directly from live JSON data
+    function renderDynamic(liveRows) {
+      if (templateId === "wacc_band_over_time") {
+        var rows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
+        if (!rows.length) return "<p>Keine Daten für " + sector + "</p>";
+
+        var w = 640, h = 340, pL = 75, pR = 30, pT = 25, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.04, maxVal = 0.12;
+        var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.04; v <= 0.1201; v += 0.01) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 10) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(2) + ' %</text>';
+        }
+
+        var upperPts = rows.map(function(r, i) { return scaleX(i) + "," + scaleY(r.WACC_Value_Upper); }).join(" ");
+        var lowerPts = rows.slice().reverse().map(function(r, i) { return scaleX(rows.length - 1 - i) + "," + scaleY(r.WACC_Value_Lower); }).join(" ");
+        var bandD = "M " + upperPts + " L " + lowerPts + " Z";
+        var medD = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.WACC_Value_Median); }).join(" ");
+
+        var xLabels = rows.map(function(r, i) {
+          var parts = fmtDateQ(r.Date_Data).split(" ");
+          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">' + (parts[0] || "") + '</text>' +
+                 '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + (parts[1] || "") + '</text>';
+        }).join("");
+
+        var medianLabel = lang === "DE" ? "Median des WACC" : "Median of WACC";
+        var rangeLabel = lang === "DE" ? "Bandbreite des WACC" : "Range of WACC";
+        var titleText = sector + " - " + (lang === "DE" ? "WACC im Zeitverlauf" : "WACC Over Time");
+
+        var rangeHits = rows.map(function(r, i) {
+          var qHeader = fmtDateQ(r.Date_Data);
+          var colW = cW / (rows.length - 1);
+          var xL = scaleX(i) - colW / 2;
+          var yTop = scaleY(r.WACC_Value_Upper), yBottom = scaleY(r.WACC_Value_Lower);
+          var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + rangeLabel + ": [" + fmtPct(r.WACC_Value_Lower) + ", " + fmtPct(r.WACC_Value_Upper) + "]</span></div>";
+          return '<g class="has-tooltip" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + yTop + '" width="' + colW + '" height="' + Math.max(yBottom - yTop, 8) + '" fill="transparent"/></g>';
+        }).join("");
+
+        var medHits = rows.map(function(r, i) {
+          var qHeader = fmtDateQ(r.Date_Data);
+          var colW = cW / (rows.length - 1);
+          var xL = scaleX(i) - colW / 2;
+          var yMed = scaleY(r.WACC_Value_Median);
+          var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + medianLabel + ": " + fmtPct(r.WACC_Value_Median) + "</span></div>";
+          return '<g class="has-tooltip median-point" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + (yMed - 10) + '" width="' + colW + '" height="20" fill="transparent"/><circle cx="' + scaleX(i) + '" cy="' + yMed + '" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5"/></g>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines +
+            '<path d="' + bandD + '" fill="#00b8f5" fill-opacity="0.80"/>' +
+            '<path d="' + medD + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
+            rangeHits + medHits + xLabels +
+            '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
+              '<rect x="0" y="-3" width="22" height="6" fill="#00338D"/><text x="28" y="3" font-size="11" fill="#333">' + medianLabel + '</text>' +
+              '<rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/><text x="168" y="3" font-size="11" fill="#333">' + rangeLabel + '</text>' +
+            '</g>' +
+            '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">WACC (in %)</text>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "wacc_params_table") {
+        var rows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
+        var latest = rows[rows.length - 1];
+        if (!latest) return "<p>Keine Daten für " + sector + "</p>";
+
+        var dObj = new Date(latest.Date_Data);
+        var dateStr = (dObj.getDate() < 10 ? "0" : "") + dObj.getDate() + "." + ((dObj.getMonth() + 1) < 10 ? "0" : "") + (dObj.getMonth() + 1) + "." + dObj.getFullYear();
+        var tableTitle = sector + " - " + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten zum " : "Weighted Average Cost of Capital as of ") + dateStr;
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">' + tableTitle + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Eigenkapitalkosten" : "Cost of Equity") + '</th></tr></thead>' +
+            '<tbody>' +
+              '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
+              '<tr><td>Unlevered Beta</td><td class="num-col">' + fmtNum(latest.UnlevBeta, 2) + '</td></tr>' +
+              '<tr><td>Debt Beta</td><td class="num-col">' + fmtNum(latest.BetaRelevered, 2) + '</td></tr>' +
+              '<tr><td>' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</td><td class="num-col">' + fmtPct(latest.MRP) + '</td></tr>' +
+              '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Verschuldete Eigenkapitalkosten" : "Levered cost of equity") + '</td><td class="num-col">' + fmtPct(latest.LevCostOfEquity) + '</td></tr>' +
+              '<tr><td>' + (lang === "DE" ? "Eigenkapitalquote" : "Equity ratio") + '</td><td class="num-col">' + fmtPct(latest.Equity_ratio) + '</td></tr>' +
+            '</tbody>' +
+            '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of Debt") + '</th></tr></thead>' +
+            '<tbody>' +
+              '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
+              '<tr><td>Credit Spread</td><td class="num-col">' + fmtPct(latest.CreditSpread) + '</td></tr>' +
+              '<tr><td>Tax Shield</td><td class="num-col">' + fmtPct(latest.TaxRate) + '</td></tr>' +
+              '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of debt") + '</td><td class="num-col">' + fmtPct(latest.CostOfDebtAfterTax) + '</td></tr>' +
+              '<tr><td>' + (lang === "DE" ? "Fremdkapitalquote" : "Debt ratio") + '</td><td class="num-col">' + fmtPct(latest.Debt_ratio) + '</td></tr>' +
+            '</tbody>' +
+            '<tfoot><tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;"><td style="color:#333; font-size:13px; font-weight:600; padding:8px;">' + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)") + '</td><td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px;">' + fmtPct(latest.WACC_Value_Median) + '</td></tr></tfoot>' +
+          '</table>' +
+          '<p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">' + (lang === "DE" ? "*Der WACC stellt den Median der einzelnen Unternehmens-WACCs dar." : "*WACC represents the median across individual peer companies.") + '</p>' +
+        '</div>';
+      }
+
+      if (templateId === "wacc_countries_table" || templateId === "multiples_countries_table") {
+        var allRows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        });
+        var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
+        var rows = allRows.filter(function(r) { return r.Date_Data === latestDate; }).sort(function(a, b) {
+          return Number(b.N_Companies) - Number(a.N_Companies);
+        });
+        var total = rows.reduce(function(s, r) { return s + (Number(r.N_Companies) || 0); }, 0);
+
+        var trs = rows.map(function(r) {
+          return '<tr><td style="color:#333; font-weight:400;">' + r.Country + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Herkunft der Unternehmen" : "Origin of Companies") + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead><tr><th>' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
+            '<tbody>' + trs + '</tbody>' +
+            '<tfoot><tr style="border-top:1.5px solid #CBD5E1; font-weight:700;"><td style="color:#333; font-weight:700; padding:8px;">' + (lang === "DE" ? "Gesamt" : "Total") + '</td><td class="num-col" style="color:#333; font-weight:700; padding:8px;">' + total.toLocaleString() + '</td></tr></tfoot>' +
+          '</table></div>';
+      }
+
+      if (templateId === "wacc_subindustries_table" || templateId === "multiples_subindustries_table") {
+        var allRows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        });
+        var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
+        var rows = allRows.filter(function(r) { return r.Date_Data === latestDate; }).sort(function(a, b) {
+          return Number(b.N_Companies) - Number(a.N_Companies);
+        });
+
+        var trs = rows.map(function(r) {
+          var name = (lang === "DE" ? r.SubIndustry_DE || r.SimpleIndustry_DE : r.SubIndustry_EN || r.SimpleIndustry_EN) || r.SubIndustry || r.SimpleIndustry;
+          return '<tr><td style="color:#333; font-weight:400;">' + name + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Teilsektoren" : "Sub-Sectors") + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead><tr><th>' + (lang === "DE" ? "Teilsektor" : "Sub-Sector") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
+            '<tbody>' + trs + '</tbody>' +
+          '</table></div>';
+      }
+
+      if (templateId === "mrp_3line_trend") {
+        var rows = liveRows.slice().sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.0, maxVal = 0.12;
+        var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.0; v <= 0.1201; v += 0.02) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
+        }
+
+        var pathTotal = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Gesamtrendite); }).join(" ");
+        var pathMrp = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.MRP); }).join(" ");
+        var pathRf = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Basiszins); }).join(" ");
+
+        var xLabels = rows.map(function(r, i) {
+          var d = new Date(r.Date);
+          var m = ["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"][d.getMonth()];
+          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + m + ' ' + d.getFullYear().toString().substring(2) + '</text>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines +
+            '<path d="' + pathTotal + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
+            '<path d="' + pathMrp + '" fill="none" stroke="#00b8f5" stroke-width="2.5"/>' +
+            '<path d="' + pathRf + '" fill="none" stroke="#fd349c" stroke-width="2.5"/>' +
+            xLabels +
+            '<g transform="translate(' + (w / 2 - 160) + ', ' + (h - 15) + ')">' +
+              '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Gesamtrendite" : "Total return") + '</text>' +
+              '<rect x="115" y="0" width="12" height="12" fill="#00b8f5"/><text x="133" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</text>' +
+              '<rect x="250" y="0" width="12" height="12" fill="#fd349c"/><text x="268" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "mrp_tenure_step_curve") {
+        var rows = liveRows.slice().sort(function(a, b) { return Number(a.Tenure) - Number(b.Tenure); });
+        var w = 640, h = 340, pL = 65, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.024, maxVal = 0.036;
+        var maxTenure = 30;
+        var scaleX = function(t) { return pL + ((t - 1) / (maxTenure - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.024; v <= 0.0361; v += 0.002) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
+        }
+
+        var stepPath = "";
+        var colW = cW / (maxTenure - 1);
+        var hitboxes = "";
+        rows.forEach(function(r, i) {
+          var x = scaleX(r.Tenure);
+          var y = scaleY(r.BZ);
+          if (i === 0) { stepPath += "M " + x + " " + y; }
+          else { stepPath += " H " + x + " V " + y; }
+
+          var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + r.Tenure + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF;'></span><span>" + (lang === "DE" ? "Basiszinssatz (gerundet): " : "Risk-free rate (rounded): ") + fmtPct(r.BZ) + "</span></div>";
+          hitboxes += '<g class="has-tooltip tenure-pt" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
+                      '<rect x="' + (x - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
+                      '<circle class="tenure-glow" cx="' + x + '" cy="' + y + '" r="7" fill="#fd349c" pointer-events="none"/>' +
+                      '<rect class="tenure-diamond" x="' + (x - 3) + '" y="' + (y - 3) + '" width="6" height="6" fill="#fd349c" transform="rotate(45 ' + x + ' ' + y + ')" pointer-events="none"/>' +
+                      '</g>';
+        });
+
+        var xTicks = "";
+        for (var t = 1; t <= 30; t++) {
+          xTicks += '<text x="' + scaleX(t) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="9" text-anchor="middle">' + t + '</text>';
+        }
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Aktuelle Zinsstrukturkurve des Basiszinssatzes" : "Current Risk-Free Rate Step Curve") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines +
+            '<path d="' + stepPath + '" fill="none" stroke="#7213ea" stroke-width="2.5"/>' +
+            hitboxes + xTicks +
+            '<text x="' + (w/2) + '" y="' + (pT + cH + 32) + '" fill="#666" font-size="11" text-anchor="middle">' + (lang === "DE" ? "Laufzeit (in Jahren)" : "Tenure (in years)") + '</text>' +
+            '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">' + (lang === "DE" ? "Basiszinssatz (in %)" : "Risk-free rate (in %)") + '</text>' +
+            '<g transform="translate(' + (w / 2 - 85) + ', ' + (pT + cH + 48) + ')">' +
+              '<line x1="0" y1="0" x2="26" y2="0" stroke="#7213ea" stroke-width="5"/>' +
+              '<text x="32" y="4" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz (gerundet)" : "Risk-free rate (rounded)") + '</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "crp_countries_table") {
+        var trs = liveRows.map(function(r) {
+          var ctry = (lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN) || r.Country;
+          return '<tr>' +
+            '<td style="color:#333; font-weight:400; padding:8px;">' + r.Rating + '</td>' +
+            '<td style="color:#333; font-weight:400; padding:8px;">' + ctry + '</td>' +
+            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_6m) + '</td>' +
+            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_1y) + '</td>' +
+            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_2y) + '</td>' +
+          '</tr>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead>' +
+              '<tr><th style="padding:8px;">Rating</th><th style="padding:8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:8px;">6M</th><th style="text-align:right; padding:8px;">1J</th><th style="text-align:right; padding:8px;">2J</th></tr>' +
+            '</thead>' +
+            '<tbody>' + trs + '</tbody>' +
+          '</table></div>';
+      }
+
+      if (templateId === "crp_rating_lines") {
+        var ratings = ["BBB-", "BBB", "BBB+"];
+        var dates = [];
+        liveRows.forEach(function(r) { if (dates.indexOf(r.Date) === -1) dates.push(r.Date); });
+        dates.sort();
+
+        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.006, maxVal = 0.020;
+        var scaleX = function(i) { return pL + (i / (dates.length - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.006; v <= 0.0201; v += 0.002) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
+        }
+
+        var colors = { "BBB-": "#00338D", "BBB": "#00b8f5", "BBB+": "#fd349c" };
+        var lines = ratings.map(function(rCode) {
+          var rRows = liveRows.filter(function(r) { return r.Rating === rCode; }).sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+          var pathD = rRows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Median); }).join(" ");
+          return '<path d="' + pathD + '" fill="none" stroke="' + colors[rCode] + '" stroke-width="2.5"/>';
+        }).join("");
+
+        var xLabels = dates.map(function(d, i) {
+          var dt = new Date(d);
+          var q = Math.floor(dt.getMonth() / 3) + 1;
+          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
+                 '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie im Zeitverlauf" : "Country Risk Premium Over Time") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines + lines + xLabels +
+            '<g transform="translate(' + (w / 2 - 140) + ', ' + (pT + cH + 48) + ')">' +
+              '<line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/><text x="32" y="4" font-size="11" fill="#333">BBB-</text>' +
+              '<line x1="100" y1="0" x2="126" y2="0" stroke="#00b8f5" stroke-width="5"/><text x="132" y="4" font-size="11" fill="#333">BBB</text>' +
+              '<line x1="200" y1="0" x2="226" y2="0" stroke="#fd349c" stroke-width="5"/><text x="232" y="4" font-size="11" fill="#333">BBB+</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "multiples_columns_over_time") {
+        var sRows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        });
+        var dates = [];
+        sRows.forEach(function(r) { if (dates.indexOf(r.Date_Data) === -1) dates.push(r.Date_Data); });
+        dates.sort();
+
+        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var maxVal = 25;
+        var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
+
+        var gridLines = "";
+        for (var v = 0; v <= 25; v += 5) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + v + 'x</text>';
+        }
+
+        var colGroupW = cW / Math.max(dates.length, 1);
+        var barW = Math.min(colGroupW * 0.35, 18);
+
+        var bars = dates.map(function(d, i) {
+          var cx = pL + (i + 0.5) * colGroupW;
+          var ebitda = sRows.find(function(x) { return x.Multiple_Name === "EBITDA-Multiple" && x.Date_Data === d; });
+          var ebit = sRows.find(function(x) { return x.Multiple_Name === "EBIT-Multiple" && x.Date_Data === d; });
+
+          var out = "";
+          if (ebitda) {
+            var y1 = scaleY(ebitda.Multiple_Value_Upper || 0), y0 = scaleY(ebitda.Multiple_Value_Lower || 0);
+            out += '<rect x="' + (cx - barW - 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00338D"/>';
+          }
+          if (ebit) {
+            var y1 = scaleY(ebit.Multiple_Value_Upper || 0), y0 = scaleY(ebit.Multiple_Value_Lower || 0);
+            out += '<rect x="' + (cx + 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00b8f5"/>';
+          }
+          return out;
+        }).join("");
+
+        var xLabels = dates.map(function(d, i) {
+          var cx = pL + (i + 0.5) * colGroupW;
+          var dt = new Date(d);
+          var q = Math.floor(dt.getMonth() / 3) + 1;
+          return '<text x="' + cx + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
+                 '<text x="' + cx + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Multiples im Zeitverlauf" : "Multiples Over Time") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines + bars + xLabels +
+            '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
+              '<rect x="0" y="-3" width="16" height="8" fill="#00338D"/><text x="22" y="4" font-size="11" fill="#333">EBITDA-Multiple</text>' +
+              '<rect x="130" y="-3" width="16" height="8" fill="#00b8f5"/><text x="152" y="4" font-size="11" fill="#333">EBIT-Multiple</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      // Default fallback generic table
+      return '<div style="background:#fff; padding:6px 0;"><h3 style="font-size:16px; color:#666;">' + title + '</h3><p style="color:#666;">' + liveRows.length + ' Live-Datensätze geladen.</p></div>';
+    }
+
+    // Dynamic Schema.org Generator: Injects fresh JSON-LD into DOM directly from live API data
+    function updateDynamicSchema(liveRows) {
+      var schemaEl = document.getElementById("schema_" + cId);
+      if (!schemaEl) {
+        schemaEl = document.createElement("script");
+        schemaEl.type = "application/ld+json";
+        schemaEl.id = "schema_" + cId;
+        document.head.appendChild(schemaEl);
+      }
+      var schemaObj = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "Automotive - WACC Over Time",
+        "inLanguage": lang === "DE" ? "de-DE" : "en-US",
+        "description": "Dynamisch generierter Datensatz über KPMG Atlas Live API.",
+        "creator": { "@type": "Organization", "name": "KPMG Deal Advisory" },
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": apiUrl
+        },
+        "temporalCoverage": new Date().toISOString().substring(0, 10),
+        "variableMeasured": "wacc_band_over_time"
+      };
+      schemaEl.textContent = JSON.stringify(schemaObj, null, 2);
+    }
+
+    // Live Fetch API Execution
+    function syncLiveApi() {
+      fetch(apiUrl, { headers: { "Accept": "application/json" } })
         .then(function(res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
           return res.json();
         })
         .then(function(liveRows) {
           if (!Array.isArray(liveRows) || liveRows.length === 0) return;
-          var updatedMarkup = null;
-
-          // Helper formatters
-          function fmtPct(v) { return (Number(v) * 100).toFixed(2) + "%"; }
-          function fmtNum(v, d) { return Number(v).toFixed(d !== undefined ? d : 1); }
-          function fmtDateQ(iso) {
-            if (!iso) return "";
-            var d = new Date(iso);
-            var q = Math.floor(d.getMonth() / 3) + 1;
-            return "Q" + q + " " + d.getFullYear();
-          }
-
-          var sector = "Automobilindustrie";
-          var lang = "DE";
-          var templateId = "wacc_band_over_time";
-
-          // Re-render chart based on active template
-          if (templateId === "wacc_band_over_time") {
-            var rows = liveRows.filter(function(d) {
-              return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-            }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
-
-            if (rows.length > 0) {
-              var w = 640, h = 340, pL = 75, pR = 30, pT = 25, pB = 65;
-              var cW = w - pL - pR, cH = h - pT - pB;
-              var minVal = 0.04, maxVal = 0.12;
-              var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
-              var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
-
-              var gridLines = "";
-              for (var v = 0.04; v <= 0.1201; v += 0.01) {
-                var y = scaleY(v);
-                gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                             '<text x="' + (pL - 10) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(2) + ' %</text>';
-              }
-
-              var upperPts = rows.map(function(r, i) { return scaleX(i) + "," + scaleY(r.WACC_Value_Upper); }).join(" ");
-              var lowerPts = rows.slice().reverse().map(function(r, i) { return scaleX(rows.length - 1 - i) + "," + scaleY(r.WACC_Value_Lower); }).join(" ");
-              var bandD = "M " + upperPts + " L " + lowerPts + " Z";
-              var medD = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.WACC_Value_Median); }).join(" ");
-
-              var xLabels = rows.map(function(r, i) {
-                var parts = fmtDateQ(r.Date_Data).split(" ");
-                return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">' + (parts[0] || "") + '</text>' +
-                       '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + (parts[1] || "") + '</text>';
-              }).join("");
-
-              var medianLabel = lang === "DE" ? "Median des WACC" : "Median of WACC";
-              var rangeLabel = lang === "DE" ? "Bandbreite des WACC" : "Range of WACC";
-              var titleText = sector + " - " + (lang === "DE" ? "WACC im Zeitverlauf" : "WACC Over Time");
-
-              var rangeHits = rows.map(function(r, i) {
-                var qHeader = fmtDateQ(r.Date_Data);
-                var colW = cW / (rows.length - 1);
-                var xL = scaleX(i) - colW / 2;
-                var yTop = scaleY(r.WACC_Value_Upper), yBottom = scaleY(r.WACC_Value_Lower);
-                var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + rangeLabel + ": [" + fmtPct(r.WACC_Value_Lower) + ", " + fmtPct(r.WACC_Value_Upper) + "]</span></div>";
-                return '<g class="has-tooltip" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + yTop + '" width="' + colW + '" height="' + Math.max(yBottom - yTop, 8) + '" fill="transparent"/></g>';
-              }).join("");
-
-              var medHits = rows.map(function(r, i) {
-                var qHeader = fmtDateQ(r.Date_Data);
-                var colW = cW / (rows.length - 1);
-                var xL = scaleX(i) - colW / 2;
-                var yMed = scaleY(r.WACC_Value_Median);
-                var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + medianLabel + ": " + fmtPct(r.WACC_Value_Median) + "</span></div>";
-                return '<g class="has-tooltip median-point" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + (yMed - 10) + '" width="' + colW + '" height="20" fill="transparent"/><circle cx="' + scaleX(i) + '" cy="' + yMed + '" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5"/></g>';
-              }).join("");
-
-              updatedMarkup = '<div style="background:#fff; padding:6px 0;">' +
-                '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
-                '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
-                  '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-                  '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-                  gridLines +
-                  '<path d="' + bandD + '" fill="#00b8f5" fill-opacity="0.80"/>' +
-                  '<path d="' + medD + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
-                  rangeHits + medHits + xLabels +
-                  '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
-                    '<rect x="0" y="-3" width="22" height="6" fill="#00338D"/><text x="28" y="3" font-size="11" fill="#333">' + medianLabel + '</text>' +
-                    '<rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/><text x="168" y="3" font-size="11" fill="#333">' + rangeLabel + '</text>' +
-                  '</g>' +
-                  '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">WACC (in %)</text>' +
-                '</svg></div>';
-            }
-          } else if (templateId === "wacc_params_table") {
-            var rows = liveRows.filter(function(d) {
-              return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-            }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
-            var latest = rows[rows.length - 1];
-            if (latest) {
-              var dObj = new Date(latest.Date_Data);
-              var dateStr = (dObj.getDate() < 10 ? "0" : "") + dObj.getDate() + "." + ((dObj.getMonth() + 1) < 10 ? "0" : "") + (dObj.getMonth() + 1) + "." + dObj.getFullYear();
-              var tableTitle = sector + " - " + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten zum " : "Weighted Average Cost of Capital as of ") + dateStr;
-              updatedMarkup = '<div style="background:#fff; padding:6px 0;">' +
-                '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">' + tableTitle + '</h3>' +
-                '<table class="atlas-table">' +
-                  '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Eigenkapitalkosten" : "Cost of Equity") + '</th></tr></thead>' +
-                  '<tbody>' +
-                    '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
-                    '<tr><td>Unlevered Beta</td><td class="num-col">' + fmtNum(latest.UnlevBeta, 2) + '</td></tr>' +
-                    '<tr><td>Debt Beta</td><td class="num-col">' + fmtNum(latest.BetaRelevered, 2) + '</td></tr>' +
-                    '<tr><td>' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</td><td class="num-col">' + fmtPct(latest.MRP) + '</td></tr>' +
-                    '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Verschuldete Eigenkapitalkosten" : "Levered cost of equity") + '</td><td class="num-col">' + fmtPct(latest.LevCostOfEquity) + '</td></tr>' +
-                    '<tr><td>' + (lang === "DE" ? "Eigenkapitalquote" : "Equity ratio") + '</td><td class="num-col">' + fmtPct(latest.Equity_ratio) + '</td></tr>' +
-                  '</tbody>' +
-                  '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of Debt") + '</th></tr></thead>' +
-                  '<tbody>' +
-                    '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
-                    '<tr><td>Credit Spread</td><td class="num-col">' + fmtPct(latest.CreditSpread) + '</td></tr>' +
-                    '<tr><td>Tax Shield</td><td class="num-col">' + fmtPct(latest.TaxRate) + '</td></tr>' +
-                    '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of debt") + '</td><td class="num-col">' + fmtPct(latest.CostOfDebtAfterTax) + '</td></tr>' +
-                    '<tr><td>' + (lang === "DE" ? "Fremdkapitalquote" : "Debt ratio") + '</td><td class="num-col">' + fmtPct(latest.Debt_ratio) + '</td></tr>' +
-                  '</tbody>' +
-                  '<tfoot><tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;"><td style="color:#333; font-size:13px; font-weight:600; padding:8px;">' + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)") + '</td><td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px;">' + fmtPct(latest.WACC_Value_Median) + '</td></tr></tfoot>' +
-                '</table>' +
-                '<p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">' + (lang === "DE" ? "*Der WACC stellt den Median der einzelnen Unternehmens-WACCs dar." : "*WACC represents the median across individual peer companies.") + '</p>' +
-              '</div>';
-            }
-          }
-
-          // If template re-rendered, update DOM and status badge
-          if (updatedMarkup && stage) {
-            stage.innerHTML = updatedMarkup;
+          var html = renderDynamic(liveRows);
+          if (html && stage) {
+            stage.innerHTML = html;
             if (statusText) {
               statusText.textContent = (lang === "DE" ? "Live aktualisiert um " : "Live updated at ") + new Date().toLocaleTimeString();
             }
           }
+          updateDynamicSchema(liveRows);
         })
         .catch(function(err) {
-          console.warn("[KPMG Atlas Live Sync] Using baseline data:", err);
+          console.warn("[KPMG Atlas Live Widget] Could not fetch live API:", err);
           if (statusText) {
-            statusText.textContent = (lang === "DE" ? "Basisdaten aktiv (API Offline)" : "Baseline data active");
+            statusText.textContent = (lang === "DE" ? "Verbindung fehlgeschlagen" : "Connection failed");
+          }
+          if (stage) {
+            stage.innerHTML = "<p style='color:#DC2626; font-size:12.5px; padding:16px;'>⚠️ Live API konnte nicht geladen werden (" + err.message + "). Bitte API-Verbindung prüfen.</p>";
           }
         });
     }
 
-    // Run live sync when page finishes loading
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", fetchAndRefresh);
+      document.addEventListener("DOMContentLoaded", syncLiveApi);
     } else {
-      fetchAndRefresh();
+      syncLiveApi();
     }
   })();
   </script>
 </div>
-
-<!-- Schema.org JSON-LD (Search Crawler & AI Indexing) -->
-<script type="application/ld+json" id="schema_kpmg_wacc_band_over_time_nx36ob">
-{
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  "name": "Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten im Zeitverlauf",
-  "inLanguage": "de-DE",
-  "description": "Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten im Zeitverlauf strukturierter Datensatz veröffentlicht über KPMG Atlas.",
-  "creator": {
-    "@type": "Organization",
-    "name": "KPMG Deal Advisory"
-  },
-  "distribution": {
-    "@type": "DataDownload",
-    "encodingFormat": "application/json",
-    "contentUrl": "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Values"
-  },
-  "hasPart": [
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q3 2024",
-      "temporalCoverage": "2024-09-30",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 8.82,
-          "minValue": 7.51,
-          "maxValue": 10.41,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q4 2024",
-      "temporalCoverage": "2024-12-31",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 8.82,
-          "minValue": 7.54,
-          "maxValue": 10.41,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q1 2025",
-      "temporalCoverage": "2025-03-31",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 8.12,
-          "minValue": 6.88,
-          "maxValue": 9.66,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q2 2025",
-      "temporalCoverage": "2025-06-30",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 8.09,
-          "minValue": 6.81,
-          "maxValue": 9.53,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q3 2025",
-      "temporalCoverage": "2025-09-30",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 8.09,
-          "minValue": 6.81,
-          "maxValue": 9.49,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q4 2025",
-      "temporalCoverage": "2025-12-31",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 7.59,
-          "minValue": 6.42,
-          "maxValue": 9.01,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q1 2026",
-      "temporalCoverage": "2026-03-31",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 7.98,
-          "minValue": 6.79,
-          "maxValue": 9.4,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q2 2026",
-      "temporalCoverage": "2026-06-30",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 7.89,
-          "minValue": 6.74,
-          "maxValue": 9.32,
-          "unitText": "%"
-        }
-      ]
-    },
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Q3 2026",
-      "temporalCoverage": "2026-09-30",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Median des WACC",
-          "value": 8.11,
-          "minValue": 6.96,
-          "maxValue": 9.56,
-          "unitText": "%"
-        }
-      ]
-    }
-  ]
-}
-</script>
 
     </div>
 
     <!-- AEM Embed Component Slot 2: Chart 2 -->
     <div class="aem-component-slot">
-      <div class="aem-slot-label">📦 AEM Component 2: Parameter Breakdown Table (Automobilindustrie)</div>
+      <div class="aem-slot-label">📦 AEM Component 2: Origin of Companies Table (Automotive)</div>
       <!-- ========================================================================= -->
-<!-- KPMG Atlas Live Dynamic Component: Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten zum 30.09.2026 -->
-<!-- Ready to paste directly into AEM Embed / Custom HTML Component -->
-<!-- Features: Auto-syncs live data from API upon page load, supports multiple charts per page -->
+<!-- KPMG Atlas Dynamic Live Widget: Automotive - Origin of Companies -->
+<!-- 100% Dynamic: Fetches live data directly from API URL upon page load -->
+<!-- No static data is hardcoded. Paste directly into AEM Embed / Custom HTML Component -->
 <!-- ========================================================================= -->
 
-<div id="kpmg_wacc_params_table_3y340d" class="kpmg-atlas-live-container" style="position:relative; width:100%; max-width:100%; font-family:Inter, Arial, sans-serif; background:#FFFFFF; margin:0 0 24px 0; padding:0; box-sizing:border-box;">
+<div id="kpmg_wacc_countries_table_quji2y" class="kpmg-atlas-live-widget" 
+     data-api-url="https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Countries"
+     data-template="wacc_countries_table"
+     data-sector="Automotive"
+     data-lang="EN"
+     style="position:relative; width:100%; font-family:Inter, Arial, sans-serif; background:#FFFFFF; margin:0 0 24px 0; padding:0; box-sizing:border-box;">
+
   <style>
-    #kpmg_wacc_params_table_3y340d { font-family: Inter, Arial, sans-serif; color: #1E293B; }
-    #kpmg_wacc_params_table_3y340d h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
-    #kpmg_wacc_params_table_3y340d .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
-    #kpmg_wacc_params_table_3y340d .atlas-table th { text-align: left; padding: 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
-    #kpmg_wacc_params_table_3y340d .atlas-table td { padding: 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
-    #kpmg_wacc_params_table_3y340d .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
-    #kpmg_wacc_params_table_3y340d .kpmg-live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 3px 8px; border-radius: 12px; }
-    #kpmg_wacc_params_table_3y340d .kpmg-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
-    #kpmg_wacc_params_table_3y340d .mrp-col .hover-dot, #kpmg_wacc_params_table_3y340d .crp-col .hover-dot { opacity: 0; transition: opacity 0.15s ease; }
-    #kpmg_wacc_params_table_3y340d .mrp-col:hover .hover-dot, #kpmg_wacc_params_table_3y340d .crp-col:hover .hover-dot { opacity: 1 !important; }
-    #kpmg_wacc_params_table_3y340d .tenure-pt .tenure-glow { opacity: 0; transition: opacity 0.15s ease; }
-    #kpmg_wacc_params_table_3y340d .tenure-pt:hover .tenure-glow { opacity: 0.35 !important; }
-    #kpmg_wacc_params_table_3y340d .tenure-pt:hover .tenure-diamond { filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8)); }
-    #kpmg_wacc_params_table_3y340d .kpmg-chart-tooltip { position: fixed; display: none; background: #1E293B; color: #FFFFFF; padding: 8px 14px; border-radius: 6px; font-size: 12px; line-height: 1.45; pointer-events: none; z-index: 9999999; box-shadow: 0 8px 24px rgba(0,0,0,0.35); white-space: nowrap; }
-    #kpmg_wacc_params_table_3y340d .kpmg-chart-tooltip.arrow-right::after { content: ''; display: block; position: absolute; top: 50%; right: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 8px solid #1E293B; pointer-events: none; }
-    #kpmg_wacc_params_table_3y340d .kpmg-chart-tooltip.arrow-left::after { content: ''; display: block; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 8px solid #1E293B; pointer-events: none; }
+    #kpmg_wacc_countries_table_quji2y { font-family: Inter, Arial, sans-serif; color: #1E293B; }
+    #kpmg_wacc_countries_table_quji2y h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
+    #kpmg_wacc_countries_table_quji2y .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
+    #kpmg_wacc_countries_table_quji2y .atlas-table th { text-align: left; padding: 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
+    #kpmg_wacc_countries_table_quji2y .atlas-table td { padding: 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
+    #kpmg_wacc_countries_table_quji2y .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
+    #kpmg_wacc_countries_table_quji2y .kpmg-live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 3px 8px; border-radius: 12px; }
+    #kpmg_wacc_countries_table_quji2y .kpmg-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
+    #kpmg_wacc_countries_table_quji2y .kpmg-loading-box { padding: 36px 20px; text-align: center; color: #64748B; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #F8FAFC; border-radius: 8px; border: 1px dashed #CBD5E1; }
+    #kpmg_wacc_countries_table_quji2y .kpmg-spinner { width: 16px; height: 16px; border: 2px solid #CBD5E1; border-top-color: #00338D; border-radius: 50%; animation: kpmgSpin 0.8s linear infinite; display: inline-block; }
+    #kpmg_wacc_countries_table_quji2y .kpmg-chart-tooltip { position: fixed; display: none; background: #1E293B; color: #FFFFFF; padding: 8px 14px; border-radius: 6px; font-size: 12px; line-height: 1.45; pointer-events: none; z-index: 9999999; box-shadow: 0 8px 24px rgba(0,0,0,0.35); white-space: nowrap; }
+    #kpmg_wacc_countries_table_quji2y .kpmg-chart-tooltip.arrow-right::after { content: ''; display: block; position: absolute; top: 50%; right: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 8px solid #1E293B; pointer-events: none; }
+    #kpmg_wacc_countries_table_quji2y .kpmg-chart-tooltip.arrow-left::after { content: ''; display: block; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 8px solid #1E293B; pointer-events: none; }
+    @keyframes kpmgSpin { to { transform: rotate(360deg); } }
   </style>
 
-  <!-- Live Chart Container (Initial baseline renders immediately with 0 delay) -->
+  <!-- Live Chart Container (Rendered on-the-fly directly from API response) -->
   <div class="kpmg-stage-wrapper">
-    
-        <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten zum 30.09.2026</h3>
-          <table class="atlas-table">
-            <thead>
-              <tr>
-                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">Eigenkapitalkosten</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Basiszinssatz</td><td class="num-col">3.75%</td></tr>
-              <tr><td>Unlevered Beta</td><td class="num-col">0.89</td></tr>
-              <tr><td>Debt Beta</td><td class="num-col">0.92</td></tr>
-              <tr><td>Marktrisikoprämie</td><td class="num-col">5.25%</td></tr>
-              <tr style="border-top:1px solid #CBD5E1;"><td>Verschuldete Eigenkapitalkosten</td><td class="num-col">8.56%</td></tr>
-              <tr><td>Eigenkapitalquote</td><td class="num-col">92.53%</td></tr>
-            </tbody>
-            <thead>
-              <tr>
-                <th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none; background:transparent;">Fremdkapitalkosten</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Basiszinssatz</td><td class="num-col">3.75%</td></tr>
-              <tr><td>Credit Spread</td><td class="num-col">2.23%</td></tr>
-              <tr><td>Tax Shield</td><td class="num-col">25.00%</td></tr>
-              <tr style="border-top:1px solid #CBD5E1;"><td>Fremdkapitalkosten</td><td class="num-col">4.32%</td></tr>
-              <tr><td>Fremdkapitalquote</td><td class="num-col">7.47%</td></tr>
-            </tbody>
-            <tfoot>
-              <tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;">
-                <td style="color:#333; font-size:13px; font-weight:600; padding:8px; border-bottom:1px solid #333;">Gewichtete durchschnittliche Kapitalkosten (WACC)</td>
-                <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px; border-bottom:1px solid #333;">8.11%</td>
-              </tr>
-            </tfoot>
-          </table>
-          <p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">
-            *Der WACC stellt den Median der einzelnen Unternehmens-WACCs innerhalb der ausgewählten Branche dar und kann daher nicht direkt aus den Durchschnittswerten der in dieser Tabelle dargestellten einzelnen WACC-Komponenten abgeleitet werden.
-          </p>
-        </div>
-      
+    <div class="kpmg-loading-box">
+      <span class="kpmg-spinner"></span>
+      <span>Loading live data from KPMG API...</span>
+    </div>
   </div>
 
-  <!-- Live Sync Status Indicator -->
+  <!-- Live Status Bar -->
   <div style="display:flex; justify-content:flex-end; align-items:center; margin-top:8px; padding:0 2px;">
-    <span class="kpmg-live-badge" title="Auto-synchronizes with live API upon page load">
+    <span class="kpmg-live-badge" title="Live synchronized with API URL">
       <span class="kpmg-live-dot"></span>
-      <span class="kpmg-status-text">Live API synchronisiert</span>
+      <span class="kpmg-status-text">Live API Connected</span>
     </span>
   </div>
 
   <!-- Interactive Floating Tooltip -->
   <div class="kpmg-chart-tooltip"></div>
 
-  <!-- Dynamic Live Sync Engine Script -->
+  <!-- Self-Contained Live Fetch & Render Script -->
   <script>
   (function() {
-    var cId = "kpmg_wacc_params_table_3y340d";
+    var cId = "kpmg_wacc_countries_table_quji2y";
     var container = document.getElementById(cId);
     if (!container) return;
     var stage = container.querySelector(".kpmg-stage-wrapper");
     var tip = container.querySelector(".kpmg-chart-tooltip");
     var statusText = container.querySelector(".kpmg-status-text");
 
-    // Tooltip Hover Logic
+    var apiUrl = "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Countries";
+    var templateId = "wacc_countries_table";
+    var sector = "Automotive";
+    var lang = "EN";
+
+    // Helper formatters
+    function fmtPct(v) { return (Number(v) * 100).toFixed(2) + "%"; }
+    function fmtNum(v, d) { return Number(v).toFixed(d !== undefined ? d : 1); }
+    function fmtDateQ(iso) {
+      if (!iso) return "";
+      var d = new Date(iso);
+      var q = Math.floor(d.getMonth() / 3) + 1;
+      return "Q" + q + " " + d.getFullYear();
+    }
+
+    // Floating Tooltip Event Listeners
     container.addEventListener("mousemove", function(e) {
       var t = e.target.closest("[data-tooltip]");
       if (t && tip) {
@@ -744,255 +717,455 @@
     });
     container.addEventListener("mouseleave", function() { if (tip) tip.style.display = "none"; });
 
-    // Background Live API Fetcher
-    var targetUrl = "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Values";
-    function fetchAndRefresh() {
-      fetch(targetUrl, { headers: { "Accept": "application/json" } })
+    // Dynamic Chart Generator: Builds SVG/Table HTML directly from live JSON data
+    function renderDynamic(liveRows) {
+      if (templateId === "wacc_band_over_time") {
+        var rows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
+        if (!rows.length) return "<p>Keine Daten für " + sector + "</p>";
+
+        var w = 640, h = 340, pL = 75, pR = 30, pT = 25, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.04, maxVal = 0.12;
+        var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.04; v <= 0.1201; v += 0.01) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 10) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(2) + ' %</text>';
+        }
+
+        var upperPts = rows.map(function(r, i) { return scaleX(i) + "," + scaleY(r.WACC_Value_Upper); }).join(" ");
+        var lowerPts = rows.slice().reverse().map(function(r, i) { return scaleX(rows.length - 1 - i) + "," + scaleY(r.WACC_Value_Lower); }).join(" ");
+        var bandD = "M " + upperPts + " L " + lowerPts + " Z";
+        var medD = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.WACC_Value_Median); }).join(" ");
+
+        var xLabels = rows.map(function(r, i) {
+          var parts = fmtDateQ(r.Date_Data).split(" ");
+          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">' + (parts[0] || "") + '</text>' +
+                 '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + (parts[1] || "") + '</text>';
+        }).join("");
+
+        var medianLabel = lang === "DE" ? "Median des WACC" : "Median of WACC";
+        var rangeLabel = lang === "DE" ? "Bandbreite des WACC" : "Range of WACC";
+        var titleText = sector + " - " + (lang === "DE" ? "WACC im Zeitverlauf" : "WACC Over Time");
+
+        var rangeHits = rows.map(function(r, i) {
+          var qHeader = fmtDateQ(r.Date_Data);
+          var colW = cW / (rows.length - 1);
+          var xL = scaleX(i) - colW / 2;
+          var yTop = scaleY(r.WACC_Value_Upper), yBottom = scaleY(r.WACC_Value_Lower);
+          var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + rangeLabel + ": [" + fmtPct(r.WACC_Value_Lower) + ", " + fmtPct(r.WACC_Value_Upper) + "]</span></div>";
+          return '<g class="has-tooltip" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + yTop + '" width="' + colW + '" height="' + Math.max(yBottom - yTop, 8) + '" fill="transparent"/></g>';
+        }).join("");
+
+        var medHits = rows.map(function(r, i) {
+          var qHeader = fmtDateQ(r.Date_Data);
+          var colW = cW / (rows.length - 1);
+          var xL = scaleX(i) - colW / 2;
+          var yMed = scaleY(r.WACC_Value_Median);
+          var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + medianLabel + ": " + fmtPct(r.WACC_Value_Median) + "</span></div>";
+          return '<g class="has-tooltip median-point" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + (yMed - 10) + '" width="' + colW + '" height="20" fill="transparent"/><circle cx="' + scaleX(i) + '" cy="' + yMed + '" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5"/></g>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines +
+            '<path d="' + bandD + '" fill="#00b8f5" fill-opacity="0.80"/>' +
+            '<path d="' + medD + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
+            rangeHits + medHits + xLabels +
+            '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
+              '<rect x="0" y="-3" width="22" height="6" fill="#00338D"/><text x="28" y="3" font-size="11" fill="#333">' + medianLabel + '</text>' +
+              '<rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/><text x="168" y="3" font-size="11" fill="#333">' + rangeLabel + '</text>' +
+            '</g>' +
+            '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">WACC (in %)</text>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "wacc_params_table") {
+        var rows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
+        var latest = rows[rows.length - 1];
+        if (!latest) return "<p>Keine Daten für " + sector + "</p>";
+
+        var dObj = new Date(latest.Date_Data);
+        var dateStr = (dObj.getDate() < 10 ? "0" : "") + dObj.getDate() + "." + ((dObj.getMonth() + 1) < 10 ? "0" : "") + (dObj.getMonth() + 1) + "." + dObj.getFullYear();
+        var tableTitle = sector + " - " + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten zum " : "Weighted Average Cost of Capital as of ") + dateStr;
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">' + tableTitle + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Eigenkapitalkosten" : "Cost of Equity") + '</th></tr></thead>' +
+            '<tbody>' +
+              '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
+              '<tr><td>Unlevered Beta</td><td class="num-col">' + fmtNum(latest.UnlevBeta, 2) + '</td></tr>' +
+              '<tr><td>Debt Beta</td><td class="num-col">' + fmtNum(latest.BetaRelevered, 2) + '</td></tr>' +
+              '<tr><td>' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</td><td class="num-col">' + fmtPct(latest.MRP) + '</td></tr>' +
+              '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Verschuldete Eigenkapitalkosten" : "Levered cost of equity") + '</td><td class="num-col">' + fmtPct(latest.LevCostOfEquity) + '</td></tr>' +
+              '<tr><td>' + (lang === "DE" ? "Eigenkapitalquote" : "Equity ratio") + '</td><td class="num-col">' + fmtPct(latest.Equity_ratio) + '</td></tr>' +
+            '</tbody>' +
+            '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of Debt") + '</th></tr></thead>' +
+            '<tbody>' +
+              '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
+              '<tr><td>Credit Spread</td><td class="num-col">' + fmtPct(latest.CreditSpread) + '</td></tr>' +
+              '<tr><td>Tax Shield</td><td class="num-col">' + fmtPct(latest.TaxRate) + '</td></tr>' +
+              '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of debt") + '</td><td class="num-col">' + fmtPct(latest.CostOfDebtAfterTax) + '</td></tr>' +
+              '<tr><td>' + (lang === "DE" ? "Fremdkapitalquote" : "Debt ratio") + '</td><td class="num-col">' + fmtPct(latest.Debt_ratio) + '</td></tr>' +
+            '</tbody>' +
+            '<tfoot><tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;"><td style="color:#333; font-size:13px; font-weight:600; padding:8px;">' + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)") + '</td><td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px;">' + fmtPct(latest.WACC_Value_Median) + '</td></tr></tfoot>' +
+          '</table>' +
+          '<p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">' + (lang === "DE" ? "*Der WACC stellt den Median der einzelnen Unternehmens-WACCs dar." : "*WACC represents the median across individual peer companies.") + '</p>' +
+        '</div>';
+      }
+
+      if (templateId === "wacc_countries_table" || templateId === "multiples_countries_table") {
+        var allRows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        });
+        var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
+        var rows = allRows.filter(function(r) { return r.Date_Data === latestDate; }).sort(function(a, b) {
+          return Number(b.N_Companies) - Number(a.N_Companies);
+        });
+        var total = rows.reduce(function(s, r) { return s + (Number(r.N_Companies) || 0); }, 0);
+
+        var trs = rows.map(function(r) {
+          return '<tr><td style="color:#333; font-weight:400;">' + r.Country + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Herkunft der Unternehmen" : "Origin of Companies") + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead><tr><th>' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
+            '<tbody>' + trs + '</tbody>' +
+            '<tfoot><tr style="border-top:1.5px solid #CBD5E1; font-weight:700;"><td style="color:#333; font-weight:700; padding:8px;">' + (lang === "DE" ? "Gesamt" : "Total") + '</td><td class="num-col" style="color:#333; font-weight:700; padding:8px;">' + total.toLocaleString() + '</td></tr></tfoot>' +
+          '</table></div>';
+      }
+
+      if (templateId === "wacc_subindustries_table" || templateId === "multiples_subindustries_table") {
+        var allRows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        });
+        var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
+        var rows = allRows.filter(function(r) { return r.Date_Data === latestDate; }).sort(function(a, b) {
+          return Number(b.N_Companies) - Number(a.N_Companies);
+        });
+
+        var trs = rows.map(function(r) {
+          var name = (lang === "DE" ? r.SubIndustry_DE || r.SimpleIndustry_DE : r.SubIndustry_EN || r.SimpleIndustry_EN) || r.SubIndustry || r.SimpleIndustry;
+          return '<tr><td style="color:#333; font-weight:400;">' + name + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Teilsektoren" : "Sub-Sectors") + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead><tr><th>' + (lang === "DE" ? "Teilsektor" : "Sub-Sector") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
+            '<tbody>' + trs + '</tbody>' +
+          '</table></div>';
+      }
+
+      if (templateId === "mrp_3line_trend") {
+        var rows = liveRows.slice().sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.0, maxVal = 0.12;
+        var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.0; v <= 0.1201; v += 0.02) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
+        }
+
+        var pathTotal = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Gesamtrendite); }).join(" ");
+        var pathMrp = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.MRP); }).join(" ");
+        var pathRf = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Basiszins); }).join(" ");
+
+        var xLabels = rows.map(function(r, i) {
+          var d = new Date(r.Date);
+          var m = ["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"][d.getMonth()];
+          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + m + ' ' + d.getFullYear().toString().substring(2) + '</text>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines +
+            '<path d="' + pathTotal + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
+            '<path d="' + pathMrp + '" fill="none" stroke="#00b8f5" stroke-width="2.5"/>' +
+            '<path d="' + pathRf + '" fill="none" stroke="#fd349c" stroke-width="2.5"/>' +
+            xLabels +
+            '<g transform="translate(' + (w / 2 - 160) + ', ' + (h - 15) + ')">' +
+              '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Gesamtrendite" : "Total return") + '</text>' +
+              '<rect x="115" y="0" width="12" height="12" fill="#00b8f5"/><text x="133" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</text>' +
+              '<rect x="250" y="0" width="12" height="12" fill="#fd349c"/><text x="268" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "mrp_tenure_step_curve") {
+        var rows = liveRows.slice().sort(function(a, b) { return Number(a.Tenure) - Number(b.Tenure); });
+        var w = 640, h = 340, pL = 65, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.024, maxVal = 0.036;
+        var maxTenure = 30;
+        var scaleX = function(t) { return pL + ((t - 1) / (maxTenure - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.024; v <= 0.0361; v += 0.002) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
+        }
+
+        var stepPath = "";
+        var colW = cW / (maxTenure - 1);
+        var hitboxes = "";
+        rows.forEach(function(r, i) {
+          var x = scaleX(r.Tenure);
+          var y = scaleY(r.BZ);
+          if (i === 0) { stepPath += "M " + x + " " + y; }
+          else { stepPath += " H " + x + " V " + y; }
+
+          var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + r.Tenure + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF;'></span><span>" + (lang === "DE" ? "Basiszinssatz (gerundet): " : "Risk-free rate (rounded): ") + fmtPct(r.BZ) + "</span></div>";
+          hitboxes += '<g class="has-tooltip tenure-pt" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
+                      '<rect x="' + (x - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
+                      '<circle class="tenure-glow" cx="' + x + '" cy="' + y + '" r="7" fill="#fd349c" pointer-events="none"/>' +
+                      '<rect class="tenure-diamond" x="' + (x - 3) + '" y="' + (y - 3) + '" width="6" height="6" fill="#fd349c" transform="rotate(45 ' + x + ' ' + y + ')" pointer-events="none"/>' +
+                      '</g>';
+        });
+
+        var xTicks = "";
+        for (var t = 1; t <= 30; t++) {
+          xTicks += '<text x="' + scaleX(t) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="9" text-anchor="middle">' + t + '</text>';
+        }
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Aktuelle Zinsstrukturkurve des Basiszinssatzes" : "Current Risk-Free Rate Step Curve") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines +
+            '<path d="' + stepPath + '" fill="none" stroke="#7213ea" stroke-width="2.5"/>' +
+            hitboxes + xTicks +
+            '<text x="' + (w/2) + '" y="' + (pT + cH + 32) + '" fill="#666" font-size="11" text-anchor="middle">' + (lang === "DE" ? "Laufzeit (in Jahren)" : "Tenure (in years)") + '</text>' +
+            '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">' + (lang === "DE" ? "Basiszinssatz (in %)" : "Risk-free rate (in %)") + '</text>' +
+            '<g transform="translate(' + (w / 2 - 85) + ', ' + (pT + cH + 48) + ')">' +
+              '<line x1="0" y1="0" x2="26" y2="0" stroke="#7213ea" stroke-width="5"/>' +
+              '<text x="32" y="4" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz (gerundet)" : "Risk-free rate (rounded)") + '</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "crp_countries_table") {
+        var trs = liveRows.map(function(r) {
+          var ctry = (lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN) || r.Country;
+          return '<tr>' +
+            '<td style="color:#333; font-weight:400; padding:8px;">' + r.Rating + '</td>' +
+            '<td style="color:#333; font-weight:400; padding:8px;">' + ctry + '</td>' +
+            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_6m) + '</td>' +
+            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_1y) + '</td>' +
+            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_2y) + '</td>' +
+          '</tr>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
+          '<table class="atlas-table">' +
+            '<thead>' +
+              '<tr><th style="padding:8px;">Rating</th><th style="padding:8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:8px;">6M</th><th style="text-align:right; padding:8px;">1J</th><th style="text-align:right; padding:8px;">2J</th></tr>' +
+            '</thead>' +
+            '<tbody>' + trs + '</tbody>' +
+          '</table></div>';
+      }
+
+      if (templateId === "crp_rating_lines") {
+        var ratings = ["BBB-", "BBB", "BBB+"];
+        var dates = [];
+        liveRows.forEach(function(r) { if (dates.indexOf(r.Date) === -1) dates.push(r.Date); });
+        dates.sort();
+
+        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var minVal = 0.006, maxVal = 0.020;
+        var scaleX = function(i) { return pL + (i / (dates.length - 1)) * cW; };
+        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+
+        var gridLines = "";
+        for (var v = 0.006; v <= 0.0201; v += 0.002) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
+        }
+
+        var colors = { "BBB-": "#00338D", "BBB": "#00b8f5", "BBB+": "#fd349c" };
+        var lines = ratings.map(function(rCode) {
+          var rRows = liveRows.filter(function(r) { return r.Rating === rCode; }).sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+          var pathD = rRows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Median); }).join(" ");
+          return '<path d="' + pathD + '" fill="none" stroke="' + colors[rCode] + '" stroke-width="2.5"/>';
+        }).join("");
+
+        var xLabels = dates.map(function(d, i) {
+          var dt = new Date(d);
+          var q = Math.floor(dt.getMonth() / 3) + 1;
+          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
+                 '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie im Zeitverlauf" : "Country Risk Premium Over Time") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines + lines + xLabels +
+            '<g transform="translate(' + (w / 2 - 140) + ', ' + (pT + cH + 48) + ')">' +
+              '<line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/><text x="32" y="4" font-size="11" fill="#333">BBB-</text>' +
+              '<line x1="100" y1="0" x2="126" y2="0" stroke="#00b8f5" stroke-width="5"/><text x="132" y="4" font-size="11" fill="#333">BBB</text>' +
+              '<line x1="200" y1="0" x2="226" y2="0" stroke="#fd349c" stroke-width="5"/><text x="232" y="4" font-size="11" fill="#333">BBB+</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      if (templateId === "multiples_columns_over_time") {
+        var sRows = liveRows.filter(function(d) {
+          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+        });
+        var dates = [];
+        sRows.forEach(function(r) { if (dates.indexOf(r.Date_Data) === -1) dates.push(r.Date_Data); });
+        dates.sort();
+
+        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+        var cW = w - pL - pR, cH = h - pT - pB;
+        var maxVal = 25;
+        var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
+
+        var gridLines = "";
+        for (var v = 0; v <= 25; v += 5) {
+          var y = scaleY(v);
+          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + v + 'x</text>';
+        }
+
+        var colGroupW = cW / Math.max(dates.length, 1);
+        var barW = Math.min(colGroupW * 0.35, 18);
+
+        var bars = dates.map(function(d, i) {
+          var cx = pL + (i + 0.5) * colGroupW;
+          var ebitda = sRows.find(function(x) { return x.Multiple_Name === "EBITDA-Multiple" && x.Date_Data === d; });
+          var ebit = sRows.find(function(x) { return x.Multiple_Name === "EBIT-Multiple" && x.Date_Data === d; });
+
+          var out = "";
+          if (ebitda) {
+            var y1 = scaleY(ebitda.Multiple_Value_Upper || 0), y0 = scaleY(ebitda.Multiple_Value_Lower || 0);
+            out += '<rect x="' + (cx - barW - 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00338D"/>';
+          }
+          if (ebit) {
+            var y1 = scaleY(ebit.Multiple_Value_Upper || 0), y0 = scaleY(ebit.Multiple_Value_Lower || 0);
+            out += '<rect x="' + (cx + 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00b8f5"/>';
+          }
+          return out;
+        }).join("");
+
+        var xLabels = dates.map(function(d, i) {
+          var cx = pL + (i + 0.5) * colGroupW;
+          var dt = new Date(d);
+          var q = Math.floor(dt.getMonth() / 3) + 1;
+          return '<text x="' + cx + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
+                 '<text x="' + cx + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
+        }).join("");
+
+        return '<div style="background:#fff; padding:6px 0;">' +
+          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Multiples im Zeitverlauf" : "Multiples Over Time") + '</h3>' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+            gridLines + bars + xLabels +
+            '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
+              '<rect x="0" y="-3" width="16" height="8" fill="#00338D"/><text x="22" y="4" font-size="11" fill="#333">EBITDA-Multiple</text>' +
+              '<rect x="130" y="-3" width="16" height="8" fill="#00b8f5"/><text x="152" y="4" font-size="11" fill="#333">EBIT-Multiple</text>' +
+            '</g>' +
+          '</svg></div>';
+      }
+
+      // Default fallback generic table
+      return '<div style="background:#fff; padding:6px 0;"><h3 style="font-size:16px; color:#666;">' + title + '</h3><p style="color:#666;">' + liveRows.length + ' Live-Datensätze geladen.</p></div>';
+    }
+
+    // Dynamic Schema.org Generator: Injects fresh JSON-LD into DOM directly from live API data
+    function updateDynamicSchema(liveRows) {
+      var schemaEl = document.getElementById("schema_" + cId);
+      if (!schemaEl) {
+        schemaEl = document.createElement("script");
+        schemaEl.type = "application/ld+json";
+        schemaEl.id = "schema_" + cId;
+        document.head.appendChild(schemaEl);
+      }
+      var schemaObj = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "Automotive - Origin of Companies",
+        "inLanguage": lang === "DE" ? "de-DE" : "en-US",
+        "description": "Dynamisch generierter Datensatz über KPMG Atlas Live API.",
+        "creator": { "@type": "Organization", "name": "KPMG Deal Advisory" },
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": apiUrl
+        },
+        "temporalCoverage": new Date().toISOString().substring(0, 10),
+        "variableMeasured": "wacc_countries_table"
+      };
+      schemaEl.textContent = JSON.stringify(schemaObj, null, 2);
+    }
+
+    // Live Fetch API Execution
+    function syncLiveApi() {
+      fetch(apiUrl, { headers: { "Accept": "application/json" } })
         .then(function(res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
           return res.json();
         })
         .then(function(liveRows) {
           if (!Array.isArray(liveRows) || liveRows.length === 0) return;
-          var updatedMarkup = null;
-
-          // Helper formatters
-          function fmtPct(v) { return (Number(v) * 100).toFixed(2) + "%"; }
-          function fmtNum(v, d) { return Number(v).toFixed(d !== undefined ? d : 1); }
-          function fmtDateQ(iso) {
-            if (!iso) return "";
-            var d = new Date(iso);
-            var q = Math.floor(d.getMonth() / 3) + 1;
-            return "Q" + q + " " + d.getFullYear();
-          }
-
-          var sector = "Automobilindustrie";
-          var lang = "DE";
-          var templateId = "wacc_params_table";
-
-          // Re-render chart based on active template
-          if (templateId === "wacc_band_over_time") {
-            var rows = liveRows.filter(function(d) {
-              return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-            }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
-
-            if (rows.length > 0) {
-              var w = 640, h = 340, pL = 75, pR = 30, pT = 25, pB = 65;
-              var cW = w - pL - pR, cH = h - pT - pB;
-              var minVal = 0.04, maxVal = 0.12;
-              var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
-              var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
-
-              var gridLines = "";
-              for (var v = 0.04; v <= 0.1201; v += 0.01) {
-                var y = scaleY(v);
-                gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                             '<text x="' + (pL - 10) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(2) + ' %</text>';
-              }
-
-              var upperPts = rows.map(function(r, i) { return scaleX(i) + "," + scaleY(r.WACC_Value_Upper); }).join(" ");
-              var lowerPts = rows.slice().reverse().map(function(r, i) { return scaleX(rows.length - 1 - i) + "," + scaleY(r.WACC_Value_Lower); }).join(" ");
-              var bandD = "M " + upperPts + " L " + lowerPts + " Z";
-              var medD = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.WACC_Value_Median); }).join(" ");
-
-              var xLabels = rows.map(function(r, i) {
-                var parts = fmtDateQ(r.Date_Data).split(" ");
-                return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">' + (parts[0] || "") + '</text>' +
-                       '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + (parts[1] || "") + '</text>';
-              }).join("");
-
-              var medianLabel = lang === "DE" ? "Median des WACC" : "Median of WACC";
-              var rangeLabel = lang === "DE" ? "Bandbreite des WACC" : "Range of WACC";
-              var titleText = sector + " - " + (lang === "DE" ? "WACC im Zeitverlauf" : "WACC Over Time");
-
-              var rangeHits = rows.map(function(r, i) {
-                var qHeader = fmtDateQ(r.Date_Data);
-                var colW = cW / (rows.length - 1);
-                var xL = scaleX(i) - colW / 2;
-                var yTop = scaleY(r.WACC_Value_Upper), yBottom = scaleY(r.WACC_Value_Lower);
-                var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + rangeLabel + ": [" + fmtPct(r.WACC_Value_Lower) + ", " + fmtPct(r.WACC_Value_Upper) + "]</span></div>";
-                return '<g class="has-tooltip" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + yTop + '" width="' + colW + '" height="' + Math.max(yBottom - yTop, 8) + '" fill="transparent"/></g>';
-              }).join("");
-
-              var medHits = rows.map(function(r, i) {
-                var qHeader = fmtDateQ(r.Date_Data);
-                var colW = cW / (rows.length - 1);
-                var xL = scaleX(i) - colW / 2;
-                var yMed = scaleY(r.WACC_Value_Median);
-                var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + medianLabel + ": " + fmtPct(r.WACC_Value_Median) + "</span></div>";
-                return '<g class="has-tooltip median-point" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + (yMed - 10) + '" width="' + colW + '" height="20" fill="transparent"/><circle cx="' + scaleX(i) + '" cy="' + yMed + '" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5"/></g>';
-              }).join("");
-
-              updatedMarkup = '<div style="background:#fff; padding:6px 0;">' +
-                '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
-                '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
-                  '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-                  '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-                  gridLines +
-                  '<path d="' + bandD + '" fill="#00b8f5" fill-opacity="0.80"/>' +
-                  '<path d="' + medD + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
-                  rangeHits + medHits + xLabels +
-                  '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
-                    '<rect x="0" y="-3" width="22" height="6" fill="#00338D"/><text x="28" y="3" font-size="11" fill="#333">' + medianLabel + '</text>' +
-                    '<rect x="140" y="-3" width="22" height="6" fill="#00b8f5" fill-opacity="0.80"/><text x="168" y="3" font-size="11" fill="#333">' + rangeLabel + '</text>' +
-                  '</g>' +
-                  '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">WACC (in %)</text>' +
-                '</svg></div>';
-            }
-          } else if (templateId === "wacc_params_table") {
-            var rows = liveRows.filter(function(d) {
-              return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-            }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
-            var latest = rows[rows.length - 1];
-            if (latest) {
-              var dObj = new Date(latest.Date_Data);
-              var dateStr = (dObj.getDate() < 10 ? "0" : "") + dObj.getDate() + "." + ((dObj.getMonth() + 1) < 10 ? "0" : "") + (dObj.getMonth() + 1) + "." + dObj.getFullYear();
-              var tableTitle = sector + " - " + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten zum " : "Weighted Average Cost of Capital as of ") + dateStr;
-              updatedMarkup = '<div style="background:#fff; padding:6px 0;">' +
-                '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">' + tableTitle + '</h3>' +
-                '<table class="atlas-table">' +
-                  '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Eigenkapitalkosten" : "Cost of Equity") + '</th></tr></thead>' +
-                  '<tbody>' +
-                    '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
-                    '<tr><td>Unlevered Beta</td><td class="num-col">' + fmtNum(latest.UnlevBeta, 2) + '</td></tr>' +
-                    '<tr><td>Debt Beta</td><td class="num-col">' + fmtNum(latest.BetaRelevered, 2) + '</td></tr>' +
-                    '<tr><td>' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</td><td class="num-col">' + fmtPct(latest.MRP) + '</td></tr>' +
-                    '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Verschuldete Eigenkapitalkosten" : "Levered cost of equity") + '</td><td class="num-col">' + fmtPct(latest.LevCostOfEquity) + '</td></tr>' +
-                    '<tr><td>' + (lang === "DE" ? "Eigenkapitalquote" : "Equity ratio") + '</td><td class="num-col">' + fmtPct(latest.Equity_ratio) + '</td></tr>' +
-                  '</tbody>' +
-                  '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of Debt") + '</th></tr></thead>' +
-                  '<tbody>' +
-                    '<tr><td>' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</td><td class="num-col">' + fmtPct(latest.Rf) + '</td></tr>' +
-                    '<tr><td>Credit Spread</td><td class="num-col">' + fmtPct(latest.CreditSpread) + '</td></tr>' +
-                    '<tr><td>Tax Shield</td><td class="num-col">' + fmtPct(latest.TaxRate) + '</td></tr>' +
-                    '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of debt") + '</td><td class="num-col">' + fmtPct(latest.CostOfDebtAfterTax) + '</td></tr>' +
-                    '<tr><td>' + (lang === "DE" ? "Fremdkapitalquote" : "Debt ratio") + '</td><td class="num-col">' + fmtPct(latest.Debt_ratio) + '</td></tr>' +
-                  '</tbody>' +
-                  '<tfoot><tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;"><td style="color:#333; font-size:13px; font-weight:600; padding:8px;">' + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)") + '</td><td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px;">' + fmtPct(latest.WACC_Value_Median) + '</td></tr></tfoot>' +
-                '</table>' +
-                '<p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">' + (lang === "DE" ? "*Der WACC stellt den Median der einzelnen Unternehmens-WACCs dar." : "*WACC represents the median across individual peer companies.") + '</p>' +
-              '</div>';
-            }
-          }
-
-          // If template re-rendered, update DOM and status badge
-          if (updatedMarkup && stage) {
-            stage.innerHTML = updatedMarkup;
+          var html = renderDynamic(liveRows);
+          if (html && stage) {
+            stage.innerHTML = html;
             if (statusText) {
               statusText.textContent = (lang === "DE" ? "Live aktualisiert um " : "Live updated at ") + new Date().toLocaleTimeString();
             }
           }
+          updateDynamicSchema(liveRows);
         })
         .catch(function(err) {
-          console.warn("[KPMG Atlas Live Sync] Using baseline data:", err);
+          console.warn("[KPMG Atlas Live Widget] Could not fetch live API:", err);
           if (statusText) {
-            statusText.textContent = (lang === "DE" ? "Basisdaten aktiv (API Offline)" : "Baseline data active");
+            statusText.textContent = (lang === "DE" ? "Verbindung fehlgeschlagen" : "Connection failed");
+          }
+          if (stage) {
+            stage.innerHTML = "<p style='color:#DC2626; font-size:12.5px; padding:16px;'>⚠️ Live API konnte nicht geladen werden (" + err.message + "). Bitte API-Verbindung prüfen.</p>";
           }
         });
     }
 
-    // Run live sync when page finishes loading
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", fetchAndRefresh);
+      document.addEventListener("DOMContentLoaded", syncLiveApi);
     } else {
-      fetchAndRefresh();
+      syncLiveApi();
     }
   })();
   </script>
 </div>
-
-<!-- Schema.org JSON-LD (Search Crawler & AI Indexing) -->
-<script type="application/ld+json" id="schema_kpmg_wacc_params_table_3y340d">
-{
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  "name": "Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten zum 30.09.2026",
-  "inLanguage": "de-DE",
-  "description": "Automobilindustrie - Gewichtete durchschnittliche Kapitalkosten zum 30.09.2026 strukturierter Datensatz veröffentlicht über KPMG Atlas.",
-  "creator": {
-    "@type": "Organization",
-    "name": "KPMG Deal Advisory"
-  },
-  "distribution": {
-    "@type": "DataDownload",
-    "encodingFormat": "application/json",
-    "contentUrl": "https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium/WACC_Values"
-  },
-  "hasPart": [
-    {
-      "@type": "Dataset",
-      "name": "Automobilindustrie - Finanzielle Parameter (Q3 2026)",
-      "temporalCoverage": "2026-09-30",
-      "variableMeasured": [
-        {
-          "@type": "PropertyValue",
-          "name": "Basiszinssatz (Eigenkapitalkosten)",
-          "value": 3.75,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Unlevered Beta",
-          "value": 0.89
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Debt Beta",
-          "value": 0.92
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Marktrisikoprämie",
-          "value": 5.25,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Verschuldete Eigenkapitalkosten",
-          "value": 8.56,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Eigenkapitalquote",
-          "value": 92.53,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Credit Spread",
-          "value": 2.23,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Steuerschild",
-          "value": 25,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Fremdkapitalkosten nach Steuern",
-          "value": 4.32,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Fremdkapitalquote",
-          "value": 7.47,
-          "unitText": "%"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Gewichtete durchschnittliche Kapitalkosten (WACC)",
-          "value": 8.11,
-          "unitText": "%"
-        }
-      ]
-    }
-  ]
-}
-</script>
 
     </div>
   </div>
