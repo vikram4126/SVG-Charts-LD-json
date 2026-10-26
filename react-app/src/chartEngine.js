@@ -912,10 +912,10 @@ const TEMPLATES = {
     function renderFullWaccGrid(sector, lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div style="padding:6px 0;">${renderWaccBandOverTime(sector, lang)}</div>
-          <div style="padding:6px 0;">${renderCountriesTable("WACC_Countries", sector, lang)}</div>
-          <div style="padding:6px 0;">${renderWaccParamsTable(sector, lang)}</div>
-          <div style="padding:6px 0;">${renderSubIndustriesTable("WACC_SubIndustries", sector, lang)}</div>
+          <div data-widget-slot="wacc_band" style="padding:6px 0;">${renderWaccBandOverTime(sector, lang)}</div>
+          <div data-widget-slot="wacc_countries" style="padding:6px 0;">${renderCountriesTable("WACC_Countries", sector, lang)}</div>
+          <div data-widget-slot="wacc_params" style="padding:6px 0;">${renderWaccParamsTable(sector, lang)}</div>
+          <div data-widget-slot="wacc_subindustries" style="padding:6px 0;">${renderSubIndustriesTable("WACC_SubIndustries", sector, lang)}</div>
         </div>
       `;
     }
@@ -924,10 +924,10 @@ const TEMPLATES = {
     function renderFullMultiplesGrid(sector, lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div style="padding:6px 0;">${renderMultiplesColumnsOverTime(sector, lang)}</div>
-          <div style="padding:6px 0;">${renderCountriesTable("Multiples_Countries", sector, lang)}</div>
-          <div style="padding:6px 0;">${renderMultiplesForecastBars(sector, lang)}</div>
-          <div style="padding:6px 0;">${renderSubIndustriesTable("Multiples_SubIndustries", sector, lang)}</div>
+          <div data-widget-slot="multiples_columns" style="padding:6px 0;">${renderMultiplesColumnsOverTime(sector, lang)}</div>
+          <div data-widget-slot="multiples_countries" style="padding:6px 0;">${renderCountriesTable("Multiples_Countries", sector, lang)}</div>
+          <div data-widget-slot="multiples_forecast" style="padding:6px 0;">${renderMultiplesForecastBars(sector, lang)}</div>
+          <div data-widget-slot="multiples_subindustries" style="padding:6px 0;">${renderSubIndustriesTable("Multiples_SubIndustries", sector, lang)}</div>
         </div>
       `;
     }

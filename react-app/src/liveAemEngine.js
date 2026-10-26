@@ -43,6 +43,7 @@ export function generateLiveAemSnippet({
   apiBaseUrl = 'https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium',
   title,
   subtitle,
+  renderedMarkup,
   templateObj
 }) {
   const uid = 'kpmg_' + templateId + '_' + Math.random().toString(36).substring(2, 8);
@@ -80,12 +81,14 @@ export function generateLiveAemSnippet({
     @keyframes kpmgSpin { to { transform: rotate(360deg); } }
   </style>
 
-  <!-- Live Chart Container (Rendered on-the-fly directly from API response) -->
+  <!-- Live Chart Container (Pre-rendered for instantaneous 0ms display + auto-refreshed via live API) -->
   <div class="kpmg-stage-wrapper">
+    ${renderedMarkup || `
     <div class="kpmg-loading-box">
       <span class="kpmg-spinner"></span>
       <span>${lang === 'DE' ? 'Lade Live-Daten von KPMG API...' : 'Loading live data from KPMG API...'}</span>
     </div>
+    `}
   </div>
 
   <!-- Live Status Bar -->
@@ -265,9 +268,16 @@ export function generateLiveAemSnippet({
       }
 
       if (templateId === "wacc_full_grid") {
+        var bandSlot = stage ? stage.querySelector('[data-widget-slot="wacc_band"]') : null;
+        var paramsSlot = stage ? stage.querySelector('[data-widget-slot="wacc_params"]') : null;
+        if (bandSlot && paramsSlot) {
+          bandSlot.innerHTML = buildWaccBand(liveRows);
+          paramsSlot.innerHTML = buildWaccParams(liveRows);
+          return null;
+        }
         return '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:30px;">' +
-          '<div>' + buildWaccBand(liveRows) + '</div>' +
-          '<div>' + buildWaccParams(liveRows) + '</div>' +
+          '<div data-widget-slot="wacc_band">' + buildWaccBand(liveRows) + '</div>' +
+          '<div data-widget-slot="wacc_params">' + buildWaccParams(liveRows) + '</div>' +
         '</div>';
       }
 
@@ -484,134 +494,259 @@ export function generateLiveAemSnippet({
           '</svg></div>';
       }
 
-      if (templateId === "multiples_columns_over_time") {
-        var sRows = liveRows.filter(function(d) {
-          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-        });
-        var dates = [];
-        sRows.forEach(function(r) { if (dates.indexOf(r.Date_Data) === -1) dates.push(r.Date_Data); });
-        dates.sort();
+    function buildMultiplesColumns(liveRows) {
+      var sRows = liveRows.filter(function(d) {
+        return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+      });
+      var dates = [];
+      sRows.forEach(function(r) { if (dates.indexOf(r.Date_Data) === -1) dates.push(r.Date_Data); });
+      dates.sort();
 
-        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
-        var cW = w - pL - pR, cH = h - pT - pB;
-        var maxVal = 25;
-        var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
+      var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var maxVal = 25;
+      var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
 
-        var gridLines = "";
-        for (var v = 0; v <= 25; v += 5) {
-          var y = scaleY(v);
-          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + v + 'x</text>';
+      var gridLines = "";
+      for (var v = 0; v <= 25; v += 5) {
+        var y = scaleY(v);
+        gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + v + 'x</text>';
+      }
+
+      var colGroupW = cW / Math.max(dates.length, 1);
+      var barW = Math.min(colGroupW * 0.35, 18);
+
+      var ebitLabel = lang === "DE" ? "Bandbreite der EBIT-Multiplikatoren" : "Range of EBIT multiples";
+      var ebitdaLabel = lang === "DE" ? "Bandbreite der EBITDA-Multiplikatoren" : "Range of EBITDA multiples";
+
+      var bars = dates.map(function(d, i) {
+        var cx = pL + (i + 0.5) * colGroupW;
+        var ebitda = sRows.find(function(x) { return x.Multiple_Name === "EBITDA-Multiple" && x.Date_Data === d; });
+        var ebit = sRows.find(function(x) { return x.Multiple_Name === "EBIT-Multiple" && x.Date_Data === d; });
+
+        var parts = fmtDateQ(d).split(" ");
+        var qHeader = (parts[0] || "") + ", " + (parts[1] || "");
+
+        var out = "";
+        if (ebitda) {
+          var y1 = scaleY(ebitda.Multiple_Value_Upper || 0), y0 = scaleY(ebitda.Multiple_Value_Lower || 0);
+          var tipEbitda = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + ebitdaLabel + " [" + Number(ebitda.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebitda.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
+          out += '<rect class="has-tooltip" data-tooltip="' + tipEbitda + '" x="' + (cx - barW - 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00338D" style="cursor:pointer;"/>';
+        }
+        if (ebit) {
+          var y1 = scaleY(ebit.Multiple_Value_Upper || 0), y0 = scaleY(ebit.Multiple_Value_Lower || 0);
+          var tipEbit = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + ebitLabel + " [" + Number(ebit.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebit.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
+          out += '<rect class="has-tooltip" data-tooltip="' + tipEbit + '" x="' + (cx + 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00b8f5" style="cursor:pointer;"/>';
+        }
+        return out;
+      }).join("");
+
+      var xLabels = dates.map(function(d, i) {
+        var cx = pL + (i + 0.5) * colGroupW;
+        var dt = new Date(d);
+        var q = Math.floor(dt.getMonth() / 3) + 1;
+        return '<text x="' + cx + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
+               '<text x="' + cx + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
+      }).join("");
+
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Multiples im Zeitverlauf" : "Average multiples over time") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          gridLines + bars + xLabels +
+          '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
+            '<rect x="0" y="-3" width="16" height="8" fill="#00338D"/><text x="22" y="4" font-size="11" fill="#333">' + ebitdaLabel + '</text>' +
+            '<rect x="130" y="-3" width="16" height="8" fill="#00b8f5"/><text x="152" y="4" font-size="11" fill="#333">' + ebitLabel + '</text>' +
+          '</g>' +
+        '</svg></div>';
+    }
+
+    function buildMultiplesForecastBars(liveRows) {
+      var allRows = liveRows.filter(function(d) {
+        return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+      });
+      var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
+      var currentRows = allRows.filter(function(r) { return r.Date_Data === latestDate; });
+
+      var horizons = [
+        { label: lang === "DE" ? "+2J Prognose (2028)" : "+2 Year Estimate (2028)", date: "2028-12-31" },
+        { label: lang === "DE" ? "+1J Prognose (2027)" : "+1 Year Estimate (2027)", date: "2027-12-31" },
+        { label: lang === "DE" ? "Ist (2026)" : "Actual (2026)", date: "2026-12-31" }
+      ];
+
+      var w = 620, h = 260;
+      var pL = 160, pR = 30, pT = 20, pB = 60;
+      var cW = w - pL - pR, cH = h - pT - pB;
+
+      var maxDataX = 0;
+      currentRows.forEach(function(r) {
+        var up = Number(r.Multiple_Value_Upper || 0);
+        var lo = Number(r.Multiple_Value_Lower || 0);
+        if (up > maxDataX) maxDataX = up;
+        if (lo > maxDataX) maxDataX = lo;
+      });
+
+      var maxX = 25.0;
+      var stepX = 5.0;
+      if (maxDataX > 50.0) { maxX = 60.0; stepX = 10.0; if (maxDataX > 60.0) maxX = Math.ceil(maxDataX / 10) * 10; }
+      else if (maxDataX > 45.0) { maxX = 50.0; stepX = 5.0; }
+      else if (maxDataX > 40.0) { maxX = 45.0; stepX = 5.0; }
+      else if (maxDataX > 35.0) { maxX = 40.0; stepX = 5.0; }
+      else if (maxDataX > 30.0) { maxX = 35.0; stepX = 5.0; }
+      else if (maxDataX > 25.0) { maxX = 30.0; stepX = 5.0; }
+      else if (maxDataX > 20.0) { maxX = 25.0; stepX = 5.0; }
+      else { maxX = 20.0; stepX = 5.0; }
+
+      var scaleX = function(v) { return pL + (v / maxX) * cW; };
+
+      var gridLines = "";
+      for (var v = 0; v <= maxX + 0.01; v += stepX) {
+        var x = scaleX(v);
+        gridLines += '<line x1="' + x + '" y1="' + pT + '" x2="' + x + '" y2="' + (h - pB) + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<text x="' + x + '" y="' + (h - pB + 16) + '" fill="#666" font-size="10.5" text-anchor="middle">' + v.toFixed(1) + ' x</text>';
+      }
+
+      var ebitLabel = lang === "DE" ? "Bandbreite der EBIT-Multiplikatoren" : "Range of EBIT multiples";
+      var ebitdaLabel = lang === "DE" ? "Bandbreite der EBITDA-Multiplikatoren" : "Range of EBITDA multiples";
+
+      var bars = "";
+      horizons.forEach(function(hItem, idx) {
+        var yCenter = pT + (idx + 0.5) * (cH / horizons.length);
+        var ebitda = currentRows.find(function(r) { return r.Multiple_Name === "EBITDA-Multiple" && (r.Multiple_Date || "").startsWith(hItem.date.slice(0,4)); }) ||
+                     currentRows.find(function(r) { return r.Multiple_Name === "EBITDA-Multiple"; });
+        var ebit = currentRows.find(function(r) { return r.Multiple_Name === "EBIT-Multiple" && (r.Multiple_Date || "").startsWith(hItem.date.slice(0,4)); }) ||
+                   currentRows.find(function(r) { return r.Multiple_Name === "EBIT-Multiple"; });
+
+        bars += '<text x="' + (pL - 14) + '" y="' + (yCenter + 4) + '" fill="#333" font-size="11" font-weight="500" text-anchor="end">' + hItem.label + '</text>';
+
+        if (ebitda) {
+          var x1 = scaleX(ebitda.Multiple_Value_Lower);
+          var x2 = scaleX(ebitda.Multiple_Value_Upper);
+          var tip1 = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + hItem.label + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + ebitdaLabel + " [" + Number(ebitda.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebitda.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
+          bars += '<rect class="has-tooltip" data-tooltip="' + tip1 + '" x="' + x1 + '" y="' + (yCenter - 14) + '" width="' + Math.max(x2 - x1, 4) + '" height="11" fill="#00338D" style="cursor:pointer;"/>';
         }
 
-        var colGroupW = cW / Math.max(dates.length, 1);
-        var barW = Math.min(colGroupW * 0.35, 18);
+        if (ebit) {
+          var x1 = scaleX(ebit.Multiple_Value_Lower);
+          var x2 = scaleX(ebit.Multiple_Value_Upper);
+          var tip2 = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + hItem.label + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + ebitLabel + " [" + Number(ebit.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebit.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
+          bars += '<rect class="has-tooltip" data-tooltip="' + tip2 + '" x="' + x1 + '" y="' + (yCenter + 3) + '" width="' + Math.max(x2 - x1, 4) + '" height="11" fill="#00b8f5" style="cursor:pointer;"/>';
+        }
+      });
 
-        var bars = dates.map(function(d, i) {
-          var cx = pL + (i + 0.5) * colGroupW;
-          var ebitda = sRows.find(function(x) { return x.Multiple_Name === "EBITDA-Multiple" && x.Date_Data === d; });
-          var ebit = sRows.find(function(x) { return x.Multiple_Name === "EBIT-Multiple" && x.Date_Data === d; });
+      var titleText = sector + " - " + (lang === "DE" ? "Multiples zum " : "Average multiples as at ") + (latestDate ? latestDate.split("T")[0] : "30/09/2026");
 
-          var out = "";
-          if (ebitda) {
-            var y1 = scaleY(ebitda.Multiple_Value_Upper || 0), y0 = scaleY(ebitda.Multiple_Value_Lower || 0);
-            out += '<rect x="' + (cx - barW - 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00338D"/>';
-          }
-          if (ebit) {
-            var y1 = scaleY(ebit.Multiple_Value_Upper || 0), y0 = scaleY(ebit.Multiple_Value_Lower || 0);
-            out += '<rect x="' + (cx + 2) + '" y="' + y1 + '" width="' + barW + '" height="' + Math.max(y0 - y1, 2) + '" fill="#00b8f5"/>';
-          }
-          return out;
-        }).join("");
-
-        var xLabels = dates.map(function(d, i) {
-          var cx = pL + (i + 0.5) * colGroupW;
-          var dt = new Date(d);
-          var q = Math.floor(dt.getMonth() / 3) + 1;
-          return '<text x="' + cx + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
-                 '<text x="' + cx + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
-        }).join("");
-
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Multiples im Zeitverlauf" : "Multiples Over Time") + '</h3>' +
-          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
-            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            gridLines + bars + xLabels +
-            '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
-              '<rect x="0" y="-3" width="16" height="8" fill="#00338D"/><text x="22" y="4" font-size="11" fill="#333">EBITDA-Multiple</text>' +
-              '<rect x="130" y="-3" width="16" height="8" fill="#00b8f5"/><text x="152" y="4" font-size="11" fill="#333">EBIT-Multiple</text>' +
-            '</g>' +
-          '</svg></div>';
-      }
-
-      // Default fallback generic table
-      return '<div style="background:#fff; padding:6px 0;"><h3 style="font-size:16px; color:#666;">' + title + '</h3><p style="color:#666;">' + liveRows.length + ' Live-Datensätze geladen.</p></div>';
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (h - pB) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          '<line x1="' + pL + '" y1="' + (h - pB) + '" x2="' + (pL + cW) + '" y2="' + (h - pB) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          gridLines + bars +
+          '<g transform="translate(' + (w / 2 - 140) + ', ' + (h - 15) + ')">' +
+            '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + ebitdaLabel + '</text>' +
+            '<rect x="' + (lang === "DE" ? 200 : 170) + '" y="0" width="12" height="12" fill="#00b8f5"/><text x="' + (lang === "DE" ? 218 : 188) + '" y="10" font-size="11" fill="#333">' + ebitLabel + '</text>' +
+          '</g>' +
+        '</svg></div>';
     }
 
-    // Dynamic Schema.org Generator: Injects fresh JSON-LD into DOM directly from live API data
-    function updateDynamicSchema(liveRows) {
-      var schemaEl = document.getElementById("schema_" + cId);
-      if (!schemaEl) {
-        schemaEl = document.createElement("script");
-        schemaEl.type = "application/ld+json";
-        schemaEl.id = "schema_" + cId;
-        document.head.appendChild(schemaEl);
-      }
-      var schemaObj = {
-        "@context": "https://schema.org",
-        "@type": "Dataset",
-        "name": "${title}",
-        "inLanguage": lang === "DE" ? "de-DE" : "en-US",
-        "description": "Dynamisch generierter Datensatz über KPMG Atlas Live API.",
-        "creator": { "@type": "Organization", "name": "KPMG Deal Advisory" },
-        "distribution": {
-          "@type": "DataDownload",
-          "encodingFormat": "application/json",
-          "contentUrl": apiUrl
-        },
-        "temporalCoverage": new Date().toISOString().substring(0, 10),
-        "variableMeasured": "${templateId}"
-      };
-      schemaEl.textContent = JSON.stringify(schemaObj, null, 2);
+    if (templateId === "multiples_columns_over_time") {
+      return buildMultiplesColumns(liveRows);
     }
 
-    // Live Fetch API Execution (Simple GET request without preflight headers to avoid CORS OPTIONS rejection)
-    function syncLiveApi() {
-      fetch(apiUrl)
-        .then(function(res) {
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          return res.json();
-        })
-        .then(function(liveRows) {
-          if (!Array.isArray(liveRows) || liveRows.length === 0) {
-            throw new Error("No data returned from API");
-          }
-          var html = renderDynamic(liveRows);
-          if (html && stage) {
-            stage.innerHTML = html;
-            if (statusText) {
-              statusText.textContent = (lang === "DE" ? "Live aktualisiert um " : "Live updated at ") + new Date().toLocaleTimeString();
-            }
-          }
-          updateDynamicSchema(liveRows);
-        })
-        .catch(function(err) {
-          console.warn("[KPMG Atlas Live Widget] Could not fetch live API:", err);
-          if (statusText) {
+    if (templateId === "multiples_forecast_bars") {
+      return buildMultiplesForecastBars(liveRows);
+    }
+
+    if (templateId === "multiples_full_grid") {
+      var colSlot = stage ? stage.querySelector('[data-widget-slot="multiples_columns"]') : null;
+      var forecastSlot = stage ? stage.querySelector('[data-widget-slot="multiples_forecast"]') : null;
+      if (colSlot && forecastSlot) {
+        colSlot.innerHTML = buildMultiplesColumns(liveRows);
+        forecastSlot.innerHTML = buildMultiplesForecastBars(liveRows);
+        return null;
+      }
+      return '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">' +
+        '<div data-widget-slot="multiples_columns" style="padding:6px 0;">' + buildMultiplesColumns(liveRows) + '</div>' +
+        '<div data-widget-slot="multiples_forecast" style="padding:6px 0;">' + buildMultiplesForecastBars(liveRows) + '</div>' +
+      '</div>';
+    }
+
+    // Default fallback generic table
+    var safeTitle = (typeof title !== "undefined" && title) ? title : (sector + " - Dataset");
+    return '<div style="background:#fff; padding:6px 0;"><h3 style="font-size:16px; color:#666;">' + safeTitle + '</h3><p style="color:#666;">' + liveRows.length + ' Live-Datensätze geladen.</p></div>';
+  }
+
+  // Dynamic Schema.org Generator: Injects fresh JSON-LD into DOM directly from live API data
+  function updateDynamicSchema(liveRows) {
+    var schemaEl = document.getElementById("schema_" + cId);
+    if (!schemaEl) {
+      schemaEl = document.createElement("script");
+      schemaEl.type = "application/ld+json";
+      schemaEl.id = "schema_" + cId;
+      document.head.appendChild(schemaEl);
+    }
+    var schemaObj = {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "${(title || '').replace(/"/g, '\\"')}",
+      "inLanguage": lang === "DE" ? "de-DE" : "en-US",
+      "description": "Dynamisch generierter Datensatz über KPMG Atlas Live API.",
+      "creator": { "@type": "Organization", "name": "KPMG Deal Advisory" },
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": apiUrl
+      },
+      "temporalCoverage": new Date().toISOString().substring(0, 10),
+      "variableMeasured": "${templateId}"
+    };
+    schemaEl.textContent = JSON.stringify(schemaObj, null, 2);
+  }
+
+  // Live Fetch API Execution (Simple GET request without preflight headers to avoid CORS OPTIONS rejection)
+  function syncLiveApi() {
+    fetch(apiUrl)
+      .then(function(res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function(liveRows) {
+        if (!Array.isArray(liveRows) || liveRows.length === 0) {
+          throw new Error("No data returned from API");
+        }
+        var html = renderDynamic(liveRows);
+        if (html && stage) {
+          stage.innerHTML = html;
+        }
+        if (statusText) {
+          statusText.textContent = (lang === "DE" ? "Live aktualisiert um " : "Live updated at ") + new Date().toLocaleTimeString();
+        }
+        updateDynamicSchema(liveRows);
+      })
+      .catch(function(err) {
+        console.warn("[KPMG Atlas Live Widget] Could not fetch live API:", err);
+        var hasContent = stage && stage.children.length > 0 && !stage.querySelector(".kpmg-loading-box");
+        if (statusText) {
+          if (hasContent) {
+            statusText.textContent = (lang === "DE" ? "Basisdaten aktiv (Live-Sync getrennt)" : "Baseline data active (Live sync offline)");
+          } else {
             statusText.textContent = (lang === "DE" ? "Verbindung fehlgeschlagen" : "Connection failed");
           }
-          if (stage) {
-            stage.innerHTML = "<div style='padding:20px; text-align:center; color:#DC2626; font-size:13px; background:#FEF2F2; border:1px solid #FCA5A5; border-radius:6px;'>" +
-              "<div style='font-weight:700; margin-bottom:6px;'>⚠️ " + (lang === "DE" ? "Live-Daten konnten nicht geladen werden" : "Could not load live data") + " (" + err.message + ")</div>" +
-              "<div style='font-size:11.5px; color:#7F1D1D; line-height:1.45;'>" + 
-                (lang === "DE" ? "Browser konnte API nicht direkt abrufen (CORS / Netzwerk). Bitte API prüfen: " : "Browser could not fetch API directly (CORS / Network). Please verify API: ") + 
-                "<br><a href='" + apiUrl + "' target='_blank' style='color:#00338D; font-weight:600; word-break:break-all; text-decoration:underline;'>" + apiUrl + "</a>" +
-              "</div>" +
-            "</div>";
-          }
-        });
-    }
+        }
+        // ONLY show red error box if stage had NO pre-rendered content and was stuck on loading spinner!
+        if (stage && (!stage.children.length || stage.querySelector(".kpmg-loading-box"))) {
+          stage.innerHTML = "<div style='padding:20px; text-align:center; color:#DC2626; font-size:13px; background:#FEF2F2; border:1px solid #FCA5A5; border-radius:6px;'>" +
+            "<div style='font-weight:700; margin-bottom:6px;'>⚠️ " + (lang === "DE" ? "Live-Daten konnten nicht geladen werden" : "Could not load live data") + " (" + err.message + ")</div>" +
+            "<div style='font-size:11.5px; color:#7F1D1D; line-height:1.45;'>" + 
+              (lang === "DE" ? "Browser konnte API nicht direkt abrufen (CORS / Netzwerk). Bitte API prüfen: " : "Browser could not fetch API directly (CORS / Network). Please verify API: ") + 
+              "<br><a href='" + apiUrl + "' target='_blank' style='color:#00338D; font-weight:600; word-break:break-all; text-decoration:underline;'>" + apiUrl + "</a>" +
+            "</div>" +
+          "</div>";
+        }
+      });
+  }
 
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", syncLiveApi);
