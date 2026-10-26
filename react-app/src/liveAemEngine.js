@@ -728,12 +728,23 @@ export function generateLiveAemSnippet({
       schemaEl.id = "schema_" + cId;
       document.head.appendChild(schemaEl);
     }
+    try {
+      if (schemaEl.textContent) {
+        var existing = JSON.parse(schemaEl.textContent);
+        if (existing && Array.isArray(existing.hasPart) && existing.hasPart.length > 0) {
+          existing.temporalCoverage = new Date().toISOString().substring(0, 10);
+          schemaEl.textContent = JSON.stringify(existing, null, 2);
+          return;
+        }
+      }
+    } catch (e) {}
+
     var schemaObj = {
       "@context": "https://schema.org",
       "@type": "Dataset",
       "name": "${(title || '').replace(/"/g, '\\"')}",
       "inLanguage": lang === "DE" ? "de-DE" : "en-US",
-      "description": "Dynamisch generierter Datensatz über KPMG Atlas Live API.",
+      "description": "${lang === 'DE' ? 'Strukturierter Datensatz veröffentlicht über KPMG Atlas.' : 'Structured dataset published via KPMG Atlas.'}",
       "creator": { "@type": "Organization", "name": "KPMG Deal Advisory" },
       "distribution": {
         "@type": "DataDownload",
