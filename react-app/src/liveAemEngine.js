@@ -71,8 +71,6 @@ export function generateLiveAemSnippet({
     #${uid} .atlas-table th { text-align: left; padding: 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
     #${uid} .atlas-table td { padding: 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
     #${uid} .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
-    #${uid} .kpmg-live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 3px 8px; border-radius: 12px; }
-    #${uid} .kpmg-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
     #${uid} .kpmg-loading-box { padding: 36px 20px; text-align: center; color: #64748B; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #F8FAFC; border-radius: 8px; border: 1px dashed #CBD5E1; }
     #${uid} .kpmg-spinner { width: 16px; height: 16px; border: 2px solid #CBD5E1; border-top-color: #00338D; border-radius: 50%; animation: kpmgSpin 0.8s linear infinite; display: inline-block; }
     #${uid} .kpmg-chart-tooltip { position: fixed; display: none; background: #1E293B; color: #FFFFFF; padding: 8px 14px; border-radius: 6px; font-size: 12px; line-height: 1.45; pointer-events: none; z-index: 9999999; box-shadow: 0 8px 24px rgba(0,0,0,0.35); white-space: nowrap; }
@@ -91,14 +89,6 @@ export function generateLiveAemSnippet({
     `}
   </div>
 
-  <!-- Live Status Bar -->
-  <div style="display:flex; justify-content:flex-end; align-items:center; margin-top:8px; padding:0 2px;">
-    <span class="kpmg-live-badge" title="Live synchronized with API URL">
-      <span class="kpmg-live-dot"></span>
-      <span class="kpmg-status-text">${lang === 'DE' ? 'Live API verbunden' : 'Live API Connected'}</span>
-    </span>
-  </div>
-
   <!-- Interactive Floating Tooltip -->
   <div class="kpmg-chart-tooltip"></div>
 
@@ -110,7 +100,6 @@ export function generateLiveAemSnippet({
     if (!container) return;
     var stage = container.querySelector(".kpmg-stage-wrapper");
     var tip = container.querySelector(".kpmg-chart-tooltip");
-    var statusText = container.querySelector(".kpmg-status-text");
 
     var apiUrl = "${apiUrl}";
     var templateId = "${templateId}";
@@ -327,172 +316,204 @@ export function generateLiveAemSnippet({
           '</table></div>';
       }
 
-      if (templateId === "mrp_3line_trend") {
-        var rows = liveRows.slice().sort(function(a, b) { return a.Date.localeCompare(b.Date); });
-        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
-        var cW = w - pL - pR, cH = h - pT - pB;
-        var minVal = 0.0, maxVal = 0.12;
-        var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
-        var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
+    function buildMrp3Line(liveRows) {
+      var rows = liveRows.slice().sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+      var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var minVal = 0.0, maxVal = 0.12;
+      var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
+      var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
 
-        var gridLines = "";
-        for (var v = 0.0; v <= 0.1201; v += 0.02) {
-          var y = scaleY(v);
-          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
-        }
-
-        var pathTotal = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Gesamtrendite); }).join(" ");
-        var pathMrp = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.MRP); }).join(" ");
-        var pathRf = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Basiszins); }).join(" ");
-
-        var xLabels = rows.map(function(r, i) {
-          var d = new Date(r.Date);
-          var m = ["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"][d.getMonth()];
-          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + m + ' ' + d.getFullYear().toString().substring(2) + '</text>';
-        }).join("");
-
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
-          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
-            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            gridLines +
-            '<path d="' + pathTotal + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
-            '<path d="' + pathMrp + '" fill="none" stroke="#00b8f5" stroke-width="2.5"/>' +
-            '<path d="' + pathRf + '" fill="none" stroke="#fd349c" stroke-width="2.5"/>' +
-            xLabels +
-            '<g transform="translate(' + (w / 2 - 160) + ', ' + (h - 15) + ')">' +
-              '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Gesamtrendite" : "Total return") + '</text>' +
-              '<rect x="115" y="0" width="12" height="12" fill="#00b8f5"/><text x="133" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</text>' +
-              '<rect x="250" y="0" width="12" height="12" fill="#fd349c"/><text x="268" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</text>' +
-            '</g>' +
-          '</svg></div>';
+      var gridLines = "";
+      for (var v = 0.0; v <= 0.1201; v += 0.02) {
+        var y = scaleY(v);
+        gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
       }
 
-      if (templateId === "mrp_tenure_step_curve") {
-        var rows = liveRows.slice().sort(function(a, b) { return Number(a.Tenure) - Number(b.Tenure); });
-        var w = 640, h = 340, pL = 65, pR = 25, pT = 30, pB = 65;
-        var cW = w - pL - pR, cH = h - pT - pB;
-        var minVal = 0.024, maxVal = 0.036;
-        var maxTenure = 30;
-        var scaleX = function(t) { return pL + ((t - 1) / (maxTenure - 1)) * cW; };
-        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+      var pathTotal = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Gesamtrendite); }).join(" ");
+      var pathMrp = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.MRP); }).join(" ");
+      var pathRf = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Basiszins); }).join(" ");
 
-        var gridLines = "";
-        for (var v = 0.024; v <= 0.0361; v += 0.002) {
-          var y = scaleY(v);
-          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
-        }
+      var xLabels = rows.map(function(r, i) {
+        var d = new Date(r.Date);
+        var m = ["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"][d.getMonth()];
+        return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + m + ' ' + d.getFullYear().toString().substring(2) + '</text>';
+      }).join("");
 
-        var stepPath = "";
-        var colW = cW / (maxTenure - 1);
-        var hitboxes = "";
-        rows.forEach(function(r, i) {
-          var x = scaleX(r.Tenure);
-          var y = scaleY(r.BZ);
-          if (i === 0) { stepPath += "M " + x + " " + y; }
-          else { stepPath += " H " + x + " V " + y; }
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          gridLines +
+          '<path d="' + pathTotal + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
+          '<path d="' + pathMrp + '" fill="none" stroke="#00b8f5" stroke-width="2.5"/>' +
+          '<path d="' + pathRf + '" fill="none" stroke="#fd349c" stroke-width="2.5"/>' +
+          xLabels +
+          '<g transform="translate(' + (w / 2 - 160) + ', ' + (h - 15) + ')">' +
+            '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Gesamtrendite" : "Total return") + '</text>' +
+            '<rect x="115" y="0" width="12" height="12" fill="#00b8f5"/><text x="133" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</text>' +
+            '<rect x="250" y="0" width="12" height="12" fill="#fd349c"/><text x="268" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</text>' +
+          '</g>' +
+        '</svg></div>';
+    }
 
-          var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + r.Tenure + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF;'></span><span>" + (lang === "DE" ? "Basiszinssatz (gerundet): " : "Risk-free rate (rounded): ") + fmtPct(r.BZ) + "</span></div>";
-          hitboxes += '<g class="has-tooltip tenure-pt" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
-                      '<rect x="' + (x - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
-                      '<circle class="tenure-glow" cx="' + x + '" cy="' + y + '" r="7" fill="#fd349c" pointer-events="none"/>' +
-                      '<rect class="tenure-diamond" x="' + (x - 3) + '" y="' + (y - 3) + '" width="6" height="6" fill="#fd349c" transform="rotate(45 ' + x + ' ' + y + ')" pointer-events="none"/>' +
-                      '</g>';
-        });
+    function buildTenureStepCurve(liveRows) {
+      var rows = liveRows.slice().sort(function(a, b) { return Number(a.Tenure) - Number(b.Tenure); });
+      var w = 640, h = 340, pL = 65, pR = 25, pT = 30, pB = 65;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var minVal = 0.024, maxVal = 0.036;
+      var maxTenure = 30;
+      var scaleX = function(t) { return pL + ((t - 1) / (maxTenure - 1)) * cW; };
+      var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
 
-        var xTicks = "";
-        for (var t = 1; t <= 30; t++) {
-          xTicks += '<text x="' + scaleX(t) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="9" text-anchor="middle">' + t + '</text>';
-        }
-
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Aktuelle Zinsstrukturkurve des Basiszinssatzes" : "Current Risk-Free Rate Step Curve") + '</h3>' +
-          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
-            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            gridLines +
-            '<path d="' + stepPath + '" fill="none" stroke="#7213ea" stroke-width="2.5"/>' +
-            hitboxes + xTicks +
-            '<text x="' + (w/2) + '" y="' + (pT + cH + 32) + '" fill="#666" font-size="11" text-anchor="middle">' + (lang === "DE" ? "Laufzeit (in Jahren)" : "Tenure (in years)") + '</text>' +
-            '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">' + (lang === "DE" ? "Basiszinssatz (in %)" : "Risk-free rate (in %)") + '</text>' +
-            '<g transform="translate(' + (w / 2 - 85) + ', ' + (pT + cH + 48) + ')">' +
-              '<line x1="0" y1="0" x2="26" y2="0" stroke="#7213ea" stroke-width="5"/>' +
-              '<text x="32" y="4" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz (gerundet)" : "Risk-free rate (rounded)") + '</text>' +
-            '</g>' +
-          '</svg></div>';
+      var gridLines = "";
+      for (var v = 0.024; v <= 0.0361; v += 0.002) {
+        var y = scaleY(v);
+        gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
       }
 
-      if (templateId === "crp_countries_table") {
-        var trs = liveRows.map(function(r) {
-          var ctry = (lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN) || r.Country;
-          return '<tr>' +
-            '<td style="color:#333; font-weight:400; padding:8px;">' + r.Rating + '</td>' +
-            '<td style="color:#333; font-weight:400; padding:8px;">' + ctry + '</td>' +
-            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_6m) + '</td>' +
-            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_1y) + '</td>' +
-            '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_2y) + '</td>' +
-          '</tr>';
-        }).join("");
+      var stepPath = "";
+      var colW = cW / (maxTenure - 1);
+      var hitboxes = "";
+      rows.forEach(function(r, i) {
+        var x = scaleX(r.Tenure);
+        var y = scaleY(r.BZ);
+        if (i === 0) { stepPath += "M " + x + " " + y; }
+        else { stepPath += " H " + x + " V " + y; }
 
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
-          '<table class="atlas-table">' +
-            '<thead>' +
-              '<tr><th style="padding:8px;">Rating</th><th style="padding:8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:8px;">6M</th><th style="text-align:right; padding:8px;">1J</th><th style="text-align:right; padding:8px;">2J</th></tr>' +
-            '</thead>' +
-            '<tbody>' + trs + '</tbody>' +
-          '</table></div>';
+        var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + r.Tenure + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF;'></span><span>" + (lang === "DE" ? "Basiszinssatz (gerundet): " : "Risk-free rate (rounded): ") + fmtPct(r.BZ) + "</span></div>";
+        hitboxes += '<g class="has-tooltip tenure-pt" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
+                    '<rect x="' + (x - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
+                    '<circle class="tenure-glow" cx="' + x + '" cy="' + y + '" r="7" fill="#fd349c" pointer-events="none"/>' +
+                    '<rect class="tenure-diamond" x="' + (x - 3) + '" y="' + (y - 3) + '" width="6" height="6" fill="#fd349c" transform="rotate(45 ' + x + ' ' + y + ')" pointer-events="none"/>' +
+                    '</g>';
+      });
+
+      var xTicks = "";
+      for (var t = 1; t <= 30; t++) {
+        xTicks += '<text x="' + scaleX(t) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="9" text-anchor="middle">' + t + '</text>';
       }
 
-      if (templateId === "crp_rating_lines") {
-        var ratings = ["BBB-", "BBB", "BBB+"];
-        var dates = [];
-        liveRows.forEach(function(r) { if (dates.indexOf(r.Date) === -1) dates.push(r.Date); });
-        dates.sort();
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Aktuelle Zinsstrukturkurve des Basiszinssatzes" : "Current Risk-Free Rate Step Curve") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          gridLines +
+          '<path d="' + stepPath + '" fill="none" stroke="#7213ea" stroke-width="2.5"/>' +
+          hitboxes + xTicks +
+          '<text x="' + (w/2) + '" y="' + (pT + cH + 32) + '" fill="#666" font-size="11" text-anchor="middle">' + (lang === "DE" ? "Laufzeit (in Jahren)" : "Tenure (in years)") + '</text>' +
+          '<text x="18" y="' + (pT + cH/2) + '" fill="#666" font-size="11" transform="rotate(-90 18 ' + (pT + cH/2) + ')" text-anchor="middle">' + (lang === "DE" ? "Basiszinssatz (in %)" : "Risk-free rate (in %)") + '</text>' +
+          '<g transform="translate(' + (w / 2 - 85) + ', ' + (pT + cH + 48) + ')">' +
+            '<line x1="0" y1="0" x2="26" y2="0" stroke="#7213ea" stroke-width="5"/>' +
+            '<text x="32" y="4" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz (gerundet)" : "Risk-free rate (rounded)") + '</text>' +
+          '</g>' +
+        '</svg></div>';
+    }
 
-        var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
-        var cW = w - pL - pR, cH = h - pT - pB;
-        var minVal = 0.006, maxVal = 0.020;
-        var scaleX = function(i) { return pL + (i / (dates.length - 1)) * cW; };
-        var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
+    function buildCrpCountriesTable(liveRows) {
+      var trs = liveRows.map(function(r) {
+        var ctry = (lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN) || r.Country;
+        return '<tr>' +
+          '<td style="color:#333; font-weight:400; padding:8px;">' + r.Rating + '</td>' +
+          '<td style="color:#333; font-weight:400; padding:8px;">' + ctry + '</td>' +
+          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_6m) + '</td>' +
+          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_1y) + '</td>' +
+          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_2y) + '</td>' +
+        '</tr>';
+      }).join("");
 
-        var gridLines = "";
-        for (var v = 0.006; v <= 0.0201; v += 0.002) {
-          var y = scaleY(v);
-          gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                       '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
-        }
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
+        '<table class="atlas-table">' +
+          '<thead>' +
+            '<tr><th style="padding:8px;">Rating</th><th style="padding:8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:8px;">6M</th><th style="text-align:right; padding:8px;">1J</th><th style="text-align:right; padding:8px;">2J</th></tr>' +
+          '</thead>' +
+          '<tbody>' + trs + '</tbody>' +
+        '</table></div>';
+    }
 
-        var colors = { "BBB-": "#00338D", "BBB": "#00b8f5", "BBB+": "#fd349c" };
-        var lines = ratings.map(function(rCode) {
-          var rRows = liveRows.filter(function(r) { return r.Rating === rCode; }).sort(function(a, b) { return a.Date.localeCompare(b.Date); });
-          var pathD = rRows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Median); }).join(" ");
-          return '<path d="' + pathD + '" fill="none" stroke="' + colors[rCode] + '" stroke-width="2.5"/>';
-        }).join("");
+    function buildCrpRatingLines(liveRows) {
+      var ratings = ["BBB-", "BBB", "BBB+"];
+      var dates = [];
+      liveRows.forEach(function(r) { if (dates.indexOf(r.Date) === -1) dates.push(r.Date); });
+      dates.sort();
 
-        var xLabels = dates.map(function(d, i) {
-          var dt = new Date(d);
-          var q = Math.floor(dt.getMonth() / 3) + 1;
-          return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
-                 '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
-        }).join("");
+      var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var minVal = 0.006, maxVal = 0.020;
+      var scaleX = function(i) { return pL + (i / (dates.length - 1)) * cW; };
+      var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
 
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie im Zeitverlauf" : "Country Risk Premium Over Time") + '</h3>' +
-          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
-            '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
-            gridLines + lines + xLabels +
-            '<g transform="translate(' + (w / 2 - 140) + ', ' + (pT + cH + 48) + ')">' +
-              '<line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/><text x="32" y="4" font-size="11" fill="#333">BBB-</text>' +
-              '<line x1="100" y1="0" x2="126" y2="0" stroke="#00b8f5" stroke-width="5"/><text x="132" y="4" font-size="11" fill="#333">BBB</text>' +
-              '<line x1="200" y1="0" x2="226" y2="0" stroke="#fd349c" stroke-width="5"/><text x="232" y="4" font-size="11" fill="#333">BBB+</text>' +
-            '</g>' +
-          '</svg></div>';
+      var gridLines = "";
+      for (var v = 0.006; v <= 0.0201; v += 0.002) {
+        var y = scaleY(v);
+        gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
       }
+
+      var colors = { "BBB-": "#00338D", "BBB": "#00b8f5", "BBB+": "#fd349c" };
+      var lines = ratings.map(function(rCode) {
+        var rRows = liveRows.filter(function(r) { return r.Rating === rCode; }).sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+        var pathD = rRows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Median); }).join(" ");
+        return '<path d="' + pathD + '" fill="none" stroke="' + colors[rCode] + '" stroke-width="2.5"/>';
+      }).join("");
+
+      var xLabels = dates.map(function(d, i) {
+        var dt = new Date(d);
+        var q = Math.floor(dt.getMonth() / 3) + 1;
+        return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10.5" font-weight="500" text-anchor="middle">Q' + q + '</text>' +
+               '<text x="' + scaleX(i) + '" y="' + (pT + cH + 29) + '" fill="#666" font-size="10" text-anchor="middle">' + dt.getFullYear() + '</text>';
+      }).join("");
+
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie im Zeitverlauf" : "Country Risk Premium Over Time") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+          gridLines + lines + xLabels +
+          '<g transform="translate(' + (w / 2 - 140) + ', ' + (pT + cH + 48) + ')">' +
+            '<line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/><text x="32" y="4" font-size="11" fill="#333">BBB-</text>' +
+            '<line x1="100" y1="0" x2="126" y2="0" stroke="#00b8f5" stroke-width="5"/><text x="132" y="4" font-size="11" fill="#333">BBB</text>' +
+            '<line x1="200" y1="0" x2="226" y2="0" stroke="#fd349c" stroke-width="5"/><text x="232" y="4" font-size="11" fill="#333">BBB+</text>' +
+          '</g>' +
+        '</svg></div>';
+    }
+
+    if (templateId === "mrp_3line_trend") {
+      return buildMrp3Line(liveRows);
+    }
+
+    if (templateId === "mrp_tenure_step_curve") {
+      return buildTenureStepCurve(liveRows);
+    }
+
+    if (templateId === "mrp_full_page") {
+      var trendSlot = stage ? stage.querySelector('[data-widget-slot="mrp_trend"]') : null;
+      if (trendSlot) {
+        trendSlot.innerHTML = buildMrp3Line(liveRows);
+      }
+      return null;
+    }
+
+    if (templateId === "crp_countries_table") {
+      return buildCrpCountriesTable(liveRows);
+    }
+
+    if (templateId === "crp_rating_lines") {
+      return buildCrpRatingLines(liveRows);
+    }
+
+    if (templateId === "crp_full_page") {
+      var ratingSlot = stage ? stage.querySelector('[data-widget-slot="crp_rating_lines"]') : null;
+      if (ratingSlot) {
+        ratingSlot.innerHTML = buildCrpRatingLines(liveRows);
+      }
+      return null;
+    }
 
     function buildMultiplesColumns(liveRows) {
       var sRows = liveRows.filter(function(d) {
@@ -673,9 +694,8 @@ export function generateLiveAemSnippet({
       '</div>';
     }
 
-    // Default fallback generic table
-    var safeTitle = (typeof title !== "undefined" && title) ? title : (sector + " - Dataset");
-    return '<div style="background:#fff; padding:6px 0;"><h3 style="font-size:16px; color:#666;">' + safeTitle + '</h3><p style="color:#666;">' + liveRows.length + ' Live-Datensätze geladen.</p></div>';
+    // Default fallback: Preserve pre-rendered chart markup, never overwrite stage with text counts!
+    return null;
   }
 
   // Dynamic Schema.org Generator: Injects fresh JSON-LD into DOM directly from live API data
@@ -720,31 +740,10 @@ export function generateLiveAemSnippet({
         if (html && stage) {
           stage.innerHTML = html;
         }
-        if (statusText) {
-          statusText.textContent = (lang === "DE" ? "Live aktualisiert um " : "Live updated at ") + new Date().toLocaleTimeString();
-        }
         updateDynamicSchema(liveRows);
       })
       .catch(function(err) {
-        console.warn("[KPMG Atlas Live Widget] Could not fetch live API:", err);
-        var hasContent = stage && stage.children.length > 0 && !stage.querySelector(".kpmg-loading-box");
-        if (statusText) {
-          if (hasContent) {
-            statusText.textContent = (lang === "DE" ? "Basisdaten aktiv (Live-Sync getrennt)" : "Baseline data active (Live sync offline)");
-          } else {
-            statusText.textContent = (lang === "DE" ? "Verbindung fehlgeschlagen" : "Connection failed");
-          }
-        }
-        // ONLY show red error box if stage had NO pre-rendered content and was stuck on loading spinner!
-        if (stage && (!stage.children.length || stage.querySelector(".kpmg-loading-box"))) {
-          stage.innerHTML = "<div style='padding:20px; text-align:center; color:#DC2626; font-size:13px; background:#FEF2F2; border:1px solid #FCA5A5; border-radius:6px;'>" +
-            "<div style='font-weight:700; margin-bottom:6px;'>⚠️ " + (lang === "DE" ? "Live-Daten konnten nicht geladen werden" : "Could not load live data") + " (" + err.message + ")</div>" +
-            "<div style='font-size:11.5px; color:#7F1D1D; line-height:1.45;'>" + 
-              (lang === "DE" ? "Browser konnte API nicht direkt abrufen (CORS / Netzwerk). Bitte API prüfen: " : "Browser could not fetch API directly (CORS / Network). Please verify API: ") + 
-              "<br><a href='" + apiUrl + "' target='_blank' style='color:#00338D; font-weight:600; word-break:break-all; text-decoration:underline;'>" + apiUrl + "</a>" +
-            "</div>" +
-          "</div>";
-        }
+        console.warn("[KPMG Atlas Live Widget] Live sync skipped:", err.message);
       });
   }
 

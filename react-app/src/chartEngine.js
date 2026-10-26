@@ -1025,8 +1025,8 @@ const TEMPLATES = {
     function renderFullMrpPage(lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">
-          <div style="padding:6px 0;">${renderMrp3LineTrend(lang)}</div>
-          <div style="padding:6px 0;">${renderTenureStepCurve(lang)}</div>
+          <div data-widget-slot="mrp_trend" style="padding:6px 0;">${renderMrp3LineTrend(lang)}</div>
+          <div data-widget-slot="mrp_step" style="padding:6px 0;">${renderTenureStepCurve(lang)}</div>
         </div>
       `;
     }
@@ -1256,8 +1256,8 @@ const TEMPLATES = {
     function renderFullCrpPage(lang = "EN") {
       return `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">
-          <div style="padding:6px 0;">${renderCrpRatingLines(lang)}</div>
-          <div style="padding:6px 0;">${renderSelectedCountriesCrpTable(lang)}</div>
+          <div data-widget-slot="crp_rating_lines" style="padding:6px 0;">${renderCrpRatingLines(lang)}</div>
+          <div data-widget-slot="crp_countries" style="padding:6px 0;">${renderSelectedCountriesCrpTable(lang)}</div>
         </div>
       `;
     }
