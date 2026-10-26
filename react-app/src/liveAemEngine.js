@@ -621,6 +621,28 @@ export function generateLiveAemSnippet({
   })();
   <\/script>
 </div>
+
+<!-- Schema.org JSON-LD (Search Crawler & AI Indexing) -->
+<script type="application/ld+json" id="schema_${uid}">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "${title.replace(/"/g, '\\"')}",
+  "inLanguage": "${lang === 'DE' ? 'de-DE' : 'en-US'}",
+  "description": "${lang === 'DE' ? 'Dynamisch generierter Datensatz über KPMG Atlas Live API.' : 'Dynamically generated dataset via KPMG Atlas Live API.'}",
+  "creator": {
+    "@type": "Organization",
+    "name": "KPMG Deal Advisory"
+  },
+  "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "${apiUrl}"
+  },
+  "temporalCoverage": "${new Date().toISOString().substring(0, 10)}",
+  "variableMeasured": "${templateId}"
+}
+<\/script>
 `;
 
   return snippet;
