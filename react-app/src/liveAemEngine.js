@@ -282,7 +282,8 @@ export function generateLiveAemSnippet({
         var total = rows.reduce(function(s, r) { return s + (Number(r.N_Companies) || 0); }, 0);
 
         var trs = rows.map(function(r) {
-          return '<tr><td style="color:#333; font-weight:400;">' + r.Country + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
+          var ctryName = (lang === "DE" ? (r.Country_DE || r.Country_EN) : (r.Country_EN || r.Country_DE)) || r.Country || r.Ctry_Name_EN || "";
+          return '<tr><td style="color:#333; font-weight:400;">' + ctryName + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
         }).join("");
 
         return '<div style="background:#fff; padding:6px 0;">' +
