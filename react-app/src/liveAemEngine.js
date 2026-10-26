@@ -408,7 +408,7 @@ export function generateLiveAemSnippet({
         var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + r.Tenure + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF;'></span><span>" + (lang === "DE" ? "Basiszinssatz (gerundet): " : "Risk-free rate (rounded): ") + fmtPct(r.BZ) + "</span></div>";
         hitboxes += '<g class="has-tooltip tenure-pt" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
                     '<rect x="' + (x - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
-                    '<circle class="tenure-glow" cx="' + x + '" cy="' + y + '" r="7" fill="#fd349c" pointer-events="none"/>' +
+                    '<circle class="tenure-glow" cx="' + x + '" cy="' + y + '" r="7" fill="#fd349c" opacity="0" pointer-events="none"/>' +
                     '<rect class="tenure-diamond" x="' + (x - 3) + '" y="' + (y - 3) + '" width="6" height="6" fill="#fd349c" transform="rotate(45 ' + x + ' ' + y + ')" pointer-events="none"/>' +
                     '</g>';
       });
@@ -719,8 +719,105 @@ export function generateLiveAemSnippet({
     return null;
   }
 
+  // Dynamic Schema.org Generator: Reconstructs fresh observations directly from live API data
+  function buildDynamicObservations(liveRows, secondaryRows) {
+    var obs = [];
+    var isDE = lang === "DE";
+
+    if (templateId === "mrp_3line_trend" || templateId === "mrp_full_page") {
+      (liveRows || []).forEach(function(r) {
+        if (!r.Date) return;
+        obs.push({
+          "@type": "Dataset",
+          "name": isDE ? ("Deutschland Bewertungssätze (" + fmtDateQ(r.Date) + ")") : ("Germany Valuation Rates (" + fmtDateQ(r.Date) + ")"),
+          "temporalCoverage": r.Date.split("T")[0],
+          "variableMeasured": [
+            { "@type": "PropertyValue", "name": isDE ? "Gesamtrendite" : "Total Return (Gesamtrendite)", "value": Number((r.Gesamtrendite * 100).toFixed(2)), "unitText": "%" },
+            { "@type": "PropertyValue", "name": isDE ? "Basiszinssatz" : "Base Rate (Basiszins)", "value": Number((r.Basiszins * 100).toFixed(2)), "unitText": "%" },
+            { "@type": "PropertyValue", "name": isDE ? "Marktrisikoprämie" : "Market Risk Premium (MRP)", "value": Number((r.MRP * 100).toFixed(2)), "unitText": "%" }
+          ]
+        });
+      });
+    }
+
+    if (templateId === "mrp_tenure_step_curve" || (templateId === "mrp_full_page" && secondaryRows)) {
+      var stepRows = templateId === "mrp_full_page" ? secondaryRows : liveRows;
+      if (Array.isArray(stepRows) && stepRows.length > 0) {
+        obs.push({
+          "@type": "Dataset",
+          "name": isDE ? "Basiszinssatzkurve nach Laufzeit" : "Risk-Free Rates Curve by Tenure",
+          "variableMeasured": stepRows.map(function(r) {
+            return {
+              "@type": "PropertyValue",
+              "name": isDE ? ("Laufzeit " + r.Tenure + " Jahr(e)") : ("Tenure " + r.Tenure + " Year(s)"),
+              "value": Number((r.BZ * 100).toFixed(2)),
+              "unitText": "%"
+            };
+          })
+        });
+      }
+    }
+
+    if (templateId === "crp_rating_lines" || templateId === "crp_full_page") {
+      (liveRows || []).forEach(function(r) {
+        if (!r.Date) return;
+        obs.push({
+          "@type": "Dataset",
+          "name": isDE ? ("Länderrisikoprämie: Rating " + r.Rating + " (" + fmtDateQ(r.Date) + ")") : ("Country Risk Premium: Rating " + r.Rating + " (" + fmtDateQ(r.Date) + ")"),
+          "temporalCoverage": r.Date.split("T")[0],
+          "variableMeasured": [
+            { "@type": "PropertyValue", "name": "CRP (" + r.Rating + ")", "value": Number((r.Median * 100).toFixed(2)), "unitText": "%" }
+          ]
+        });
+      });
+    }
+
+    if (templateId === "crp_countries_table" || (templateId === "crp_full_page" && secondaryRows)) {
+      var cRows = templateId === "crp_full_page" ? secondaryRows : liveRows;
+      if (Array.isArray(cRows)) {
+        cRows.forEach(function(r) {
+          var ctry = isDE ? (r.Ctry_Name_DE || r.Ctry_Name_EN || r.Country) : (r.Ctry_Name_EN || r.Country);
+          obs.push({
+            "@type": "Dataset",
+            "name": ctry + " (Rating " + r.Rating + ")",
+            "variableMeasured": [
+              { "@type": "PropertyValue", "name": isDE ? "Länderrisikoprämie 6 Monate" : "6 Months CRP", "value": Number((r.CRP_6m * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Länderrisikoprämie 1 Jahr" : "1 Year CRP", "value": Number((r.CRP_1y * 100).toFixed(2)), "unitText": "%" },
+              { "@type": "PropertyValue", "name": isDE ? "Länderrisikoprämie 2 Jahre" : "2 Years CRP", "value": Number((r.CRP_2y * 100).toFixed(2)), "unitText": "%" }
+            ]
+          });
+        });
+      }
+    }
+
+    if (templateId === "wacc_band_over_time" || templateId === "wacc_full_grid") {
+      var sRows = (liveRows || []).filter(function(d) {
+        return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+      }).sort(function(a, b) { return a.Date_Data.localeCompare(b.Date_Data); });
+      sRows.forEach(function(r) {
+        obs.push({
+          "@type": "Dataset",
+          "name": sector + " - " + fmtDateQ(r.Date_Data),
+          "temporalCoverage": r.Date_Data ? r.Date_Data.split("T")[0] : "",
+          "variableMeasured": [
+            {
+              "@type": "PropertyValue",
+              "name": isDE ? "Median des WACC" : "Median of WACC",
+              "value": Number((r.WACC_Value_Median * 100).toFixed(2)),
+              "minValue": Number((r.WACC_Value_Lower * 100).toFixed(2)),
+              "maxValue": Number((r.WACC_Value_Upper * 100).toFixed(2)),
+              "unitText": "%"
+            }
+          ]
+        });
+      });
+    }
+
+    return obs;
+  }
+
   // Dynamic Schema.org Generator: Injects fresh JSON-LD into DOM directly from live API data
-  function updateDynamicSchema(liveRows) {
+  function updateDynamicSchema(liveRows, secondaryRows) {
     var schemaEl = document.getElementById("schema_" + cId);
     if (!schemaEl) {
       schemaEl = document.createElement("script");
@@ -728,23 +825,21 @@ export function generateLiveAemSnippet({
       schemaEl.id = "schema_" + cId;
       document.head.appendChild(schemaEl);
     }
+
+    var dynamicObs = buildDynamicObservations(liveRows, secondaryRows);
+    var baseObj = null;
     try {
       if (schemaEl.textContent) {
-        var existing = JSON.parse(schemaEl.textContent);
-        if (existing && Array.isArray(existing.hasPart) && existing.hasPart.length > 0) {
-          existing.temporalCoverage = new Date().toISOString().substring(0, 10);
-          schemaEl.textContent = JSON.stringify(existing, null, 2);
-          return;
-        }
+        baseObj = JSON.parse(schemaEl.textContent);
       }
     } catch (e) {}
 
     var schemaObj = {
       "@context": "https://schema.org",
       "@type": "Dataset",
-      "name": "${(title || '').replace(/"/g, '\\"')}",
+      "name": (baseObj && baseObj.name) || "${(title || '').replace(/"/g, '\\"')}",
       "inLanguage": lang === "DE" ? "de-DE" : "en-US",
-      "description": "${lang === 'DE' ? 'Strukturierter Datensatz veröffentlicht über KPMG Atlas.' : 'Structured dataset published via KPMG Atlas.'}",
+      "description": (baseObj && baseObj.description) || "${lang === 'DE' ? 'Strukturierter Datensatz veröffentlicht über KPMG Atlas.' : 'Structured dataset published via KPMG Atlas.'}",
       "creator": { "@type": "Organization", "name": "KPMG Deal Advisory" },
       "distribution": {
         "@type": "DataDownload",
@@ -752,13 +847,55 @@ export function generateLiveAemSnippet({
         "contentUrl": apiUrl
       },
       "temporalCoverage": new Date().toISOString().substring(0, 10),
-      "variableMeasured": "${templateId}"
+      "hasPart": (dynamicObs && dynamicObs.length > 0) ? dynamicObs : (baseObj && baseObj.hasPart ? baseObj.hasPart : [])
     };
     schemaEl.textContent = JSON.stringify(schemaObj, null, 2);
   }
 
-  // Live Fetch API Execution (Simple GET request without preflight headers to avoid CORS OPTIONS rejection)
+  // Live Fetch API Execution (Simple GET requests without preflight headers to avoid CORS OPTIONS rejection)
   function syncLiveApi() {
+    if (templateId === "mrp_full_page") {
+      var u1 = "${cleanApiBase}/MRP_BZ";
+      var u2 = "${cleanApiBase}/BZ_CreditSpread";
+      Promise.all([
+        fetch(u1).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u2).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      ]).then(function(resArr) {
+        var mrpRows = resArr[0], bzRows = resArr[1];
+        if (stage) {
+          var tSlot = stage.querySelector('[data-widget-slot="mrp_trend"]');
+          if (tSlot) tSlot.innerHTML = buildMrp3Line(mrpRows);
+          var sSlot = stage.querySelector('[data-widget-slot="mrp_step"]');
+          if (sSlot) sSlot.innerHTML = buildTenureStepCurve(bzRows);
+        }
+        updateDynamicSchema(mrpRows, bzRows);
+      }).catch(function(err) {
+        console.warn("[KPMG Atlas Live Widget] MRP Full sync skipped:", err.message);
+      });
+      return;
+    }
+
+    if (templateId === "crp_full_page") {
+      var u1 = "${cleanApiBase}/LRP_AverageOverTime";
+      var u2 = "${cleanApiBase}/LRP_SelectedCountries";
+      Promise.all([
+        fetch(u1).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u2).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      ]).then(function(resArr) {
+        var lrpRows = resArr[0], ctryRows = resArr[1];
+        if (stage) {
+          var rSlot = stage.querySelector('[data-widget-slot="crp_rating_lines"]');
+          if (rSlot) rSlot.innerHTML = buildCrpRatingLines(lrpRows);
+          var cSlot = stage.querySelector('[data-widget-slot="crp_countries"]');
+          if (cSlot) cSlot.innerHTML = buildCrpCountriesTable(ctryRows);
+        }
+        updateDynamicSchema(lrpRows, ctryRows);
+      }).catch(function(err) {
+        console.warn("[KPMG Atlas Live Widget] CRP Full sync skipped:", err.message);
+      });
+      return;
+    }
+
     fetch(apiUrl)
       .then(function(res) {
         if (!res.ok) throw new Error("HTTP " + res.status);

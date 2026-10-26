@@ -1077,7 +1077,7 @@ const TEMPLATES = {
         hitboxes += `
           <g class="has-tooltip tenure-pt" data-tooltip="${tipHtml}" style="cursor:pointer;">
             <rect x="${x - colW/2}" y="${pT}" width="${colW}" height="${cH}" fill="transparent"/>
-            <circle class="tenure-glow" cx="${x}" cy="${y}" r="7" fill="#fd349c" pointer-events="none"/>
+            <circle class="tenure-glow" cx="${x}" cy="${y}" r="7" fill="#fd349c" opacity="0" pointer-events="none"/>
             <rect class="tenure-diamond" x="${x - 3}" y="${y - 3}" width="6" height="6" fill="#fd349c" transform="rotate(45 ${x} ${y})" pointer-events="none"/>
           </g>
         `;

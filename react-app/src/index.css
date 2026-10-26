@@ -784,3 +784,27 @@ body {
   font-weight: 400 !important;
   color: #666666 !important;
 }
+
+/* Tenure Step Curve Hover Diamond & Glow */
+.tenure-pt .tenure-glow {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.tenure-pt:hover .tenure-glow {
+  opacity: 0.35 !important;
+}
+.tenure-pt:hover .tenure-diamond {
+  filter: drop-shadow(0 0 3px rgba(253, 52, 156, 0.8));
+}
+
+/* Interactive Hover Dots for MRP & CRP Trend Lines */
+.mrp-col .hover-dot,
+.crp-col .hover-dot {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.mrp-col:hover .hover-dot,
+.crp-col:hover .hover-dot {
+  opacity: 1 !important;
+}
+
