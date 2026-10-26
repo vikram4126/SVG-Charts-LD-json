@@ -44,12 +44,33 @@ export function generateLiveAemSnippet({
   title,
   subtitle,
   renderedMarkup,
+  schemaString,
   templateObj
 }) {
   const uid = 'kpmg_' + templateId + '_' + Math.random().toString(36).substring(2, 8);
   const endpoint = ENDPOINT_MAP[templateId] || 'WACC_Values';
   const cleanApiBase = (apiBaseUrl || 'https://live.kpmg-apps.de/DPS_Freemium_API/rest/Freemium').replace(/\/+$/, '');
   const apiUrl = `${cleanApiBase}/${endpoint}`;
+
+  const defaultSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": title || "KPMG Atlas Dataset",
+    "inLanguage": lang === 'DE' ? 'de-DE' : 'en-US',
+    "description": lang === 'DE' ? `${title || 'KPMG Atlas'} strukturierter Datensatz über KPMG Atlas.` : `${title || 'KPMG Atlas'} structured dataset via KPMG Atlas.`,
+    "creator": {
+      "@type": "Organization",
+      "name": "KPMG Deal Advisory"
+    },
+    "distribution": {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": apiUrl
+    },
+    "temporalCoverage": new Date().toISOString().substring(0, 10),
+    "variableMeasured": templateId
+  };
+  const jsonLdContent = schemaString ? schemaString : JSON.stringify(defaultSchema, null, 2);
 
   const snippet = `<!-- ========================================================================= -->
 <!-- KPMG Atlas Dynamic Live Widget: ${title} -->
@@ -758,24 +779,7 @@ export function generateLiveAemSnippet({
 
 <!-- Schema.org JSON-LD (Search Crawler & AI Indexing) -->
 <script type="application/ld+json" id="schema_${uid}">
-{
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  "name": "${title.replace(/"/g, '\\"')}",
-  "inLanguage": "${lang === 'DE' ? 'de-DE' : 'en-US'}",
-  "description": "${lang === 'DE' ? 'Dynamisch generierter Datensatz über KPMG Atlas Live API.' : 'Dynamically generated dataset via KPMG Atlas Live API.'}",
-  "creator": {
-    "@type": "Organization",
-    "name": "KPMG Deal Advisory"
-  },
-  "distribution": {
-    "@type": "DataDownload",
-    "encodingFormat": "application/json",
-    "contentUrl": "${apiUrl}"
-  },
-  "temporalCoverage": "${new Date().toISOString().substring(0, 10)}",
-  "variableMeasured": "${templateId}"
-}
+${jsonLdContent}
 <\/script>
 `;
 
