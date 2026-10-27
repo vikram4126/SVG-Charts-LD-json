@@ -1307,6 +1307,34 @@ ${c}
       });
     }
 
+    if (templateId === "multiples_columns_over_time" || templateId === "multiples_forecast_bars" || templateId === "multiples_full_grid") {
+      var mRows = (liveRows || []).filter(function(d) {
+        return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+      }).sort(function(a, b) { return (a.Date_Data || "").localeCompare(b.Date_Data || ""); });
+      mRows.forEach(function(r) {
+        var label = r.Date_Data ? fmtDateQ(r.Date_Data) : (r.Year || "");
+        obs.push({
+          "@type": "Dataset",
+          "name": sector + " " + (r.Multiple_Type || "Multiples") + " (" + label + ")",
+          "temporalCoverage": r.Date_Data ? r.Date_Data.split("T")[0] : (r.Year || ""),
+          "variableMeasured": [
+            {
+              "@type": "PropertyValue",
+              "name": (r.Multiple_Type || "Multiple") + " (Lower)",
+              "value": Number(r.Multiple_Value_Lower || 0),
+              "unitText": "x"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": (r.Multiple_Type || "Multiple") + " (Upper)",
+              "value": Number(r.Multiple_Value_Upper || 0),
+              "unitText": "x"
+            }
+          ]
+        });
+      });
+    }
+
     return obs;
   }
 
