@@ -19,7 +19,7 @@ export default function App() {
   const [templateId, setTemplateId] = useState('wacc_full_grid');
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
-  const [codeTab, setCodeTab] = useState('live'); // 'live' | 'static'
+  const [codeTab, setCodeTab] = useState('pure'); // 'pure' | 'live' | 'static'
   const [toastMessage, setToastMessage] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
 
@@ -61,7 +61,21 @@ export default function App() {
     subtitle,
     renderedMarkup: renderedHtml,
     schemaString,
-    templateObj
+    templateObj,
+    pureZeroStatic: false
+  });
+  const pureLiveSnippet = generateLiveAemSnippet({
+    templateId: effectiveTemplateId,
+    category,
+    sector,
+    lang,
+    apiBaseUrl: customUrl || DEFAULT_BASE_URL,
+    title,
+    subtitle,
+    renderedMarkup: null,
+    schemaString: null,
+    templateObj,
+    pureZeroStatic: true
   });
 
   const handleLangChange = (newLang) => {
@@ -156,8 +170,16 @@ export default function App() {
   const copyLiveAemCode = () => {
     navigator.clipboard.writeText(liveSnippet).then(() => {
       showToast(lang === 'DE'
-        ? 'Live AEM-Code kopiert! Auto-Aktualisierung bei Seitenaufruf in AEM aktiv.'
-        : 'Live AEM Code copied! Auto-syncs live data from API upon page load in AEM.');
+        ? 'Live AEM-Code (Hybrid) kopiert! Sofort-Anzeige + Live-Sync.'
+        : 'Live AEM Code (Hybrid) copied! Instant preview + live API auto-sync.');
+    });
+  };
+
+  const copyPureLiveAemCode = () => {
+    navigator.clipboard.writeText(pureLiveSnippet).then(() => {
+      showToast(lang === 'DE'
+        ? 'Pure Live AEM-Code kopiert! (100% Zero-Static, nur Spinner + API-Rendering).'
+        : 'Pure Live AEM Code copied! (100% Zero-Static, clean spinner + dynamic API rendering).');
     });
   };
 
@@ -436,25 +458,29 @@ export default function App() {
             </div>
 
             <div className="stage-actions">
-              <button className="btn btn-secondary" onClick={() => setShowCodeDrawer(!showCodeDrawer)}>
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                {showCodeDrawer ? 'Hide Code' : 'View Code'}
+              <button className="btn btn-secondary" onClick={() => setShowCodeDrawer(!showCodeDrawer)} title={showCodeDrawer ? 'Hide code drawer' : 'View code drawer'}>
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                {showCodeDrawer ? 'Hide' : 'Code'}
               </button>
-              <button className="btn btn-accent" onClick={copySchemaOnly}>
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                Copy JSON-LD
+              <button className="btn btn-accent" onClick={copySchemaOnly} title="Copy Schema.org JSON-LD">
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                JSON-LD
               </button>
               <button className="btn btn-secondary" onClick={downloadSvg} title="Download SVG graphic">
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 SVG
               </button>
               <button className="btn btn-secondary" onClick={copyAemCode} title={lang === 'DE' ? 'Statisches AEM-Snapshot kopieren (ohne API-Aktualisierung)' : 'Copy static offline AEM snapshot (fixed numbers)'}>
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                {lang === 'DE' ? 'Statischer Snapshot' : 'Static Snapshot'}
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                {lang === 'DE' ? 'Statisch' : 'Static'}
               </button>
-              <button className="btn btn-live-aem" onClick={copyLiveAemCode} style={{ fontWeight: 700 }} title={lang === 'DE' ? '100% dynamischen Live-AEM-Code kopieren (keine statischen Zeilen, lädt bei jedem Seitenaufruf frisch von der API)' : 'Copy 100% dynamic live AEM code (zero static rows, fetches fresh data from API on every page visit)'}>
+              <button className="btn btn-live-aem" onClick={copyLiveAemCode} title={lang === 'DE' ? 'Live-AEM (Hybrid): Sofort-Anzeige + Live-API-Sync' : 'Live AEM (Hybrid): Instant preview + live API auto-sync'}>
                 <span className="live-pulse-dot"></span>
-                {lang === 'DE' ? '⚡ Live AEM-Code (Auto-Sync)' : '⚡ Live AEM Code (Auto-Sync)'}
+                {lang === 'DE' ? '⚡ Live' : '⚡ Live'}
+              </button>
+              <button className="btn btn-pure-live" onClick={copyPureLiveAemCode} title={lang === 'DE' ? 'Pure Live (Zero-Static): Nur Spinner, 100% dynamisch per API' : 'Pure Live (Zero-Static): Clean spinner, 100% dynamic via API'}>
+                <span className="pure-pulse-dot"></span>
+                {lang === 'DE' ? '⚡ Pure Live' : '⚡ Pure Live'}
               </button>
             </div>
           </div>
@@ -474,33 +500,40 @@ export default function App() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <button 
                     type="button" 
+                    className={`drawer-tab-btn ${codeTab === 'pure' ? 'active' : ''}`}
+                    onClick={() => setCodeTab('pure')}
+                  >
+                    ● Pure Live (Zero-Static)
+                  </button>
+                  <button 
+                    type="button" 
                     className={`drawer-tab-btn ${codeTab === 'live' ? 'active' : ''}`}
                     onClick={() => setCodeTab('live')}
                   >
-                    ● Live AEM Code (Auto-Sync)
+                    ● Live AEM (Hybrid)
                   </button>
                   <button 
                     type="button" 
                     className={`drawer-tab-btn ${codeTab === 'static' ? 'active' : ''}`}
                     onClick={() => setCodeTab('static')}
                   >
-                    Static AEM Code (Fixed Snapshot)
+                    Static AEM
                   </button>
                 </div>
                 <button 
                   className="btn btn-primary" 
                   style={{ padding: '4px 12px', fontSize: '11.5px' }} 
-                  onClick={codeTab === 'live' ? copyLiveAemCode : copyAemCode}
+                  onClick={codeTab === 'pure' ? copyPureLiveAemCode : (codeTab === 'live' ? copyLiveAemCode : copyAemCode)}
                 >
-                  {codeTab === 'live' ? 'Copy Live AEM Code' : 'Copy Static AEM Code'}
+                  {codeTab === 'pure' ? 'Copy Pure Live Code' : (codeTab === 'live' ? 'Copy Live AEM Code' : 'Copy Static AEM Code')}
                 </button>
               </div>
               <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '8px' }}>
-                {codeTab === 'live'
-                  ? '⚡ Live AEM Mode: Paste directly into AEM Embed / Custom HTML. Whenever visitors open the AEM page, it automatically fetches fresh data from the API in the background!'
-                  : '📄 Static Mode: Instant snapshot with hardcoded SVG and Schema.org dataset without auto-syncing.'}
+                {codeTab === 'pure' && '⚡ Pure Live Mode (100% Zero-Static): Contains clean spinner placeholder. Zero baked HTML rows or SVG points. SVG, Table & Schema.org JSON-LD are 100% computed from live API on page load!'}
+                {codeTab === 'live' && '⚡ Live AEM Mode (Hybrid): Instant 0ms display with fallback markup + background live API refresh whenever visitors open the page.'}
+                {codeTab === 'static' && '📄 Static Mode: Instant snapshot with hardcoded SVG and Schema.org dataset without auto-syncing.'}
               </div>
-              <pre><code>{codeTab === 'live' ? liveSnippet : snippet}</code></pre>
+              <pre><code>{codeTab === 'pure' ? pureLiveSnippet : (codeTab === 'live' ? liveSnippet : snippet)}</code></pre>
             </div>
           )}
         </div>

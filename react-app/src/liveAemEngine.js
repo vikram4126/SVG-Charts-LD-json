@@ -45,7 +45,8 @@ export function generateLiveAemSnippet({
   subtitle,
   renderedMarkup,
   schemaString,
-  templateObj
+  templateObj,
+  pureZeroStatic = false
 }) {
   const uid = 'kpmg_' + templateId + '_' + Math.random().toString(36).substring(2, 8);
   const endpoint = ENDPOINT_MAP[templateId] || 'WACC_Values';
@@ -57,7 +58,7 @@ export function generateLiveAemSnippet({
     "@type": "Dataset",
     "name": title || "KPMG Atlas Dataset",
     "inLanguage": lang === 'DE' ? 'de-DE' : 'en-US',
-    "description": lang === 'DE' ? `${title || 'KPMG Atlas'} strukturierter Datensatz über KPMG Atlas.` : `${title || 'KPMG Atlas'} structured dataset via KPMG Atlas.`,
+    "description": lang === 'DE' ? `${title || 'KPMG Atlas'} dynamischer Datensatz über KPMG Atlas API.` : `${title || 'KPMG Atlas'} dynamic dataset via KPMG Atlas API.`,
     "creator": {
       "@type": "Organization",
       "name": "KPMG Deal Advisory"
@@ -70,13 +71,33 @@ export function generateLiveAemSnippet({
     "temporalCoverage": new Date().toISOString().substring(0, 10),
     "variableMeasured": templateId
   };
-  const jsonLdContent = schemaString ? schemaString : JSON.stringify(defaultSchema, null, 2);
+  const jsonLdContent = (pureZeroStatic || !schemaString) ? JSON.stringify(defaultSchema, null, 2) : schemaString;
 
-  const snippet = `<!-- ========================================================================= -->
+  const headerComment = pureZeroStatic
+    ? `<!-- ========================================================================= -->
+<!-- KPMG Atlas Pure Dynamic Live Widget: ${title} -->
+<!-- 100% Zero-Static: Loads with spinner & renders SVG, Table + Schema from API -->
+<!-- Zero static HTML rows, zero baked-in SVG paths. Paste into AEM Embed component. -->
+<!-- ========================================================================= -->`
+    : `<!-- ========================================================================= -->
 <!-- KPMG Atlas Dynamic Live Widget: ${title} -->
-<!-- 100% Dynamic: Fetches live data directly from API URL upon page load -->
-<!-- No static data is hardcoded. Paste directly into AEM Embed / Custom HTML Component -->
-<!-- ========================================================================= -->
+<!-- Hybrid Mode: Instant pre-rendered preview + Live API auto-sync on load -->
+<!-- Paste directly into AEM Embed / Custom HTML Component -->
+<!-- ========================================================================= -->`;
+
+  const containerContent = pureZeroStatic
+    ? `<div class="kpmg-loading-box">
+      <span class="kpmg-spinner"></span>
+      <span>${lang === 'DE' ? 'Lade Live-Daten von KPMG API...' : 'Loading live data from KPMG API...'}</span>
+    </div>`
+    : (renderedMarkup || `
+    <div class="kpmg-loading-box">
+      <span class="kpmg-spinner"></span>
+      <span>${lang === 'DE' ? 'Lade Live-Daten von KPMG API...' : 'Loading live data from KPMG API...'}</span>
+    </div>
+    `);
+
+  const snippet = `${headerComment}
 
 <div id="${uid}" class="kpmg-atlas-live-widget" 
      data-api-url="${apiUrl}"
@@ -100,14 +121,9 @@ export function generateLiveAemSnippet({
     @keyframes kpmgSpin { to { transform: rotate(360deg); } }
   </style>
 
-  <!-- Live Chart Container (Pre-rendered for instantaneous 0ms display + auto-refreshed via live API) -->
+  <!-- Live Chart Container (${pureZeroStatic ? 'Zero-Static: Spinner placeholder, dynamically populated via API' : 'Pre-rendered for instantaneous 0ms display + auto-refreshed via live API'}) -->
   <div class="kpmg-stage-wrapper">
-    ${renderedMarkup || `
-    <div class="kpmg-loading-box">
-      <span class="kpmg-spinner"></span>
-      <span>${lang === 'DE' ? 'Lade Live-Daten von KPMG API...' : 'Loading live data from KPMG API...'}</span>
-    </div>
-    `}
+    ${containerContent}
   </div>
 
   <!-- Interactive Floating Tooltip -->
