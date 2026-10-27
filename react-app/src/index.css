@@ -727,11 +727,12 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+  margin: 4px 0;
 }
 
 .atlas-table th {
   text-align: left;
-  padding: 8px;
+  padding: 5px 8px;
   font-size: 11.5px;
   font-weight: 700;
   color: #666666;
@@ -741,7 +742,7 @@ body {
 }
 
 .atlas-table td {
-  padding: 8px;
+  padding: 5px 8px;
   border-bottom: 1px solid #F1F5F9;
   color: #333;
   font-weight: 400;

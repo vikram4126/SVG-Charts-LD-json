@@ -88,9 +88,9 @@ export function generateLiveAemSnippet({
   <style>
     #${uid} { font-family: Inter, Arial, sans-serif; color: #1E293B; }
     #${uid} h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
-    #${uid} .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
-    #${uid} .atlas-table th { text-align: left; padding: 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
-    #${uid} .atlas-table td { padding: 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
+    #${uid} .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; }
+    #${uid} .atlas-table th { text-align: left; padding: 5px 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
+    #${uid} .atlas-table td { padding: 5px 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
     #${uid} .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
     #${uid} .kpmg-loading-box { padding: 36px 20px; text-align: center; color: #64748B; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #F8FAFC; border-radius: 8px; border: 1px dashed #CBD5E1; }
     #${uid} .kpmg-spinner { width: 16px; height: 16px; border: 2px solid #CBD5E1; border-top-color: #00338D; border-radius: 50%; animation: kpmgSpin 0.8s linear infinite; display: inline-block; }
@@ -261,7 +261,7 @@ export function generateLiveAemSnippet({
             '<tr style="border-top:1px solid #CBD5E1;"><td>' + (lang === "DE" ? "Fremdkapitalkosten" : "Cost of debt") + '</td><td class="num-col">' + fmtPct(latest.CostOfDebtAfterTax) + '</td></tr>' +
             '<tr><td>' + (lang === "DE" ? "Fremdkapitalquote" : "Debt ratio") + '</td><td class="num-col">' + fmtPct(latest.Debt_ratio) + '</td></tr>' +
           '</tbody>' +
-          '<tfoot><tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;"><td style="color:#333; font-size:13px; font-weight:600; padding:8px;">' + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)") + '</td><td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px;">' + fmtPct(latest.WACC_Value_Median) + '</td></tr></tfoot>' +
+          '<tfoot><tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;"><td style="color:#333; font-size:13px; font-weight:600; padding:5px 8px;">' + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten (WACC)" : "Weighted Average Cost of Capital (WACC)") + '</td><td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:5px 8px;">' + fmtPct(latest.WACC_Value_Median) + '</td></tr></tfoot>' +
         '</table>' +
         '<p style="font-size:11px; color:#666; margin-top:14px; line-height:1.45;">' + (lang === "DE" ? "*Der WACC stellt den Median der einzelnen Unternehmens-WACCs dar." : "*WACC represents the median across individual peer companies.") + '</p>' +
       '</div>';
@@ -311,7 +311,7 @@ export function generateLiveAemSnippet({
           '<table class="atlas-table">' +
             '<thead><tr><th>' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
             '<tbody>' + trs + '</tbody>' +
-            '<tfoot><tr style="border-top:1.5px solid #CBD5E1; font-weight:700;"><td style="color:#333; font-weight:700; padding:8px;">' + (lang === "DE" ? "Gesamt" : "Total") + '</td><td class="num-col" style="color:#333; font-weight:700; padding:8px;">' + total.toLocaleString() + '</td></tr></tfoot>' +
+            '<tfoot><tr style="border-top:1.5px solid #CBD5E1; font-weight:700;"><td style="color:#333; font-weight:700; padding:5px 8px;">' + (lang === "DE" ? "Gesamt" : "Total") + '</td><td class="num-col" style="color:#333; font-weight:700; padding:5px 8px;">' + total.toLocaleString() + '</td></tr></tfoot>' +
           '</table></div>';
       }
 
@@ -439,11 +439,11 @@ export function generateLiveAemSnippet({
       var trs = liveRows.map(function(r) {
         var ctry = (lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN) || r.Country;
         return '<tr>' +
-          '<td style="color:#333; font-weight:400; padding:8px;">' + r.Rating + '</td>' +
-          '<td style="color:#333; font-weight:400; padding:8px;">' + ctry + '</td>' +
-          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_6m) + '</td>' +
-          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_1y) + '</td>' +
-          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">' + fmtPct(r.CRP_2y) + '</td>' +
+          '<td style="color:#333; font-weight:400; padding:5px 8px;">' + r.Rating + '</td>' +
+          '<td style="color:#333; font-weight:400; padding:5px 8px;">' + ctry + '</td>' +
+          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">' + fmtPct(r.CRP_6m) + '</td>' +
+          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">' + fmtPct(r.CRP_1y) + '</td>' +
+          '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">' + fmtPct(r.CRP_2y) + '</td>' +
         '</tr>';
       }).join("");
 
@@ -451,7 +451,7 @@ export function generateLiveAemSnippet({
         '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
         '<table class="atlas-table">' +
           '<thead>' +
-            '<tr><th style="padding:8px;">Rating</th><th style="padding:8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:8px;">6M</th><th style="text-align:right; padding:8px;">1J</th><th style="text-align:right; padding:8px;">2J</th></tr>' +
+            '<tr><th style="padding:5px 8px;">Rating</th><th style="padding:5px 8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:5px 8px;">6M</th><th style="text-align:right; padding:5px 8px;">1J</th><th style="text-align:right; padding:5px 8px;">2J</th></tr>' +
           '</thead>' +
           '<tbody>' + trs + '</tbody>' +
         '</table></div>';
@@ -544,16 +544,55 @@ export function generateLiveAemSnippet({
       sRows.forEach(function(r) { if (dates.indexOf(r.Date_Data) === -1) dates.push(r.Date_Data); });
       dates.sort();
 
-      var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
+      var w = 620, h = 320, pL = 50, pR = 25, pT = 30, pB = 60;
       var cW = w - pL - pR, cH = h - pT - pB;
-      var maxVal = 25;
+
+      var maxDataVal = 0;
+      sRows.forEach(function(r) {
+        var up = Number(r.Multiple_Value_Upper || 0);
+        var lo = Number(r.Multiple_Value_Lower || 0);
+        if (up > maxDataVal) maxDataVal = up;
+        if (lo > maxDataVal) maxDataVal = lo;
+      });
+
+      var maxVal = 25.0;
+      var step = 5.0;
+      if (maxDataVal > 50.0) {
+        maxVal = 60.0;
+        step = 10.0;
+        if (maxDataVal > 60.0) {
+          maxVal = Math.ceil(maxDataVal / 10) * 10;
+        }
+      } else if (maxDataVal > 45.0) {
+        maxVal = 50.0;
+        step = 5.0;
+      } else if (maxDataVal > 40.0) {
+        maxVal = 45.0;
+        step = 5.0;
+      } else if (maxDataVal > 35.0) {
+        maxVal = 40.0;
+        step = 5.0;
+      } else if (maxDataVal > 30.0) {
+        maxVal = 35.0;
+        step = 5.0;
+      } else if (maxDataVal > 25.0) {
+        maxVal = 30.0;
+        step = 5.0;
+      } else if (maxDataVal > 20.0) {
+        maxVal = 25.0;
+        step = 5.0;
+      } else {
+        maxVal = 20.0;
+        step = 5.0;
+      }
+
       var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
 
       var gridLines = "";
-      for (var v = 0; v <= 25; v += 5) {
+      for (var v = 0; v <= maxVal + 0.01; v += step) {
         var y = scaleY(v);
         gridLines += '<line x1="' + pL + '" y1="' + y + '" x2="' + (w - pR) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1"/>' +
-                     '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + v + 'x</text>';
+                     '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + v.toFixed(1) + ' x</text>';
       }
 
       var colGroupW = cW / Math.max(dates.length, 1);

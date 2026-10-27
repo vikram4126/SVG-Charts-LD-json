@@ -836,8 +836,8 @@ const TEMPLATES = {
             </tbody>
             <tfoot>
               <tr style="border-top:1px solid #333; border-bottom:1px solid #333; font-weight:700;">
-                <td style="color:#333; font-size:13px; font-weight:600; padding:8px; border-bottom:1px solid #333;">${(I18N[lang] || I18N.EN).wacc_label}</td>
-                <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:8px; border-bottom:1px solid #333;">${fmtPct(item.WACC_Value_Median)}</td>
+                <td style="color:#333; font-size:13px; font-weight:600; padding:5px 8px; border-bottom:1px solid #333;">${(I18N[lang] || I18N.EN).wacc_label}</td>
+                <td class="num-col" style="font-size:13px; color:#333; font-weight:700; padding:5px 8px; border-bottom:1px solid #333;">${fmtPct(item.WACC_Value_Median)}</td>
               </tr>
             </tfoot>
           </table>
@@ -1220,11 +1220,11 @@ const TEMPLATES = {
 
       const trs = rows.map(r => `
         <tr>
-          <td style="color:#333; font-weight:400; padding:8px;">${r.Rating}</td>
-          <td style="color:#333; font-weight:400; padding:8px;">${lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN}</td>
-          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">${fmtPct(r.CRP_6m)}</td>
-          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">${fmtPct(r.CRP_1y)}</td>
-          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:8px;">${fmtPct(r.CRP_2y)}</td>
+          <td style="color:#333; font-weight:400; padding:5px 8px;">${r.Rating}</td>
+          <td style="color:#333; font-weight:400; padding:5px 8px;">${lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN}</td>
+          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">${fmtPct(r.CRP_6m)}</td>
+          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">${fmtPct(r.CRP_1y)}</td>
+          <td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">${fmtPct(r.CRP_2y)}</td>
         </tr>
       `).join("");
 
@@ -1234,14 +1234,14 @@ const TEMPLATES = {
           <table class="atlas-table" style="border-bottom:1.5px solid #CBD5E1;">
             <thead>
               <tr>
-                <th rowspan="2" style="vertical-align:bottom; padding:8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">RATING</th>
-                <th rowspan="2" style="vertical-align:bottom; padding:8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_country}</th>
-                <th colspan="3" style="text-align:right; padding:8px; color:#666666; border-bottom:1px solid #E2E8F0; letter-spacing:0.5px;">${(I18N[lang] || I18N.EN).crp_col_crp}</th>
+                <th rowspan="2" style="vertical-align:bottom; padding:5px 8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">RATING</th>
+                <th rowspan="2" style="vertical-align:bottom; padding:5px 8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_country}</th>
+                <th colspan="3" style="text-align:right; padding:5px 8px; color:#666666; border-bottom:1px solid #E2E8F0; letter-spacing:0.5px;">${(I18N[lang] || I18N.EN).crp_col_crp}</th>
               </tr>
               <tr>
-                <th style="text-align:right; padding:8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_6m}</th>
-                <th style="text-align:right; padding:8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_1y}</th>
-                <th style="text-align:right; padding:8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_2y}</th>
+                <th style="text-align:right; padding:5px 8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_6m}</th>
+                <th style="text-align:right; padding:5px 8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_1y}</th>
+                <th style="text-align:right; padding:5px 8px; color:#666666; border-bottom:1.5px solid #CBD5E1;">${(I18N[lang] || I18N.EN).crp_col_2y}</th>
               </tr>
             </thead>
             <tbody>
@@ -1774,9 +1774,9 @@ const TEMPLATES = {
 <!-- Ready to paste into AEM Embed / Custom HTML Component -->
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
-    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
+    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
+    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
     .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; }
   </style>
   ${renderedMarkup}
@@ -2075,9 +2075,9 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
     .kpmg-atlas-chart-container h3 { font-size:16px; font-family:inherit; }
-    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
+    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
+    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
     .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; }
   </style>
   ${renderedMarkup}
