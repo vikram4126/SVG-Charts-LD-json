@@ -283,82 +283,60 @@ export function generateLiveAemSnippet({
       '</div>';
     }
 
-    // Dynamic Chart Generator: Builds SVG/Table HTML directly from live JSON data
-    function renderDynamic(liveRows) {
-      if (templateId === "wacc_band_over_time") {
-        return buildWaccBand(liveRows);
-      }
+    function buildCountriesTable(liveRows, datasetKey) {
+      var allRows = (liveRows || []).filter(function(d) {
+        return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+      });
+      var latestDate = allRows.reduce(function(m, r) { return (r.Date_Data && r.Date_Data > m) ? r.Date_Data : m; }, "");
+      var filtered = latestDate ? allRows.filter(function(r) { return r.Date_Data === latestDate; }) : allRows;
+      var rows = filtered.sort(function(a, b) {
+        return Number(b.N_Companies || 0) - Number(a.N_Companies || 0);
+      }).slice(0, 10);
+      var total = rows.reduce(function(s, r) { return s + (Number(r.N_Companies) || 0); }, 0);
 
-      if (templateId === "wacc_params_table") {
-        return buildWaccParams(liveRows);
-      }
+      var trs = rows.map(function(r) {
+        var ctryName = (lang === "DE" ? (r.Country_DE || r.Country_EN) : (r.Country_EN || r.Country_DE)) || r.Country || r.Ctry_Name_EN || "";
+        return '<tr><td style="color:#333; font-weight:400; padding:5px 8px;">' + ctryName + '</td><td class="num-col" style="color:#333; font-weight:400; padding:5px 8px;">' + Number(r.N_Companies || 0).toLocaleString() + '</td></tr>';
+      }).join("");
 
-      if (templateId === "wacc_full_grid") {
-        var bandSlot = stage ? stage.querySelector('[data-widget-slot="wacc_band"]') : null;
-        var paramsSlot = stage ? stage.querySelector('[data-widget-slot="wacc_params"]') : null;
-        if (bandSlot && paramsSlot) {
-          bandSlot.innerHTML = buildWaccBand(liveRows);
-          paramsSlot.innerHTML = buildWaccParams(liveRows);
-          return null;
-        }
-        return '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:30px;">' +
-          '<div data-widget-slot="wacc_band">' + buildWaccBand(liveRows) + '</div>' +
-          '<div data-widget-slot="wacc_params">' + buildWaccParams(liveRows) + '</div>' +
-        '</div>';
-      }
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Herkunft der Unternehmen" : "Origin of all companies included in the entire database") + '</h3>' +
+        '<table class="atlas-table">' +
+          '<thead><tr><th style="padding:5px 8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:5px 8px;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
+          '<tbody>' + trs + '</tbody>' +
+          '<tfoot><tr style="border-top:1.5px solid #CBD5E1; font-weight:700;"><td style="color:#333; font-weight:700; padding:5px 8px;">' + (lang === "DE" ? "Gesamt" : "Total") + '</td><td class="num-col" style="color:#333; font-weight:700; padding:5px 8px;">' + total.toLocaleString() + '</td></tr></tfoot>' +
+        '</table></div>';
+    }
 
-      if (templateId === "wacc_countries_table" || templateId === "multiples_countries_table") {
-        var allRows = liveRows.filter(function(d) {
-          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-        });
-        var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
-        var rows = allRows.filter(function(r) { return r.Date_Data === latestDate; }).sort(function(a, b) {
-          return Number(b.N_Companies) - Number(a.N_Companies);
-        });
-        var total = rows.reduce(function(s, r) { return s + (Number(r.N_Companies) || 0); }, 0);
+    function buildSubIndustriesTable(liveRows, datasetKey) {
+      var allRows = (liveRows || []).filter(function(d) {
+        return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
+      });
+      var latestDate = allRows.reduce(function(m, r) { return (r.Date_Data && r.Date_Data > m) ? r.Date_Data : m; }, "");
+      var filtered = latestDate ? allRows.filter(function(r) { return r.Date_Data === latestDate; }) : allRows;
+      var rows = filtered.sort(function(a, b) {
+        return Number(b.N_Companies || 0) - Number(a.N_Companies || 0);
+      }).slice(0, 10);
 
-        var trs = rows.map(function(r) {
-          var ctryName = (lang === "DE" ? (r.Country_DE || r.Country_EN) : (r.Country_EN || r.Country_DE)) || r.Country || r.Ctry_Name_EN || "";
-          return '<tr><td style="color:#333; font-weight:400;">' + ctryName + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
-        }).join("");
+      var trs = rows.map(function(r) {
+        var name = (lang === "DE" ? (r.SimpleIndustry_DE || r.SubIndustry_DE || r.SimpleIndustry_EN || r.SubIndustry_EN) : (r.SimpleIndustry_EN || r.SubIndustry_EN)) || r.SubIndustry || r.SimpleIndustry || "";
+        return '<tr><td style="color:#333; font-weight:400; padding:5px 8px;">' + name + '</td><td class="num-col" style="color:#333; font-weight:400; padding:5px 8px;">' + Number(r.N_Companies || 0).toLocaleString() + '</td></tr>';
+      }).join("");
 
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Herkunft der Unternehmen" : "Origin of Companies") + '</h3>' +
-          '<table class="atlas-table">' +
-            '<thead><tr><th>' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
-            '<tbody>' + trs + '</tbody>' +
-            '<tfoot><tr style="border-top:1.5px solid #CBD5E1; font-weight:700;"><td style="color:#333; font-weight:700; padding:5px 8px;">' + (lang === "DE" ? "Gesamt" : "Total") + '</td><td class="num-col" style="color:#333; font-weight:700; padding:5px 8px;">' + total.toLocaleString() + '</td></tr></tfoot>' +
-          '</table></div>';
-      }
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Teilsektoren" : "Sub-Sectors") + '</h3>' +
+        '<table class="atlas-table">' +
+          '<thead><tr><th style="padding:5px 8px;">' + (lang === "DE" ? "Teilsektor" : "Sub-Sector") + '</th><th style="text-align:right; padding:5px 8px;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
+          '<tbody>' + trs + '</tbody>' +
+        '</table></div>';
+    }
 
-      if (templateId === "wacc_subindustries_table" || templateId === "multiples_subindustries_table") {
-        var allRows = liveRows.filter(function(d) {
-          return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
-        });
-        var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
-        var rows = allRows.filter(function(r) { return r.Date_Data === latestDate; }).sort(function(a, b) {
-          return Number(b.N_Companies) - Number(a.N_Companies);
-        });
-
-        var trs = rows.map(function(r) {
-          var name = (lang === "DE" ? r.SubIndustry_DE || r.SimpleIndustry_DE : r.SubIndustry_EN || r.SimpleIndustry_EN) || r.SubIndustry || r.SimpleIndustry;
-          return '<tr><td style="color:#333; font-weight:400;">' + name + '</td><td class="num-col" style="color:#333; font-weight:400;">' + Number(r.N_Companies).toLocaleString() + '</td></tr>';
-        }).join("");
-
-        return '<div style="background:#fff; padding:6px 0;">' +
-          '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Teilsektoren" : "Sub-Sectors") + '</h3>' +
-          '<table class="atlas-table">' +
-            '<thead><tr><th>' + (lang === "DE" ? "Teilsektor" : "Sub-Sector") + '</th><th style="text-align:right;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
-            '<tbody>' + trs + '</tbody>' +
-          '</table></div>';
-      }
-
-    function buildMrp3Line(liveRows) {
-      var rows = liveRows.slice().sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+    function buildMrp3Line(liveRows, isDashboard) {
+      var rows = (liveRows || []).slice().sort(function(a, b) { return (a.Date || "").localeCompare(b.Date || ""); });
       var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
       var cW = w - pL - pR, cH = h - pT - pB;
       var minVal = 0.0, maxVal = 0.12;
-      var scaleX = function(i) { return pL + (i / (rows.length - 1)) * cW; };
+      var scaleX = function(i) { return pL + (i / Math.max(rows.length - 1, 1)) * cW; };
       var scaleY = function(v) { return pT + cH - (v / maxVal) * cH; };
 
       var gridLines = "";
@@ -368,18 +346,18 @@ export function generateLiveAemSnippet({
                      '<text x="' + (pL - 8) + '" y="' + (y + 4) + '" fill="#666" font-size="10.5" text-anchor="end">' + (v * 100).toFixed(1) + ' %</text>';
       }
 
-      var pathTotal = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Gesamtrendite); }).join(" ");
-      var pathMrp = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.MRP); }).join(" ");
-      var pathRf = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Basiszins); }).join(" ");
+      var pathTotal = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Gesamtrendite || 0); }).join(" ");
+      var pathMrp = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.MRP || 0); }).join(" ");
+      var pathRf = rows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Basiszins || 0); }).join(" ");
 
       var xLabels = rows.map(function(r, i) {
         var d = new Date(r.Date);
         var m = ["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"][d.getMonth()];
-        return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + m + ' ' + d.getFullYear().toString().substring(2) + '</text>';
+        return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + (m || "") + ' ' + (d.getFullYear() ? d.getFullYear().toString().substring(2) : "") + '</text>';
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
+        '<h3 style="font-size:' + (isDashboard ? '14px' : '16px') + '; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:' + (isDashboard ? '400' : '600') + ';">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -397,7 +375,7 @@ export function generateLiveAemSnippet({
     }
 
     function buildTenureStepCurve(liveRows) {
-      var rows = liveRows.slice().sort(function(a, b) { return Number(a.Tenure) - Number(b.Tenure); });
+      var rows = (liveRows || []).slice().sort(function(a, b) { return Number(a.Tenure) - Number(b.Tenure); });
       var w = 640, h = 340, pL = 65, pR = 25, pT = 30, pB = 65;
       var cW = w - pL - pR, cH = h - pT - pB;
       var minVal = 0.024, maxVal = 0.036;
@@ -452,11 +430,11 @@ export function generateLiveAemSnippet({
     }
 
     function buildCrpCountriesTable(liveRows) {
-      var trs = liveRows.map(function(r) {
+      var trs = (liveRows || []).map(function(r) {
         var ctry = (lang === "DE" ? (r.Ctry_Name_DE || r.Ctry_Name_EN) : r.Ctry_Name_EN) || r.Country;
         return '<tr>' +
-          '<td style="color:#333; font-weight:400; padding:5px 8px;">' + r.Rating + '</td>' +
-          '<td style="color:#333; font-weight:400; padding:5px 8px;">' + ctry + '</td>' +
+          '<td style="color:#333; font-weight:400; padding:5px 8px;">' + (r.Rating || "") + '</td>' +
+          '<td style="color:#333; font-weight:400; padding:5px 8px;">' + (ctry || "") + '</td>' +
           '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">' + fmtPct(r.CRP_6m) + '</td>' +
           '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">' + fmtPct(r.CRP_1y) + '</td>' +
           '<td class="num-col" style="color:#333; font-weight:400; text-align:right; padding:5px 8px;">' + fmtPct(r.CRP_2y) + '</td>' +
@@ -476,13 +454,13 @@ export function generateLiveAemSnippet({
     function buildCrpRatingLines(liveRows) {
       var ratings = ["BBB-", "BBB", "BBB+"];
       var dates = [];
-      liveRows.forEach(function(r) { if (dates.indexOf(r.Date) === -1) dates.push(r.Date); });
+      (liveRows || []).forEach(function(r) { if (dates.indexOf(r.Date) === -1) dates.push(r.Date); });
       dates.sort();
 
       var w = 640, h = 340, pL = 55, pR = 25, pT = 30, pB = 65;
       var cW = w - pL - pR, cH = h - pT - pB;
       var minVal = 0.006, maxVal = 0.020;
-      var scaleX = function(i) { return pL + (i / (dates.length - 1)) * cW; };
+      var scaleX = function(i) { return pL + (i / Math.max(dates.length - 1, 1)) * cW; };
       var scaleY = function(v) { return pT + cH - ((v - minVal) / (maxVal - minVal)) * cH; };
 
       var gridLines = "";
@@ -494,8 +472,8 @@ export function generateLiveAemSnippet({
 
       var colors = { "BBB-": "#00338D", "BBB": "#00b8f5", "BBB+": "#fd349c" };
       var lines = ratings.map(function(rCode) {
-        var rRows = liveRows.filter(function(r) { return r.Rating === rCode; }).sort(function(a, b) { return a.Date.localeCompare(b.Date); });
-        var pathD = rRows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Median); }).join(" ");
+        var rRows = (liveRows || []).filter(function(r) { return r.Rating === rCode; }).sort(function(a, b) { return a.Date.localeCompare(b.Date); });
+        var pathD = rRows.map(function(r, i) { return (i === 0 ? "M" : "L") + " " + scaleX(i) + " " + scaleY(r.Median || 0); }).join(" ");
         return '<path d="' + pathD + '" fill="none" stroke="' + colors[rCode] + '" stroke-width="2.5"/>';
       }).join("");
 
@@ -520,40 +498,49 @@ export function generateLiveAemSnippet({
         '</svg></div>';
     }
 
-    if (templateId === "mrp_3line_trend") {
-      return buildMrp3Line(liveRows);
-    }
+    function buildOvCrpBars(liveRows) {
+      var rows = liveRows || [];
+      var order = ["CCC", "B", "BB", "BBB", "A", "AA"];
+      var sortedRows = rows.slice().sort(function(a, b) {
+        return order.indexOf(a.Rating) - order.indexOf(b.Rating);
+      });
 
-    if (templateId === "mrp_tenure_step_curve") {
-      return buildTenureStepCurve(liveRows);
-    }
+      var w = 640, h = 330, pL = 60, pR = 30, pT = 25, pB = 55;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var maxX = 0.09;
+      var scaleX = function(v) { return pL + (v / maxX) * cW; };
 
-    if (templateId === "mrp_full_page") {
-      var trendSlot = stage ? stage.querySelector('[data-widget-slot="mrp_trend"]') : null;
-      if (trendSlot) {
-        trendSlot.innerHTML = buildMrp3Line(liveRows);
+      var gridLines = "";
+      for (var v = 0; v <= 0.0901; v += 0.01) {
+        var x = scaleX(v);
+        gridLines += '<line x1="' + x + '" y1="' + pT + '" x2="' + x + '" y2="' + (pT + cH) + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<line x1="' + x + '" y1="' + (pT + cH) + '" x2="' + x + '" y2="' + (pT + cH + 4) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+                     '<text x="' + x + '" y="' + (pT + cH + 17) + '" fill="#666" font-size="11" text-anchor="middle">' + (v * 100).toFixed(1) + '%</text>';
       }
-      return null;
-    }
 
-    if (templateId === "crp_countries_table") {
-      return buildCrpCountriesTable(liveRows);
-    }
+      var crpLabel = lang === "DE" ? "Bandbreite der Länderrisikoprämie" : "Range of country risk premium";
+      var rowH = cH / Math.max(sortedRows.length, 1);
+      var bars = "";
+      sortedRows.forEach(function(r, idx) {
+        var y = pT + (idx + 0.5) * rowH;
+        var x1 = scaleX(r.Min || 0), x2 = scaleX(r.Max || 0);
+        var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + r.Rating + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + crpLabel + " [" + fmtPct(r.Min) + ", " + fmtPct(r.Max) + "]</span></div>";
+        bars += '<text x="' + (pL - 12) + '" y="' + (y + 4) + '" fill="#666" font-size="12" font-weight="500" text-anchor="end">' + r.Rating + '</text>' +
+                '<rect class="has-tooltip" data-tooltip="' + tipHtml + '" x="' + x1 + '" y="' + (y - 9) + '" width="' + Math.max(x2 - x1, 4) + '" height="18" fill="#00b8f5" style="cursor:pointer;"/>';
+      });
 
-    if (templateId === "crp_rating_lines") {
-      return buildCrpRatingLines(liveRows);
-    }
-
-    if (templateId === "crp_full_page") {
-      var ratingSlot = stage ? stage.querySelector('[data-widget-slot="crp_rating_lines"]') : null;
-      if (ratingSlot) {
-        ratingSlot.innerHTML = buildCrpRatingLines(liveRows);
-      }
-      return null;
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle Länderrisikoprämie nach Rating" : "Current country risk premium per rating") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          gridLines + bars +
+          '<g transform="translate(' + (w / 2 - (lang === "DE" ? 115 : 95)) + ', ' + (pT + cH + 40) + ')">' +
+            '<rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/><text x="18" y="0" fill="#666" font-size="11">' + crpLabel + '</text>' +
+          '</g>' +
+        '</svg></div>';
     }
 
     function buildMultiplesColumns(liveRows) {
-      var sRows = liveRows.filter(function(d) {
+      var sRows = (liveRows || []).filter(function(d) {
         return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
       });
       var dates = [];
@@ -576,9 +563,7 @@ export function generateLiveAemSnippet({
       if (maxDataVal > 50.0) {
         maxVal = 60.0;
         step = 10.0;
-        if (maxDataVal > 60.0) {
-          maxVal = Math.ceil(maxDataVal / 10) * 10;
-        }
+        if (maxDataVal > 60.0) maxVal = Math.ceil(maxDataVal / 10) * 10;
       } else if (maxDataVal > 45.0) {
         maxVal = 50.0;
         step = 5.0;
@@ -661,10 +646,10 @@ export function generateLiveAemSnippet({
     }
 
     function buildMultiplesForecastBars(liveRows) {
-      var allRows = liveRows.filter(function(d) {
+      var allRows = (liveRows || []).filter(function(d) {
         return d.Sector_name_EN === sector || d.Sector_name_DE === sector;
       });
-      var latestDate = allRows.reduce(function(m, r) { return r.Date_Data > m ? r.Date_Data : m; }, "");
+      var latestDate = allRows.reduce(function(m, r) { return (r.Date_Data && r.Date_Data > m) ? r.Date_Data : m; }, "");
       var currentRows = allRows.filter(function(r) { return r.Date_Data === latestDate; });
 
       var horizons = [
@@ -719,15 +704,15 @@ export function generateLiveAemSnippet({
         bars += '<text x="' + (pL - 14) + '" y="' + (yCenter + 4) + '" fill="#333" font-size="11" font-weight="500" text-anchor="end">' + hItem.label + '</text>';
 
         if (ebitda) {
-          var x1 = scaleX(ebitda.Multiple_Value_Lower);
-          var x2 = scaleX(ebitda.Multiple_Value_Upper);
+          var x1 = scaleX(ebitda.Multiple_Value_Lower || 0);
+          var x2 = scaleX(ebitda.Multiple_Value_Upper || 0);
           var tip1 = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + hItem.label + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + ebitdaLabel + " [" + Number(ebitda.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebitda.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
           bars += '<rect class="has-tooltip" data-tooltip="' + tip1 + '" x="' + x1 + '" y="' + (yCenter - 14) + '" width="' + Math.max(x2 - x1, 4) + '" height="11" fill="#00338D" style="cursor:pointer;"/>';
         }
 
         if (ebit) {
-          var x1 = scaleX(ebit.Multiple_Value_Lower);
-          var x2 = scaleX(ebit.Multiple_Value_Upper);
+          var x1 = scaleX(ebit.Multiple_Value_Lower || 0);
+          var x2 = scaleX(ebit.Multiple_Value_Upper || 0);
           var tip2 = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + hItem.label + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + ebitLabel + " [" + Number(ebit.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebit.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
           bars += '<rect class="has-tooltip" data-tooltip="' + tip2 + '" x="' + x1 + '" y="' + (yCenter + 3) + '" width="' + Math.max(x2 - x1, 4) + '" height="11" fill="#00b8f5" style="cursor:pointer;"/>';
         }
@@ -748,31 +733,122 @@ export function generateLiveAemSnippet({
         '</svg></div>';
     }
 
-    if (templateId === "multiples_columns_over_time") {
-      return buildMultiplesColumns(liveRows);
-    }
+    function buildOvWaccHoriz(liveRows) {
+      var latestDate = (liveRows || []).reduce(function(m, r) { return (r.Date_Data && r.Date_Data > m) ? r.Date_Data : m; }, "");
+      var items = (liveRows || []).filter(function(r) { return r.Date_Data === latestDate; });
 
-    if (templateId === "multiples_forecast_bars") {
-      return buildMultiplesForecastBars(liveRows);
-    }
+      var w = 640, h = 360, pL = 150, pR = 30, pT = 25, pB = 60;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var minX = 0.05, maxX = 0.12;
+      var scaleX = function(v) { return pL + ((v - minX) / (maxX - minX)) * cW; };
 
-    if (templateId === "multiples_full_grid") {
-      var colSlot = stage ? stage.querySelector('[data-widget-slot="multiples_columns"]') : null;
-      var forecastSlot = stage ? stage.querySelector('[data-widget-slot="multiples_forecast"]') : null;
-      if (colSlot && forecastSlot) {
-        colSlot.innerHTML = buildMultiplesColumns(liveRows);
-        forecastSlot.innerHTML = buildMultiplesForecastBars(liveRows);
-        return null;
+      var gridLines = "";
+      for (var v = 0.05; v <= 0.1201; v += 0.01) {
+        var x = scaleX(v);
+        gridLines += '<line x1="' + x + '" y1="' + pT + '" x2="' + x + '" y2="' + (pT + cH) + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<line x1="' + x + '" y1="' + (pT + cH) + '" x2="' + x + '" y2="' + (pT + cH + 4) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+                     '<text x="' + x + '" y="' + (pT + cH + 17) + '" fill="#666" font-size="10.5" text-anchor="middle">' + (v * 100).toFixed(1) + '%</text>';
       }
-      return '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">' +
-        '<div data-widget-slot="multiples_columns" style="padding:6px 0;">' + buildMultiplesColumns(liveRows) + '</div>' +
-        '<div data-widget-slot="multiples_forecast" style="padding:6px 0;">' + buildMultiplesForecastBars(liveRows) + '</div>' +
-      '</div>';
+
+      var rowH = cH / Math.max(items.length, 1);
+      var rangeWaccLabel = lang === "DE" ? "Bandbreite des WACC" : "Range of WACC";
+      var bars = "";
+      items.forEach(function(item, idx) {
+        var y = pT + (idx + 0.5) * rowH;
+        var x1 = scaleX(item.WACC_Value_Lower || 0), x2 = scaleX(item.WACC_Value_Upper || 0);
+        var secName = (lang === "DE" && item.Sector_name_DE) ? item.Sector_name_DE : item.Sector_name_EN;
+        var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + secName + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + rangeWaccLabel + " [" + fmtPct(item.WACC_Value_Lower) + ", " + fmtPct(item.WACC_Value_Upper) + "]</span></div>";
+        bars += '<text x="' + (pL - 10) + '" y="' + (y + 3) + '" fill="#666" font-size="10" text-anchor="end">' + secName + '</text>' +
+                '<rect class="has-tooltip" data-tooltip="' + tipHtml + '" x="' + x1 + '" y="' + (y - 4) + '" width="' + Math.max(x2 - x1, 4) + '" height="8" fill="#00338D" style="cursor:pointer;"/>';
+      });
+
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle gewichtete durchschnittliche Kapitalkosten (WACC)" : "Current weighted average cost of capital (WACC)") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          gridLines + bars +
+          '<g transform="translate(' + (w / 2 - 80) + ', ' + (pT + cH + 40) + ')">' +
+            '<rect x="0" y="-10" width="12" height="12" fill="#00338D"/><text x="18" y="0" fill="#666" font-size="11">' + rangeWaccLabel + '</text>' +
+          '</g>' +
+        '</svg></div>';
     }
 
-    // Default fallback: Preserve pre-rendered chart markup, never overwrite stage with text counts!
-    return null;
-  }
+    function buildOvMultiplesHoriz(liveRows) {
+      var latestDate = (liveRows || []).reduce(function(m, r) { return (r.Date_Data && r.Date_Data > m) ? r.Date_Data : m; }, "");
+      var allRows = (liveRows || []).filter(function(r) { return r.Date_Data === latestDate; });
+      var secKey = lang === "DE" ? "Sector_name_DE" : "Sector_name_EN";
+      var sectors = [];
+      allRows.forEach(function(r) {
+        var s = r[secKey] || r.Sector_name_EN;
+        if (s && sectors.indexOf(s) === -1) sectors.push(s);
+      });
+
+      var w = 640, h = 360, pL = 150, pR = 30, pT = 25, pB = 60;
+      var cW = w - pL - pR, cH = h - pT - pB;
+      var maxX = 60.0;
+      var scaleX = function(v) { return pL + (v / maxX) * cW; };
+
+      var gridLines = "";
+      for (var v = 0; v <= 60.01; v += 10.0) {
+        var x = scaleX(v);
+        gridLines += '<line x1="' + x + '" y1="' + pT + '" x2="' + x + '" y2="' + (pT + cH) + '" stroke="#E2E8F0" stroke-width="1"/>' +
+                     '<line x1="' + x + '" y1="' + (pT + cH) + '" x2="' + x + '" y2="' + (pT + cH + 4) + '" stroke="#CBD5E1" stroke-width="1"/>' +
+                     '<text x="' + x + '" y="' + (pT + cH + 17) + '" fill="#666" font-size="10.5" text-anchor="middle">' + v.toFixed(1) + ' x</text>';
+      }
+
+      var ebitLabel = lang === "DE" ? "Bandbreite der EBIT-Multiplikatoren" : "Range of EBIT multiples";
+      var ebitdaLabel = lang === "DE" ? "Bandbreite der EBITDA-Multiplikatoren" : "Range of EBITDA multiples";
+
+      var rowH = cH / Math.max(sectors.length, 1);
+      var bars = "";
+      sectors.forEach(function(sec, idx) {
+        var y = pT + (idx + 0.5) * rowH;
+        var ebitda = allRows.find(function(r) { return (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBITDA-Multiple"; });
+        var ebit = allRows.find(function(r) { return (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBIT-Multiple"; });
+
+        bars += '<text x="' + (pL - 10) + '" y="' + (y + 3) + '" fill="#666" font-size="10" text-anchor="end">' + sec + '</text>';
+        if (ebit) {
+          var x1 = scaleX(ebit.Multiple_Value_Lower || 0), x2 = scaleX(ebit.Multiple_Value_Upper || 0);
+          var ebitTip = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + sec + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + ebitLabel + " [" + Number(ebit.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebit.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
+          bars += '<rect class="has-tooltip" data-tooltip="' + ebitTip + '" x="' + x1 + '" y="' + (y - 6) + '" width="' + Math.max(x2 - x1, 4) + '" height="5" fill="#00b8f5" style="cursor:pointer;"/>';
+        }
+        if (ebitda) {
+          var x1 = scaleX(ebitda.Multiple_Value_Lower || 0), x2 = scaleX(ebitda.Multiple_Value_Upper || 0);
+          var ebitdaTip = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + sec + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + ebitdaLabel + " [" + Number(ebitda.Multiple_Value_Lower).toFixed(1) + "x, " + Number(ebitda.Multiple_Value_Upper).toFixed(1) + "x]</span></div>";
+          bars += '<rect class="has-tooltip" data-tooltip="' + ebitdaTip + '" x="' + x1 + '" y="' + (y + 1) + '" width="' + Math.max(x2 - x1, 4) + '" height="5" fill="#00338D" style="cursor:pointer;"/>';
+        }
+      });
+
+      return '<div style="background:#fff; padding:6px 0;">' +
+        '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle Bandbreiten der Branchenmultiplikatoren" : "Current Industry Multiple Ranges") + '</h3>' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
+          gridLines + bars +
+          '<g transform="translate(' + (w / 2 - (lang === "DE" ? 180 : 145)) + ', ' + (pT + cH + 42) + ')">' +
+            '<rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/><text x="18" y="0" fill="#666" font-size="11">' + ebitLabel + '</text>' +
+            '<rect x="' + (lang === "DE" ? 205 : 175) + '" y="-10" width="12" height="12" fill="#00338D"/><text x="' + (lang === "DE" ? 223 : 193) + '" y="0" fill="#666" font-size="11">' + ebitdaLabel + '</text>' +
+          '</g>' +
+        '</svg></div>';
+    }
+
+    // Dynamic Chart Generator Router: Returns complete SVG/Table HTML for individual charts
+    function renderDynamic(liveRows) {
+      if (templateId === "wacc_band_over_time") return buildWaccBand(liveRows);
+      if (templateId === "wacc_params_table") return buildWaccParams(liveRows);
+      if (templateId === "wacc_countries_table") return buildCountriesTable(liveRows, "WACC_Countries");
+      if (templateId === "wacc_subindustries_table") return buildSubIndustriesTable(liveRows, "WACC_SubIndustries");
+      if (templateId === "multiples_columns_over_time") return buildMultiplesColumns(liveRows);
+      if (templateId === "multiples_forecast_bars") return buildMultiplesForecastBars(liveRows);
+      if (templateId === "multiples_countries_table") return buildCountriesTable(liveRows, "Multiples_Countries");
+      if (templateId === "multiples_subindustries_table") return buildSubIndustriesTable(liveRows, "Multiples_SubIndustries");
+      if (templateId === "mrp_3line_trend") return buildMrp3Line(liveRows, false);
+      if (templateId === "ov_mrp_trend") return buildMrp3Line(liveRows, true);
+      if (templateId === "mrp_tenure_step_curve") return buildTenureStepCurve(liveRows);
+      if (templateId === "crp_rating_lines") return buildCrpRatingLines(liveRows);
+      if (templateId === "crp_countries_table") return buildCrpCountriesTable(liveRows);
+      if (templateId === "crp_bars_over_time" || templateId === "ov_crp_bars") return buildOvCrpBars(liveRows);
+      if (templateId === "ov_wacc_horiz") return buildOvWaccHoriz(liveRows);
+      if (templateId === "ov_multiples_horiz") return buildOvMultiplesHoriz(liveRows);
+      return null;
+    }
 
   // Dynamic Schema.org Generator: Reconstructs fresh observations directly from live API data
   function buildDynamicObservations(liveRows, secondaryRows) {
@@ -896,6 +972,23 @@ export function generateLiveAemSnippet({
       });
     }
 
+    if (templateId === "ov_full_grid" || templateId === "ov_wacc_horiz") {
+      var wRows = (liveRows || []).slice();
+      var latestDate = wRows.reduce(function(m, r) { return (r.Date_Data && r.Date_Data > m) ? r.Date_Data : m; }, "");
+      var items = wRows.filter(function(r) { return r.Date_Data === latestDate; });
+      items.forEach(function(r) {
+        var sec = isDE ? (r.Sector_name_DE || r.Sector_name_EN) : r.Sector_name_EN;
+        obs.push({
+          "@type": "Dataset",
+          "name": sec + " WACC (" + (latestDate ? latestDate.split("T")[0] : "") + ")",
+          "variableMeasured": [
+            { "@type": "PropertyValue", "name": "WACC Lower", "value": Number((r.WACC_Value_Lower * 100).toFixed(2)), "unitText": "%" },
+            { "@type": "PropertyValue", "name": "WACC Upper", "value": Number((r.WACC_Value_Upper * 100).toFixed(2)), "unitText": "%" }
+          ]
+        });
+      });
+    }
+
     return obs;
   }
 
@@ -937,6 +1030,78 @@ export function generateLiveAemSnippet({
 
   // Live Fetch API Execution (Simple GET requests without preflight headers to avoid CORS OPTIONS rejection)
   function syncLiveApi() {
+    if (templateId === "wacc_full_grid") {
+      var u1 = "${cleanApiBase}/WACC_Values";
+      var u2 = "${cleanApiBase}/WACC_Countries";
+      var u3 = "${cleanApiBase}/WACC_SubIndustries";
+      Promise.all([
+        fetch(u1).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u2).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u3).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      ]).then(function(resArr) {
+        var waccRows = resArr[0], ctryRows = resArr[1], subRows = resArr[2];
+        if (stage) {
+          var bandSlot = stage.querySelector('[data-widget-slot="wacc_band"]');
+          var ctrySlot = stage.querySelector('[data-widget-slot="wacc_countries"]');
+          var paramsSlot = stage.querySelector('[data-widget-slot="wacc_params"]');
+          var subSlot = stage.querySelector('[data-widget-slot="wacc_subindustries"]');
+          if (bandSlot && ctrySlot && paramsSlot && subSlot) {
+            bandSlot.innerHTML = buildWaccBand(waccRows);
+            ctrySlot.innerHTML = buildCountriesTable(ctryRows, "WACC_Countries");
+            paramsSlot.innerHTML = buildWaccParams(waccRows);
+            subSlot.innerHTML = buildSubIndustriesTable(subRows, "WACC_SubIndustries");
+          } else {
+            stage.innerHTML = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">' +
+              '<div data-widget-slot="wacc_band" style="padding:6px 0;">' + buildWaccBand(waccRows) + '</div>' +
+              '<div data-widget-slot="wacc_countries" style="padding:6px 0;">' + buildCountriesTable(ctryRows, "WACC_Countries") + '</div>' +
+              '<div data-widget-slot="wacc_params" style="padding:6px 0;">' + buildWaccParams(waccRows) + '</div>' +
+              '<div data-widget-slot="wacc_subindustries" style="padding:6px 0;">' + buildSubIndustriesTable(subRows, "WACC_SubIndustries") + '</div>' +
+            '</div>';
+          }
+        }
+        updateDynamicSchema(waccRows);
+      }).catch(function(err) {
+        console.warn("[KPMG Atlas Live Widget] WACC Full sync skipped:", err.message);
+      });
+      return;
+    }
+
+    if (templateId === "multiples_full_grid") {
+      var u1 = "${cleanApiBase}/Multiples_Values";
+      var u2 = "${cleanApiBase}/Multiples_Countries";
+      var u3 = "${cleanApiBase}/Multiples_SubIndustries";
+      Promise.all([
+        fetch(u1).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u2).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u3).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      ]).then(function(resArr) {
+        var multRows = resArr[0], ctryRows = resArr[1], subRows = resArr[2];
+        if (stage) {
+          var colSlot = stage.querySelector('[data-widget-slot="multiples_columns"]');
+          var ctrySlot = stage.querySelector('[data-widget-slot="multiples_countries"]');
+          var fcastSlot = stage.querySelector('[data-widget-slot="multiples_forecast"]');
+          var subSlot = stage.querySelector('[data-widget-slot="multiples_subindustries"]');
+          if (colSlot && ctrySlot && fcastSlot && subSlot) {
+            colSlot.innerHTML = buildMultiplesColumns(multRows);
+            ctrySlot.innerHTML = buildCountriesTable(ctryRows, "Multiples_Countries");
+            fcastSlot.innerHTML = buildMultiplesForecastBars(multRows);
+            subSlot.innerHTML = buildSubIndustriesTable(subRows, "Multiples_SubIndustries");
+          } else {
+            stage.innerHTML = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">' +
+              '<div data-widget-slot="multiples_columns" style="padding:6px 0;">' + buildMultiplesColumns(multRows) + '</div>' +
+              '<div data-widget-slot="multiples_countries" style="padding:6px 0;">' + buildCountriesTable(ctryRows, "Multiples_Countries") + '</div>' +
+              '<div data-widget-slot="multiples_forecast" style="padding:6px 0;">' + buildMultiplesForecastBars(multRows) + '</div>' +
+              '<div data-widget-slot="multiples_subindustries" style="padding:6px 0;">' + buildSubIndustriesTable(subRows, "Multiples_SubIndustries") + '</div>' +
+            '</div>';
+          }
+        }
+        updateDynamicSchema(multRows);
+      }).catch(function(err) {
+        console.warn("[KPMG Atlas Live Widget] Multiples Full sync skipped:", err.message);
+      });
+      return;
+    }
+
     if (templateId === "mrp_full_page") {
       var u1 = "${cleanApiBase}/MRP_BZ";
       var u2 = "${cleanApiBase}/BZ_CreditSpread";
@@ -947,9 +1112,16 @@ export function generateLiveAemSnippet({
         var mrpRows = resArr[0], bzRows = resArr[1];
         if (stage) {
           var tSlot = stage.querySelector('[data-widget-slot="mrp_trend"]');
-          if (tSlot) tSlot.innerHTML = buildMrp3Line(mrpRows);
           var sSlot = stage.querySelector('[data-widget-slot="mrp_step"]');
-          if (sSlot) sSlot.innerHTML = buildTenureStepCurve(bzRows);
+          if (tSlot && sSlot) {
+            tSlot.innerHTML = buildMrp3Line(mrpRows, false);
+            sSlot.innerHTML = buildTenureStepCurve(bzRows);
+          } else {
+            stage.innerHTML = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">' +
+              '<div data-widget-slot="mrp_trend" style="padding:6px 0;">' + buildMrp3Line(mrpRows, false) + '</div>' +
+              '<div data-widget-slot="mrp_step" style="padding:6px 0;">' + buildTenureStepCurve(bzRows) + '</div>' +
+            '</div>';
+          }
         }
         updateDynamicSchema(mrpRows, bzRows);
       }).catch(function(err) {
@@ -968,13 +1140,58 @@ export function generateLiveAemSnippet({
         var lrpRows = resArr[0], ctryRows = resArr[1];
         if (stage) {
           var rSlot = stage.querySelector('[data-widget-slot="crp_rating_lines"]');
-          if (rSlot) rSlot.innerHTML = buildCrpRatingLines(lrpRows);
           var cSlot = stage.querySelector('[data-widget-slot="crp_countries"]');
-          if (cSlot) cSlot.innerHTML = buildCrpCountriesTable(ctryRows);
+          if (rSlot && cSlot) {
+            rSlot.innerHTML = buildCrpRatingLines(lrpRows);
+            cSlot.innerHTML = buildCrpCountriesTable(ctryRows);
+          } else {
+            stage.innerHTML = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px; align-items:start;">' +
+              '<div data-widget-slot="crp_rating_lines" style="padding:6px 0;">' + buildCrpRatingLines(lrpRows) + '</div>' +
+              '<div data-widget-slot="crp_countries" style="padding:6px 0;">' + buildCrpCountriesTable(ctryRows) + '</div>' +
+            '</div>';
+          }
         }
         updateDynamicSchema(lrpRows, ctryRows);
       }).catch(function(err) {
         console.warn("[KPMG Atlas Live Widget] CRP Full sync skipped:", err.message);
+      });
+      return;
+    }
+
+    if (templateId === "ov_full_grid") {
+      var u1 = "${cleanApiBase}/WACC_Values";
+      var u2 = "${cleanApiBase}/Multiples_Values";
+      var u3 = "${cleanApiBase}/MRP_BZ";
+      var u4 = "${cleanApiBase}/LRP_AverageLRPs";
+      Promise.all([
+        fetch(u1).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u2).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u3).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+        fetch(u4).then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      ]).then(function(resArr) {
+        var waccRows = resArr[0], multRows = resArr[1], mrpRows = resArr[2], crpRows = resArr[3];
+        if (stage) {
+          var waccSlot = stage.querySelector('[data-widget-slot="ov_wacc"]');
+          var multSlot = stage.querySelector('[data-widget-slot="ov_multiples"]');
+          var mrpSlot = stage.querySelector('[data-widget-slot="ov_mrp"]');
+          var crpSlot = stage.querySelector('[data-widget-slot="ov_crp"]');
+          if (waccSlot && multSlot && mrpSlot && crpSlot) {
+            waccSlot.innerHTML = buildOvWaccHoriz(waccRows);
+            multSlot.innerHTML = buildOvMultiplesHoriz(multRows);
+            mrpSlot.innerHTML = buildMrp3Line(mrpRows, true);
+            crpSlot.innerHTML = buildOvCrpBars(crpRows);
+          } else {
+            stage.innerHTML = '<div class="overview-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">' +
+              '<div data-widget-slot="ov_wacc" style="padding:6px 0;">' + buildOvWaccHoriz(waccRows) + '</div>' +
+              '<div data-widget-slot="ov_multiples" style="padding:6px 0;">' + buildOvMultiplesHoriz(multRows) + '</div>' +
+              '<div data-widget-slot="ov_mrp" style="padding:6px 0;">' + buildMrp3Line(mrpRows, true) + '</div>' +
+              '<div data-widget-slot="ov_crp" style="padding:6px 0;">' + buildOvCrpBars(crpRows) + '</div>' +
+            '</div>';
+          }
+        }
+        updateDynamicSchema(waccRows);
+      }).catch(function(err) {
+        console.warn("[KPMG Atlas Live Widget] Overview Grid sync skipped:", err.message);
       });
       return;
     }

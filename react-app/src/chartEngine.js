@@ -1471,10 +1471,10 @@ const TEMPLATES = {
     function renderFullOverviewGrid(lang = "EN") {
       return `
         <div class="overview-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div style="padding:6px 0;">${renderOverviewWaccHoriz(lang)}</div>
-          <div style="padding:6px 0;">${renderOverviewMultiplesHoriz(lang)}</div>
-          <div style="padding:6px 0;">${renderMrp3LineTrend(lang, true)}</div>
-          <div style="padding:6px 0;">${renderOverviewCrpBars(lang)}</div>
+          <div data-widget-slot="ov_wacc" style="padding:6px 0;">${renderOverviewWaccHoriz(lang)}</div>
+          <div data-widget-slot="ov_multiples" style="padding:6px 0;">${renderOverviewMultiplesHoriz(lang)}</div>
+          <div data-widget-slot="ov_mrp" style="padding:6px 0;">${renderMrp3LineTrend(lang, true)}</div>
+          <div data-widget-slot="ov_crp" style="padding:6px 0;">${renderOverviewCrpBars(lang)}</div>
         </div>
       `;
     }

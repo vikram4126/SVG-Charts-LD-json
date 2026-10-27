@@ -475,12 +475,10 @@ export default function App() {
                 {lang === 'DE' ? 'Statisch' : 'Static'}
               </button>
               <button className="btn btn-live-aem" onClick={copyLiveAemCode} title={lang === 'DE' ? 'Live-AEM (Hybrid): Sofort-Anzeige + Live-API-Sync' : 'Live AEM (Hybrid): Instant preview + live API auto-sync'}>
-                <span className="live-pulse-dot"></span>
-                {lang === 'DE' ? '⚡ Live' : '⚡ Live'}
+                {lang === 'DE' ? 'Live' : 'Live'}
               </button>
               <button className="btn btn-pure-live" onClick={copyPureLiveAemCode} title={lang === 'DE' ? 'Pure Live (Zero-Static): Nur Spinner, 100% dynamisch per API' : 'Pure Live (Zero-Static): Clean spinner, 100% dynamic via API'}>
-                <span className="pure-pulse-dot"></span>
-                {lang === 'DE' ? '⚡ Pure Live' : '⚡ Pure Live'}
+                {lang === 'DE' ? 'Pure Live' : 'Pure Live'}
               </button>
             </div>
           </div>
