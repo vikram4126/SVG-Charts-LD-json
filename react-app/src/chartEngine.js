@@ -983,9 +983,6 @@ const TEMPLATES = {
         return `
           <g class="has-tooltip mrp-col" data-tooltip="${tipHtml}" style="cursor:pointer;">
             <rect x="${scaleX(i) - colW/2}" y="${pT}" width="${colW}" height="${cH}" fill="transparent"/>
-            <circle class="hover-dot" cx="${scaleX(i)}" cy="${scaleY(r.Gesamtrendite)}" r="4.5" fill="#00338D" pointer-events="none"/>
-            <circle class="hover-dot" cx="${scaleX(i)}" cy="${scaleY(r.MRP)}" r="4.5" fill="#00b8f5" pointer-events="none"/>
-            <circle class="hover-dot" cx="${scaleX(i)}" cy="${scaleY(r.Basiszins)}" r="4.5" fill="#fd349c" pointer-events="none"/>
           </g>
         `;
       }).join("");
@@ -1176,9 +1173,6 @@ const TEMPLATES = {
         return `
           <g class="has-tooltip crp-col" data-tooltip="${tipHtml}" style="cursor:pointer;">
             <rect x="${scaleX(i) - colW/2}" y="${pT}" width="${colW}" height="${cH}" fill="transparent"/>
-            ${rMinus ? `<circle class="hover-dot" cx="${scaleX(i)}" cy="${scaleY(rMinus.Median)}" r="4.5" fill="#00338D" pointer-events="none"/>` : ""}
-            ${rMid ? `<circle class="hover-dot" cx="${scaleX(i)}" cy="${scaleY(rMid.Median)}" r="4.5" fill="#00b8f5" pointer-events="none"/>` : ""}
-            ${rPlus ? `<circle class="hover-dot" cx="${scaleX(i)}" cy="${scaleY(rPlus.Median)}" r="4.5" fill="#fd349c" pointer-events="none"/>` : ""}
           </g>
         `;
       }).join("");

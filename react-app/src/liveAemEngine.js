@@ -370,9 +370,6 @@ export function generateLiveAemSnippet({
 
         return '<g class="has-tooltip mrp-col" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
           '<rect x="' + (scaleX(i) - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
-          '<circle class="hover-dot" cx="' + scaleX(i) + '" cy="' + scaleY(r.Gesamtrendite || 0) + '" r="4.5" fill="#00338D" pointer-events="none"/>' +
-          '<circle class="hover-dot" cx="' + scaleX(i) + '" cy="' + scaleY(r.MRP || 0) + '" r="4.5" fill="#00b8f5" pointer-events="none"/>' +
-          '<circle class="hover-dot" cx="' + scaleX(i) + '" cy="' + scaleY(r.Basiszins || 0) + '" r="4.5" fill="#fd349c" pointer-events="none"/>' +
         '</g>';
       }).join("");
 
