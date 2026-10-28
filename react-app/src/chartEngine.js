@@ -554,7 +554,6 @@ const TEMPLATES = {
               return `
                 <g class="has-tooltip median-point" data-tooltip="${medTip}" style="cursor:pointer;">
                   <rect x="${xL}" y="${yMed - 10}" width="${colW}" height="20" fill="transparent" />
-                  <circle cx="${scaleX(i)}" cy="${yMed}" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5" class="med-dot" style="opacity:0; transition:opacity 0.15s ease;" />
                 </g>
               `;
             }).join("")}
@@ -662,11 +661,11 @@ const TEMPLATES = {
       });
 
       const legend = `
-        <g transform="translate(${w / 2 - 140}, ${h - 15})">
+        <g transform="translate(${lang === "DE" ? w / 2 - 260 : w / 2 - 190}, ${h - 15})">
           <rect x="0" y="0" width="12" height="12" fill="#00338D"/>
           <text x="18" y="10" font-size="11" fill="#333">${ebitdaLabel}</text>
-          <rect x="${lang === "DE" ? 200 : 170}" y="0" width="12" height="12" fill="#00b8f5"/>
-          <text x="${lang === "DE" ? 218 : 188}" y="10" font-size="11" fill="#333">${ebitLabel}</text>
+          <rect x="${lang === "DE" ? 280 : 210}" y="0" width="12" height="12" fill="#00b8f5"/>
+          <text x="${lang === "DE" ? 298 : 228}" y="10" font-size="11" fill="#333">${ebitLabel}</text>
         </g>
       `;
 
@@ -777,11 +776,11 @@ const TEMPLATES = {
       });
 
       const legend = `
-        <g transform="translate(${w / 2 - 140}, ${h - 15})">
+        <g transform="translate(${lang === "DE" ? w / 2 - 260 : w / 2 - 190}, ${h - 15})">
           <rect x="0" y="0" width="12" height="12" fill="#00338D"/>
           <text x="18" y="10" font-size="11" fill="#333">${ebitdaLabel}</text>
-          <rect x="${lang === "DE" ? 200 : 170}" y="0" width="12" height="12" fill="#00b8f5"/>
-          <text x="${lang === "DE" ? 218 : 188}" y="10" font-size="11" fill="#333">${ebitLabel}</text>
+          <rect x="${lang === "DE" ? 280 : 210}" y="0" width="12" height="12" fill="#00b8f5"/>
+          <text x="${lang === "DE" ? 298 : 228}" y="10" font-size="11" fill="#333">${ebitLabel}</text>
         </g>
       `;
 
@@ -1381,12 +1380,12 @@ const TEMPLATES = {
       });
 
       const legend = `
-        <g transform="translate(${w / 2 - (lang === 'DE' ? 180 : 145)}, ${pT + cH + 42})">
+        <g transform="translate(${w / 2 - (lang === 'DE' ? 260 : 190)}, ${pT + cH + 42})">
           <rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/>
           <text x="18" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${ebitLabel}</text>
           
-          <rect x="${lang === 'DE' ? 205 : 175}" y="-10" width="12" height="12" fill="#00338D"/>
-          <text x="${lang === 'DE' ? 223 : 193}" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${ebitdaLabel}</text>
+          <rect x="${lang === 'DE' ? 270 : 200}" y="-10" width="12" height="12" fill="#00338D"/>
+          <text x="${lang === 'DE' ? 288 : 218}" y="0" fill="#666" font-size="11" font-family="Inter, Arial, sans-serif">${ebitdaLabel}</text>
         </g>
       `;
 

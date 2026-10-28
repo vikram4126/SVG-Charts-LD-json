@@ -226,7 +226,7 @@ export function generateLiveAemSnippet({
         var xL = scaleX(i) - colW / 2;
         var yMed = scaleY(r.WACC_Value_Median);
         var tipText = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'> " + qHeader + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + medianLabel + ": " + fmtPct(r.WACC_Value_Median) + "</span></div>";
-        return '<g class="has-tooltip median-point" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + (yMed - 10) + '" width="' + colW + '" height="20" fill="transparent"/><circle cx="' + scaleX(i) + '" cy="' + yMed + '" r="4" fill="#00338D" stroke="#FFFFFF" stroke-width="1.5"/></g>';
+        return '<g class="has-tooltip median-point" data-tooltip="' + tipText + '" style="cursor:pointer;"><rect x="' + xL + '" y="' + (yMed - 10) + '" width="' + colW + '" height="20" fill="transparent"/></g>';
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
@@ -356,6 +356,40 @@ export function generateLiveAemSnippet({
         return '<text x="' + scaleX(i) + '" y="' + (pT + cH + 16) + '" fill="#666" font-size="10" text-anchor="middle">' + (m || "") + ' ' + (d.getFullYear() ? d.getFullYear().toString().substring(2) : "") + '</text>';
       }).join("");
 
+      var hitboxes = rows.map(function(r, i) {
+        var parts = fmtDateQ(r.Date).split(" ");
+        var qHeader = (parts[0] || "") + " " + (parts[1] || "");
+        var colW = cW / Math.max(rows.length - 1, 1);
+        var totalTipLabel = lang === "DE" ? "Gesamtrendite" : "Total rate of return";
+        var mrpTipLabel = lang === "DE" ? "Marktrisikoprämie" : "Market risk premium";
+        var rfTipLabel = lang === "DE" ? "Basiszinssatz" : "Risk-free rate";
+        var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:6px; font-size:12px;'>" + qHeader + "</div>" +
+          "<div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + totalTipLabel + ": <span style='color:#FFFFFF; font-weight:normal;'>" + fmtPct(r.Gesamtrendite) + "</span></span></div>" +
+          "<div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + mrpTipLabel + ": <span style='color:#FFFFFF; font-weight:normal;'>" + fmtPct(r.MRP) + "</span></span></div>" +
+          "<div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF;'></span><span>" + rfTipLabel + ": <span style='color:#FFFFFF; font-weight:normal;'>" + fmtPct(r.Basiszins) + "</span></span></div>";
+
+        return '<g class="has-tooltip mrp-col" data-tooltip="' + tipHtml + '" style="cursor:pointer;">' +
+          '<rect x="' + (scaleX(i) - colW/2) + '" y="' + pT + '" width="' + colW + '" height="' + cH + '" fill="transparent"/>' +
+          '<circle class="hover-dot" cx="' + scaleX(i) + '" cy="' + scaleY(r.Gesamtrendite || 0) + '" r="4.5" fill="#00338D" pointer-events="none"/>' +
+          '<circle class="hover-dot" cx="' + scaleX(i) + '" cy="' + scaleY(r.MRP || 0) + '" r="4.5" fill="#00b8f5" pointer-events="none"/>' +
+          '<circle class="hover-dot" cx="' + scaleX(i) + '" cy="' + scaleY(r.Basiszins || 0) + '" r="4.5" fill="#fd349c" pointer-events="none"/>' +
+        '</g>';
+      }).join("");
+
+      var totalLegendLabel = lang === "DE" ? "Gesamtrendite" : "Total rate of return";
+      var mrpLegendLabel = lang === "DE" ? "Marktrisikoprämie" : "Market risk premium";
+      var rfLegendLabel = lang === "DE" ? "Basiszinssatz" : "Risk-free rate";
+      var legShift = lang === "DE" ? (w / 2 - 188) : (w / 2 - 206);
+
+      var legend = '<g transform="translate(' + legShift + ', ' + (pT + cH + 48) + ')">' +
+        '<line x1="0" y1="0" x2="26" y2="0" stroke="#00338D" stroke-width="5"/>' +
+        '<text x="32" y="4" font-size="11" fill="#333">' + totalLegendLabel + '</text>' +
+        '<line x1="' + (lang === "DE" ? 120 : 145) + '" y1="0" x2="' + (lang === "DE" ? 146 : 171) + '" y2="0" stroke="#00b8f5" stroke-width="5"/>' +
+        '<text x="' + (lang === "DE" ? 152 : 177) + '" y="4" font-size="11" fill="#333">' + mrpLegendLabel + '</text>' +
+        '<line x1="' + (lang === "DE" ? 270 : 305) + '" y1="0" x2="' + (lang === "DE" ? 296 : 331) + '" y2="0" stroke="#fd349c" stroke-width="5"/>' +
+        '<text x="' + (lang === "DE" ? 302 : 337) + '" y="4" font-size="11" fill="#333">' + rfLegendLabel + '</text>' +
+      '</g>';
+
       return '<div style="background:#fff; padding:6px 0;">' +
         '<h3 style="font-size:' + (isDashboard ? '14px' : '16px') + '; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:' + (isDashboard ? '400' : '600') + ';">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
@@ -365,12 +399,9 @@ export function generateLiveAemSnippet({
           '<path d="' + pathTotal + '" fill="none" stroke="#00338D" stroke-width="2.5"/>' +
           '<path d="' + pathMrp + '" fill="none" stroke="#00b8f5" stroke-width="2.5"/>' +
           '<path d="' + pathRf + '" fill="none" stroke="#fd349c" stroke-width="2.5"/>' +
+          hitboxes +
           xLabels +
-          '<g transform="translate(' + (w / 2 - 160) + ', ' + (h - 15) + ')">' +
-            '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Gesamtrendite" : "Total return") + '</text>' +
-            '<rect x="115" y="0" width="12" height="12" fill="#00b8f5"/><text x="133" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Marktrisikoprämie" : "Market risk premium") + '</text>' +
-            '<rect x="250" y="0" width="12" height="12" fill="#fd349c"/><text x="268" y="10" font-size="11" fill="#333">' + (lang === "DE" ? "Basiszinssatz" : "Risk-free rate") + '</text>' +
-          '</g>' +
+          legend +
         '</svg></div>';
     }
 
@@ -638,9 +669,9 @@ export function generateLiveAemSnippet({
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           gridLines + bars + xLabels +
-          '<g transform="translate(' + (w / 2 - 120) + ', ' + (pT + cH + 48) + ')">' +
+          '<g transform="translate(' + (lang === "DE" ? w / 2 - 260 : w / 2 - 190) + ', ' + (pT + cH + 48) + ')">' +
             '<rect x="0" y="-3" width="16" height="8" fill="#00338D"/><text x="22" y="4" font-size="11" fill="#333">' + ebitdaLabel + '</text>' +
-            '<rect x="130" y="-3" width="16" height="8" fill="#00b8f5"/><text x="152" y="4" font-size="11" fill="#333">' + ebitLabel + '</text>' +
+            '<rect x="' + (lang === "DE" ? 280 : 210) + '" y="-3" width="16" height="8" fill="#00b8f5"/><text x="' + (lang === "DE" ? 302 : 232) + '" y="4" font-size="11" fill="#333">' + ebitLabel + '</text>' +
           '</g>' +
         '</svg></div>';
     }
@@ -726,9 +757,9 @@ export function generateLiveAemSnippet({
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (h - pB) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (h - pB) + '" x2="' + (pL + cW) + '" y2="' + (h - pB) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           gridLines + bars +
-          '<g transform="translate(' + (w / 2 - 140) + ', ' + (h - 15) + ')">' +
+          '<g transform="translate(' + (lang === "DE" ? w / 2 - 260 : w / 2 - 190) + ', ' + (h - 15) + ')">' +
             '<rect x="0" y="0" width="12" height="12" fill="#00338D"/><text x="18" y="10" font-size="11" fill="#333">' + ebitdaLabel + '</text>' +
-            '<rect x="' + (lang === "DE" ? 200 : 170) + '" y="0" width="12" height="12" fill="#00b8f5"/><text x="' + (lang === "DE" ? 218 : 188) + '" y="10" font-size="11" fill="#333">' + ebitLabel + '</text>' +
+            '<rect x="' + (lang === "DE" ? 280 : 210) + '" y="0" width="12" height="12" fill="#00b8f5"/><text x="' + (lang === "DE" ? 298 : 228) + '" y="10" font-size="11" fill="#333">' + ebitLabel + '</text>' +
           '</g>' +
         '</svg></div>';
     }
@@ -822,9 +853,9 @@ export function generateLiveAemSnippet({
         '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle Bandbreiten der Branchenmultiplikatoren" : "Current Industry Multiple Ranges") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           gridLines + bars +
-          '<g transform="translate(' + (w / 2 - (lang === "DE" ? 180 : 145)) + ', ' + (pT + cH + 42) + ')">' +
+          '<g transform="translate(' + (w / 2 - (lang === 'DE' ? 260 : 190)) + ', ' + (pT + cH + 42) + ')">' +
             '<rect x="0" y="-10" width="12" height="12" fill="#00b8f5"/><text x="18" y="0" fill="#666" font-size="11">' + ebitLabel + '</text>' +
-            '<rect x="' + (lang === "DE" ? 205 : 175) + '" y="-10" width="12" height="12" fill="#00338D"/><text x="' + (lang === "DE" ? 223 : 193) + '" y="0" fill="#666" font-size="11">' + ebitdaLabel + '</text>' +
+            '<rect x="' + (lang === "DE" ? 270 : 200) + '" y="-10" width="12" height="12" fill="#00338D"/><text x="' + (lang === "DE" ? 288 : 218) + '" y="0" fill="#666" font-size="11">' + ebitdaLabel + '</text>' +
           '</g>' +
         '</svg></div>';
     }
