@@ -1774,10 +1774,11 @@ const TEMPLATES = {
 <!-- Ready to paste into AEM Embed / Custom HTML Component -->
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
-    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; }
+    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table tr { line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; line-height:21px; }
   </style>
   ${renderedMarkup}
   <style>
@@ -2076,10 +2077,11 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
   <style>
     .kpmg-atlas-chart-container h3 { font-size:16px; font-family:inherit; }
-    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; }
+    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table tr { line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; line-height:21px; }
+    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; line-height:21px; }
   </style>
   ${renderedMarkup}
   <style>

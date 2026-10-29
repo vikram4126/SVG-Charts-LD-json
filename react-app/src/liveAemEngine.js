@@ -109,10 +109,11 @@ export function generateLiveAemSnippet({
   <style>
     #${uid} { font-family: Inter, Arial, sans-serif; color: #1E293B; }
     #${uid} h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
-    #${uid} .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; }
-    #${uid} .atlas-table th { text-align: left; padding: 5px 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; }
-    #${uid} .atlas-table td { padding: 5px 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; }
-    #${uid} .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; }
+    #${uid} .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; line-height: 21px; }
+    #${uid} .atlas-table tr { line-height: 21px; }
+    #${uid} .atlas-table th { text-align: left; padding: 5px 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; line-height: 21px; }
+    #${uid} .atlas-table td { padding: 5px 8px; border-bottom: 1px solid #F1F5F9; color: #333333; font-weight: 400; line-height: 21px; }
+    #${uid} .atlas-table .num-col { text-align: right; font-weight: 400; color: #333333; line-height: 21px; }
     #${uid} .kpmg-loading-box { padding: 36px 20px; text-align: center; color: #64748B; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #F8FAFC; border-radius: 8px; border: 1px dashed #CBD5E1; }
     #${uid} .kpmg-spinner { width: 16px; height: 16px; border: 2px solid #CBD5E1; border-top-color: #00338D; border-radius: 50%; animation: kpmgSpin 0.8s linear infinite; display: inline-block; }
     #${uid} .kpmg-chart-tooltip { position: fixed; display: none; background: #1E293B; color: #FFFFFF; padding: 8px 14px; border-radius: 6px; font-size: 12px; line-height: 1.45; pointer-events: none; z-index: 9999999; box-shadow: 0 8px 24px rgba(0,0,0,0.35); white-space: nowrap; }

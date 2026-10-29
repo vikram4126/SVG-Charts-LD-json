@@ -738,6 +738,7 @@ body {
   border-bottom: 2px solid #E2E8F0;
   border-right: 1px solid #E2E8F0;
   text-align: left;
+  line-height: 21px;
 }
 
 .kpmg-table td {
@@ -746,6 +747,7 @@ body {
   border-right: 1px solid #F1F5F9;
   color: #666666;
   font-weight: 400;
+  line-height: 21px;
 }
 
 .kpmg-table tr:hover td {
@@ -758,6 +760,11 @@ body {
   border-collapse: collapse;
   font-size: 13px;
   margin: 4px 0;
+  line-height: 21px;
+}
+
+.atlas-table tr {
+  line-height: 21px;
 }
 
 .atlas-table th {
@@ -769,6 +776,7 @@ body {
   letter-spacing: 0.5px;
   text-transform: uppercase;
   border-bottom: 1.5px solid #CBD5E1;
+  line-height: 21px;
 }
 
 .atlas-table td {
@@ -776,6 +784,7 @@ body {
   border-bottom: 1px solid #F1F5F9;
   color: #333;
   font-weight: 400;
+  line-height: 21px;
 }
 
 .atlas-table tr:hover td {
@@ -786,6 +795,7 @@ body {
   text-align: right;
   font-weight: 400;
   color: #333;
+  line-height: 21px;
 }
 
 /* Toast */
