@@ -268,9 +268,16 @@ const TEMPLATES = {
       ]
     };
 
+    let currentRenderLang = "EN";
     // Formatters
-    const fmtPct = (val) => (Number(val) * 100).toFixed(2) + "%";
-    const fmtNum = (val, d = 1) => Number(val).toFixed(d);
+    const fmtPct = (val, l = currentRenderLang) => {
+      const s = (Number(val) * 100).toFixed(2);
+      return (l === "DE" ? s.replace(".", ",") : s) + "%";
+    };
+    const fmtNum = (val, d = 1, l = currentRenderLang) => {
+      const s = Number(val).toFixed(d);
+      return l === "DE" ? s.replace(".", ",") : s;
+    };
     const fmtDateQ = (iso) => {
       if (!iso) return "";
       const d = new Date(iso);
@@ -483,7 +490,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 10}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(2)} %</text>
+          <text x="${pL - 10}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${fmtNum(v * 100, 2, lang)} %</text>
         `;
       }
 
@@ -535,7 +542,7 @@ const TEMPLATES = {
               const yTop = scaleY(r.WACC_Value_Upper);
               const yBottom = scaleY(r.WACC_Value_Lower);
               const bandH = Math.max(yBottom - yTop, 8);
-              const rangeTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Range of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(r.WACC_Value_Lower)}, ${fmtPct(r.WACC_Value_Upper)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+              const rangeTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${(I18N[lang] || I18N.EN).range_wacc}: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(r.WACC_Value_Lower, lang)}, ${fmtPct(r.WACC_Value_Upper, lang)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
               return `
                 <g class="has-tooltip" data-tooltip="${rangeTip}" style="cursor:pointer;">
                   <rect x="${xL}" y="${yTop}" width="${colW}" height="${bandH}" fill="transparent" />
@@ -550,7 +557,7 @@ const TEMPLATES = {
               const colW = cW / (rows.length - 1);
               const xL = scaleX(i) - colW / 2;
               const yMed = scaleY(r.WACC_Value_Median);
-              const medTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Median of WACC: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.WACC_Value_Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+              const medTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${(I18N[lang] || I18N.EN).median_wacc}: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.WACC_Value_Median, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
               return `
                 <g class="has-tooltip median-point" data-tooltip="${medTip}" style="cursor:pointer;">
                   <rect x="${xL}" y="${yMed - 10}" width="${colW}" height="20" fill="transparent" />
@@ -625,7 +632,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${v.toFixed(1)} x</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${fmtNum(v, 1, lang)} x</text>
         `;
       }
 
@@ -644,13 +651,13 @@ const TEMPLATES = {
         if (ebitda) {
           const yU = scaleY(ebitda.Multiple_Value_Upper);
           const yL = scaleY(ebitda.Multiple_Value_Lower);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples [${Number(ebitda.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebitda.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} [${fmtNum(ebitda.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebitda.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${gX + colGroupW*0.25 - bW/2}" y="${yU}" width="${bW}" height="${Math.max(yL - yU, 4)}" fill="#00338D" style="cursor:pointer;"/>`;
         }
         if (ebit) {
           const yU = scaleY(ebit.Multiple_Value_Upper);
           const yL = scaleY(ebit.Multiple_Value_Lower);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples [${Number(ebit.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebit.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} [${fmtNum(ebit.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebit.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitTip}" x="${gX + colGroupW*0.65 - bW/2}" y="${yU}" width="${bW}" height="${Math.max(yL - yU, 4)}" fill="#00b8f5" style="cursor:pointer;"/>`;
         }
 
@@ -748,7 +755,7 @@ const TEMPLATES = {
         const x = scaleX(v);
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${h - pB}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${x}" y="${h - pB + 16}" fill="#666" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
+          <text x="${x}" y="${h - pB + 16}" fill="#666" font-size="10.5" text-anchor="middle">${fmtNum(v, 1, lang)} x</text>
         `;
       }
 
@@ -763,14 +770,14 @@ const TEMPLATES = {
         if (ebitda) {
           const x1 = scaleX(ebitda.Multiple_Value_Lower);
           const x2 = scaleX(ebitda.Multiple_Value_Upper);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBITDA multiples [${Number(ebitda.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebitda.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} [${fmtNum(ebitda.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebitda.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${x1}" y="${yCenter - 14}" width="${Math.max(x2 - x1, 4)}" height="11" fill="#00338D" style="cursor:pointer;"/>`;
         }
 
         if (ebit) {
           const x1 = scaleX(ebit.Multiple_Value_Lower);
           const x2 = scaleX(ebit.Multiple_Value_Upper);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Range of EBIT multiples [${Number(ebit.Multiple_Value_Lower).toFixed(1)}x, ${Number(ebit.Multiple_Value_Upper).toFixed(1)}x]&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${hItem.label}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} [${fmtNum(ebit.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebit.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/div&gt;`;
           bars += `<rect class="has-tooltip" data-tooltip="${ebitTip}" x="${x1}" y="${yCenter + 3}" width="${Math.max(x2 - x1, 4)}" height="11" fill="#00b8f5" style="cursor:pointer;"/>`;
         }
       });
@@ -855,7 +862,7 @@ const TEMPLATES = {
       const trs = topCountries.map(r => `
         <tr>
           <td style="color:#333; font-weight:400;">${lang === "DE" ? (r.Country_DE || r.Country_EN) : r.Country_EN}</td>
-          <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
+          <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString(lang === "DE" ? "de-DE" : "en-US")}</td>
         </tr>
       `).join("");
 
@@ -885,7 +892,7 @@ const TEMPLATES = {
       const trs = topSubs.map(r => `
         <tr>
           <td style="color:#333; font-weight:400;">${lang === "DE" ? (r.SimpleIndustry_DE || r.SubIndustry_DE || r.SimpleIndustry_EN || r.SubIndustry_EN) : (r.SimpleIndustry_EN || r.SubIndustry_EN)}</td>
-          <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString()}</td>
+          <td class="num-col" style="color:#333; font-weight:400;">${Number(r.N_Companies).toLocaleString(lang === "DE" ? "de-DE" : "en-US")}</td>
         </tr>
       `).join("");
 
@@ -951,7 +958,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${fmtNum(v * 100, 1, lang)} %</text>
         `;
       }
 
@@ -976,9 +983,9 @@ const TEMPLATES = {
         const parts = fmtDateQ(r.Date).split(" ");
         const qHeader = `${parts[0] || ""},${parts[1] || ""}`;
         const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:6px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;` +
-          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Total rate of return: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.Gesamtrendite)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` +
-          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Market risk premium: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.MRP)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` +
-          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;Risk-free rate: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.Basiszins)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${totalLabel}: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.Gesamtrendite, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` +
+          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${mrpLabel}: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.MRP, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` +
+          `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;${rfLabel}: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.Basiszins, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
 
         return `
           <g class="has-tooltip mrp-col" data-tooltip="${tipHtml}" style="cursor:pointer;">
@@ -1048,7 +1055,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${fmtNum(v * 100, 1, lang)} %</text>
         `;
       }
 
@@ -1069,7 +1076,7 @@ const TEMPLATES = {
         // Diamond markers are embedded inside interactive hitboxes for hover glow and crisp rendering
 
         // Tooltip matching Photo 2: Row 1 = Tenure number (e.g. 12), Row 2 = ■ Risk-free rate (rounded): X.XX%
-        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${r.Tenure}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;Risk-free rate (rounded): &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.BZ)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${r.Tenure}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${rfRoundedLabel}: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(r.BZ, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
         hitboxes += `
           <g class="has-tooltip tenure-pt" data-tooltip="${tipHtml}" style="cursor:pointer;">
             <rect x="${x - colW/2}" y="${pT}" width="${colW}" height="${cH}" fill="transparent"/>
@@ -1132,7 +1139,7 @@ const TEMPLATES = {
         const y = scaleY(v);
         gridLines += `
           <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${(v * 100).toFixed(1)} %</text>
+          <text x="${pL - 8}" y="${y + 4}" fill="#666" font-size="10.5" text-anchor="end">${fmtNum(v * 100, 1, lang)} %</text>
         `;
       }
 
@@ -1166,9 +1173,9 @@ const TEMPLATES = {
         const rPlus = rows.find(r => r.Date === d && r.Rating === "BBB+");
 
         const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:6px; font-size:12px;'&gt;${qHeader}&lt;/div&gt;` +
-          (rMinus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB-: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rMinus.Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
-          (rMid ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rMid.Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
-          (rPlus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB+: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rPlus.Median)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "");
+          (rMinus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB-: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rMinus.Median, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
+          (rMid ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0; margin-bottom:4px;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rMid.Median, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "") +
+          (rPlus ? `&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#fd349c; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box;'&gt;&lt;/span&gt;&lt;span&gt;BBB+: &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;${fmtPct(rPlus.Median, lang)}&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;` : "");
 
         return `
           <g class="has-tooltip crp-col" data-tooltip="${tipHtml}" style="cursor:pointer;">
@@ -1274,7 +1281,7 @@ const TEMPLATES = {
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
           <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#CBD5E1" stroke-width="1"/>
-          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
+          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${fmtNum(v * 100, 1, lang)}%</text>
         `;
       }
 
@@ -1337,7 +1344,7 @@ const TEMPLATES = {
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
           <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#CBD5E1" stroke-width="1"/>
-          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${v.toFixed(1)} x</text>
+          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="10.5" text-anchor="middle">${fmtNum(v, 1, lang)} x</text>
         `;
       }
 
@@ -1358,7 +1365,7 @@ const TEMPLATES = {
         if (ebit) {
           const x1 = scaleX(ebit.Multiple_Value_Lower);
           const x2 = scaleX(ebit.Multiple_Value_Upper);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${ebit.Multiple_Value_Lower.toFixed(1)}x, ${ebit.Multiple_Value_Upper.toFixed(1)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtNum(ebit.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebit.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
           bars += `
             <rect class="has-tooltip" data-tooltip="${ebitTip}" x="${x1}" y="${y - 6}" width="${Math.max(x2 - x1, 4)}" height="5" fill="#00b8f5" style="cursor:pointer;"/>
           `;
@@ -1366,7 +1373,7 @@ const TEMPLATES = {
         if (ebitda) {
           const x1 = scaleX(ebitda.Multiple_Value_Lower);
           const x2 = scaleX(ebitda.Multiple_Value_Upper);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${ebitda.Multiple_Value_Lower.toFixed(1)}x, ${ebitda.Multiple_Value_Upper.toFixed(1)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtNum(ebitda.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebitda.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
           bars += `
             <rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${x1}" y="${y + 1}" width="${Math.max(x2 - x1, 4)}" height="5" fill="#00338D" style="cursor:pointer;"/>
           `;
@@ -1418,7 +1425,7 @@ const TEMPLATES = {
         gridLines += `
           <line x1="${x}" y1="${pT}" x2="${x}" y2="${pT + cH}" stroke="#E2E8F0" stroke-width="1"/>
           <line x1="${x}" y1="${pT + cH}" x2="${x}" y2="${pT + cH + 4}" stroke="#CBD5E1" stroke-width="1"/>
-          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="11" text-anchor="middle">${(v * 100).toFixed(1)}%</text>
+          <text x="${x}" y="${pT + cH + 17}" fill="#666" font-size="11" text-anchor="middle">${fmtNum(v * 100, 1, lang)}%</text>
         `;
       }
 
@@ -1917,6 +1924,7 @@ export function getSectors(lang = 'EN') {
 }
 
 export function getChartDetails(category, templateId, sector, lang = "EN") {
+  currentRenderLang = lang;
   const dict = I18N[lang] || I18N.EN;
   let title = "";
   let subtitle = "";
