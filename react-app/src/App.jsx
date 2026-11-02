@@ -12,6 +12,9 @@ import {
 import { DEFAULT_BASE_URL, fetchAllEndpoints, ENDPOINTS } from './apiService';
 import { generateLiveAemSnippet } from './liveAemEngine';
 
+// Toggle to show/hide Live & Pure Live buttons and tabs (Set to true to re-enable)
+const SHOW_LIVE_BUTTONS = false;
+
 export default function App() {
   const [lang, setLang] = useState('EN');
   const [dataVersion, setDataVersion] = useState(0); // increments on data update
@@ -19,7 +22,7 @@ export default function App() {
   const [templateId, setTemplateId] = useState('wacc_full_grid');
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
-  const [codeTab, setCodeTab] = useState('pure'); // 'pure' | 'live' | 'static'
+  const [codeTab, setCodeTab] = useState(SHOW_LIVE_BUTTONS ? 'pure' : 'static'); // 'pure' | 'live' | 'static'
   const [toastMessage, setToastMessage] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
 
@@ -474,12 +477,16 @@ export default function App() {
                 <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
                 {lang === 'DE' ? 'Statisch' : 'Static'}
               </button>
-              <button className="btn btn-live-aem" onClick={copyLiveAemCode} title={lang === 'DE' ? 'Live-AEM (Hybrid): Sofort-Anzeige + Live-API-Sync' : 'Live AEM (Hybrid): Instant preview + live API auto-sync'}>
-                {lang === 'DE' ? 'Live' : 'Live'}
-              </button>
-              <button className="btn btn-pure-live" onClick={copyPureLiveAemCode} title={lang === 'DE' ? 'Pure Live (Zero-Static): Nur Spinner, 100% dynamisch per API' : 'Pure Live (Zero-Static): Clean spinner, 100% dynamic via API'}>
-                {lang === 'DE' ? 'Pure Live' : 'Pure Live'}
-              </button>
+              {SHOW_LIVE_BUTTONS && (
+                <>
+                  <button className="btn btn-live-aem" onClick={copyLiveAemCode} title={lang === 'DE' ? 'Live-AEM (Hybrid): Sofort-Anzeige + Live-API-Sync' : 'Live AEM (Hybrid): Instant preview + live API auto-sync'}>
+                    {lang === 'DE' ? 'Live' : 'Live'}
+                  </button>
+                  <button className="btn btn-pure-live" onClick={copyPureLiveAemCode} title={lang === 'DE' ? 'Pure Live (Zero-Static): Nur Spinner, 100% dynamisch per API' : 'Pure Live (Zero-Static): Clean spinner, 100% dynamic via API'}>
+                    {lang === 'DE' ? 'Pure Live' : 'Pure Live'}
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -496,20 +503,24 @@ export default function App() {
             <div className="code-drawer">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingBottom: '8px', borderBottom: '1px solid #334155', flexWrap: 'wrap', gap: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <button 
-                    type="button" 
-                    className={`drawer-tab-btn ${codeTab === 'pure' ? 'active' : ''}`}
-                    onClick={() => setCodeTab('pure')}
-                  >
-                    ● Pure Live (Zero-Static)
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`drawer-tab-btn ${codeTab === 'live' ? 'active' : ''}`}
-                    onClick={() => setCodeTab('live')}
-                  >
-                    ● Live AEM (Hybrid)
-                  </button>
+                  {SHOW_LIVE_BUTTONS && (
+                    <>
+                      <button 
+                        type="button" 
+                        className={`drawer-tab-btn ${codeTab === 'pure' ? 'active' : ''}`}
+                        onClick={() => setCodeTab('pure')}
+                      >
+                        ● Pure Live (Zero-Static)
+                      </button>
+                      <button 
+                        type="button" 
+                        className={`drawer-tab-btn ${codeTab === 'live' ? 'active' : ''}`}
+                        onClick={() => setCodeTab('live')}
+                      >
+                        ● Live AEM (Hybrid)
+                      </button>
+                    </>
+                  )}
                   <button 
                     type="button" 
                     className={`drawer-tab-btn ${codeTab === 'static' ? 'active' : ''}`}
