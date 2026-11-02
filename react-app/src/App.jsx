@@ -199,14 +199,34 @@ export default function App() {
       showToast('No standalone SVG found to download (this view is an HTML table).');
       return;
     }
-    const blob = new Blob([match[0]], { type: 'image/svg+xml;charset=utf-8' });
+    let svgContent = match[0];
+    
+    // Ensure XML namespace attributes are present so browser renders it as a graphic rather than raw text/XML
+    if (!svgContent.includes('xmlns=')) {
+      svgContent = svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"');
+    }
+
+    // Embed standalone styling and background so the graphic renders with crisp fonts and clean white canvas
+    const styleBlock = `<style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+    </style>`;
+    
+    // Add white background rectangle if not present so SVG looks complete when opened in standalone viewer
+    svgContent = svgContent.replace(
+      />/,
+      `>\n  ${styleBlock}\n  <rect width="100%" height="100%" fill="#ffffff"/>`
+    );
+
+    const blob = new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svgContent}`], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `${templateId}-${sector}.svg`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('SVG downloaded successfully!');
+    showToast('SVG image downloaded successfully! Open it in any browser or design tool.');
   };
 
   // Interactive Hover Tooltip Logic
