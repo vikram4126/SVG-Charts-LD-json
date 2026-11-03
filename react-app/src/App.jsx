@@ -234,19 +234,44 @@ export default function App() {
     const target = e.target.closest('[data-tooltip]');
     if (target) {
       const tipHtml = target.getAttribute('data-tooltip');
-      const tipW = 210;
-      const tipH = 65;
-      let left = e.clientX + 14;
+      const isMobile = window.innerWidth <= 600;
+      const tipW = isMobile ? Math.min(260, window.innerWidth - 24) : 220;
+      const tipH = 70;
+
+      let left;
+      let top;
       let placement = 'right';
-      if (left + tipW > window.innerWidth - 12) {
-        left = e.clientX - tipW - 14;
-        placement = 'left';
+
+      if (isMobile) {
+        // On mobile, position tooltip directly above the finger/touch point centered horizontally
+        left = Math.max(10, Math.min(window.innerWidth - tipW - 10, e.clientX - tipW / 2));
+        top = e.clientY - tipH - 18;
+        placement = 'bottom'; // arrow points downward toward target
+
+        // If clipped at the top of the mobile screen, place below
+        if (top < 10) {
+          top = e.clientY + 22;
+          placement = 'top'; // arrow points upward
+        }
+      } else {
+        // Desktop: Position to the right, flip to left if touching right edge
+        left = e.clientX + 14;
+        placement = 'right';
+        if (left + tipW > window.innerWidth - 12) {
+          left = e.clientX - tipW - 14;
+          placement = 'left';
+        }
+        // Ensure left boundary never clips off-screen
+        if (left < 10) {
+          left = 10;
+        }
+        top = e.clientY - tipH / 2;
+        if (top < 10) top = 10;
+        if (top + tipH > window.innerHeight - 10) {
+          top = window.innerHeight - tipH - 10;
+        }
       }
-      let top = e.clientY - tipH / 2;
-      if (top < 10) top = 10;
-      if (top + tipH > window.innerHeight - 10) {
-        top = window.innerHeight - tipH - 10;
-      }
+
       setTooltip({ visible: true, html: tipHtml, x: left, y: top, placement });
     } else {
       if (tooltip.visible) {
@@ -268,10 +293,10 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating Hover Tooltip with Vertically Centered Triangle */}
+      {/* Floating Hover Tooltip with Responsive Edge-Aware Arrows */}
       {tooltip.visible && (
         <div
-          className={`kpmg-tooltip ${tooltip.placement === 'left' ? 'arrow-right' : 'arrow-left'}`}
+          className={`kpmg-tooltip arrow-${tooltip.placement === 'left' ? 'right' : (tooltip.placement === 'right' ? 'left' : tooltip.placement)}`}
           style={{
             position: 'fixed',
             left: `${tooltip.x}px`,

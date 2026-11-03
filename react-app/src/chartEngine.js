@@ -1815,8 +1815,45 @@ const TEMPLATES = {
       border-right: 8px solid #1E293B;
       pointer-events: none;
     }
+    .kpmg-chart-tooltip.arrow-bottom::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #1E293B;
+      pointer-events: none;
+    }
+    .kpmg-chart-tooltip.arrow-top::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid #1E293B;
+      pointer-events: none;
+    }
+    @media (max-width: 480px) {
+      .kpmg-chart-tooltip {
+        white-space: normal !important;
+        word-break: break-word;
+        font-size: 11px !important;
+        padding: 6px 10px !important;
+        max-width: calc(100vw - 20px) !important;
+      }
+    }
   </style>
-  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 14px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap;"></div>
+  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap; max-width:calc(100vw - 24px); box-sizing:border-box;"></div>
   <script>
   (function() {
     var c = document.currentScript.closest('.kpmg-atlas-chart-container');
@@ -1827,23 +1864,36 @@ const TEMPLATES = {
       if (t && tip) {
         tip.innerHTML = t.getAttribute('data-tooltip');
         tip.style.display = 'block';
-        var tipW = tip.offsetWidth || 210;
+        var isMobile = window.innerWidth <= 600;
+        var tipW = tip.offsetWidth || (isMobile ? 240 : 210);
         var tipH = tip.offsetHeight || 65;
-        var left = e.clientX + 14;
-        var placement = 'right';
-        if (left + tipW > window.innerWidth - 12) {
-          left = e.clientX - tipW - 14;
-          placement = 'left';
-        }
-        var top = e.clientY - tipH / 2;
-        if (top < 10) top = 10;
-        if (top + tipH > window.innerHeight - 10) {
-          top = window.innerHeight - tipH - 10;
+        var left, top, arrowClass;
+        if (isMobile) {
+          left = Math.max(10, Math.min(window.innerWidth - tipW - 10, e.clientX - tipW / 2));
+          top = e.clientY - tipH - 18;
+          arrowClass = 'arrow-bottom';
+          if (top < 10) {
+            top = e.clientY + 22;
+            arrowClass = 'arrow-top';
+          }
+        } else {
+          left = e.clientX + 14;
+          arrowClass = 'arrow-left';
+          if (left + tipW > window.innerWidth - 12) {
+            left = e.clientX - tipW - 14;
+            arrowClass = 'arrow-right';
+          }
+          if (left < 10) left = 10;
+          top = e.clientY - tipH / 2;
+          if (top < 10) top = 10;
+          if (top + tipH > window.innerHeight - 10) {
+            top = window.innerHeight - tipH - 10;
+          }
         }
         tip.style.left = left + 'px';
         tip.style.top = top + 'px';
         tip.style.transform = 'none';
-        tip.className = 'kpmg-chart-tooltip ' + (placement === 'left' ? 'arrow-right' : 'arrow-left');
+        tip.className = 'kpmg-chart-tooltip ' + arrowClass;
       } else if (tip) {
         tip.style.display = 'none';
       }
@@ -2118,8 +2168,45 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       border-right: 8px solid #1E293B;
       pointer-events: none;
     }
+    .kpmg-chart-tooltip.arrow-bottom::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #1E293B;
+      pointer-events: none;
+    }
+    .kpmg-chart-tooltip.arrow-top::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid #1E293B;
+      pointer-events: none;
+    }
+    @media (max-width: 480px) {
+      .kpmg-chart-tooltip {
+        white-space: normal !important;
+        word-break: break-word;
+        font-size: 11px !important;
+        padding: 6px 10px !important;
+        max-width: calc(100vw - 20px) !important;
+      }
+    }
   </style>
-  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 14px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap;"></div>
+  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap; max-width:calc(100vw - 24px); box-sizing:border-box;"></div>
   <script>
   (function() {
     var c = document.currentScript.closest(".kpmg-atlas-chart-container");
@@ -2130,23 +2217,36 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       if (t && tip) {
         tip.innerHTML = t.getAttribute("data-tooltip");
         tip.style.display = "block";
-        var tipW = tip.offsetWidth || 210;
+        var isMobile = window.innerWidth <= 600;
+        var tipW = tip.offsetWidth || (isMobile ? 240 : 210);
         var tipH = tip.offsetHeight || 65;
-        var left = e.clientX + 14;
-        var placement = 'right';
-        if (left + tipW > window.innerWidth - 12) {
-          left = e.clientX - tipW - 14;
-          placement = 'left';
-        }
-        var top = e.clientY - tipH / 2;
-        if (top < 10) top = 10;
-        if (top + tipH > window.innerHeight - 10) {
-          top = window.innerHeight - tipH - 10;
+        var left, top, arrowClass;
+        if (isMobile) {
+          left = Math.max(10, Math.min(window.innerWidth - tipW - 10, e.clientX - tipW / 2));
+          top = e.clientY - tipH - 18;
+          arrowClass = 'arrow-bottom';
+          if (top < 10) {
+            top = e.clientY + 22;
+            arrowClass = 'arrow-top';
+          }
+        } else {
+          left = e.clientX + 14;
+          arrowClass = 'arrow-left';
+          if (left + tipW > window.innerWidth - 12) {
+            left = e.clientX - tipW - 14;
+            arrowClass = 'arrow-right';
+          }
+          if (left < 10) left = 10;
+          top = e.clientY - tipH / 2;
+          if (top < 10) top = 10;
+          if (top + tipH > window.innerHeight - 10) {
+            top = window.innerHeight - tipH - 10;
+          }
         }
         tip.style.left = left + "px";
         tip.style.top = top + "px";
         tip.style.transform = "none";
-        tip.className = 'kpmg-chart-tooltip ' + (placement === 'left' ? 'arrow-right' : 'arrow-left');
+        tip.className = 'kpmg-chart-tooltip ' + arrowClass;
       } else if (tip) {
         tip.style.display = "none";
       }
