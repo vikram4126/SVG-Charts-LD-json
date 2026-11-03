@@ -13,7 +13,7 @@ import { DEFAULT_BASE_URL, fetchAllEndpoints, ENDPOINTS } from './apiService';
 import { generateLiveAemSnippet } from './liveAemEngine';
 
 // Toggle to show/hide Live & Pure Live buttons and tabs (Set to true to re-enable)
-const SHOW_LIVE_BUTTONS = false;
+const SHOW_LIVE_BUTTONS = true;
 
 export default function App() {
   const [lang, setLang] = useState('EN');
@@ -22,7 +22,7 @@ export default function App() {
   const [templateId, setTemplateId] = useState('wacc_full_grid');
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
-  const [codeTab, setCodeTab] = useState(SHOW_LIVE_BUTTONS ? 'pure' : 'static'); // 'pure' | 'live' | 'static'
+  const [codeTab, setCodeTab] = useState('pure'); // 'pure' | 'live' | 'static'
   const [toastMessage, setToastMessage] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, arrowClass: 'arrow-left', arrowX: null, arrowY: null });
 
@@ -165,12 +165,14 @@ export default function App() {
   };
 
   const copyAemCode = () => {
+    setCodeTab('static');
     navigator.clipboard.writeText(snippet).then(() => {
       showToast('Static AEM HTML + Schema.org JSON-LD copied to clipboard!');
     });
   };
 
   const copyLiveAemCode = () => {
+    setCodeTab('live');
     navigator.clipboard.writeText(liveSnippet).then(() => {
       showToast(lang === 'DE'
         ? 'Live AEM-Code (Hybrid) kopiert! Sofort-Anzeige + Live-Sync.'
@@ -179,11 +181,59 @@ export default function App() {
   };
 
   const copyPureLiveAemCode = () => {
+    setCodeTab('pure');
     navigator.clipboard.writeText(pureLiveSnippet).then(() => {
       showToast(lang === 'DE'
         ? 'Pure Live AEM-Code kopiert! (100% Zero-Static, nur Spinner + API-Rendering).'
         : 'Pure Live AEM Code copied! (100% Zero-Static, clean spinner + dynamic API rendering).');
     });
+  };
+
+  const downloadTxtFile = () => {
+    const activeCode = codeTab === 'pure' ? pureLiveSnippet : (codeTab === 'live' ? liveSnippet : snippet);
+
+    const cleanForFilename = (str) => {
+      return String(str || '')
+        .trim()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+        .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue')
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    };
+
+    const topicNames = lang === 'DE' ? {
+      cost_of_capital: 'Kapitalkosten',
+      multiples: 'Bewertungsmultiplikatoren',
+      mrp: 'Marktrisikopraemie',
+      country_risk: 'Laenderrisikopraemie',
+      overview: 'Gesamtuebersicht'
+    } : {
+      cost_of_capital: 'Cost-of-Capital',
+      multiples: 'Valuation-Multiples',
+      mrp: 'Market-Risk-Premium',
+      country_risk: 'Country-Risk-Premium',
+      overview: 'Overview'
+    };
+
+    const topicStr = topicNames[category] || cleanForFilename(category);
+    const industryStr = activeTemplate?.needsSector ? cleanForFilename(sector) : (lang === 'DE' ? 'Alle-Branchen' : 'All-Industries');
+    const templateStr = cleanForFilename((lang === 'DE' ? activeTemplate?.nameDE : activeTemplate?.name) || activeTemplate?.name || templateId);
+    const langStr = cleanForFilename(lang);
+
+    const fileName = `${topicStr}_${industryStr}_${templateStr}_${langStr}.txt`;
+
+    const blob = new Blob([activeCode], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showToast(lang === 'DE' ? `Code als TXT heruntergeladen: ${fileName}` : `Code downloaded as TXT: ${fileName}`);
   };
 
   const copySchemaOnly = () => {
@@ -539,6 +589,16 @@ export default function App() {
                   </button>
                 </>
               )}
+              <button
+                className="btn btn-secondary"
+                onClick={downloadTxtFile}
+                title={lang === 'DE' ? 'Aktiven Code als .TXT herunterladen' : 'Download active code snippet as .TXT file'}
+              >
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                .TXT
+              </button>
             </div>
           </div>
 
@@ -581,13 +641,23 @@ export default function App() {
                     Static AEM
                   </button>
                 </div>
-                <button 
-                  className="btn btn-primary" 
-                  style={{ padding: '4px 12px', fontSize: '11.5px' }} 
-                  onClick={codeTab === 'pure' ? copyPureLiveAemCode : (codeTab === 'live' ? copyLiveAemCode : copyAemCode)}
-                >
-                  {codeTab === 'pure' ? 'Copy Pure Live Code' : (codeTab === 'live' ? 'Copy Live AEM Code' : 'Copy Static AEM Code')}
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button 
+                    className="btn btn-primary" 
+                    style={{ padding: '4px 12px', fontSize: '11.5px' }} 
+                    onClick={codeTab === 'pure' ? copyPureLiveAemCode : (codeTab === 'live' ? copyLiveAemCode : copyAemCode)}
+                  >
+                    {codeTab === 'pure' ? 'Copy Pure Live Code' : (codeTab === 'live' ? 'Copy Live AEM Code' : 'Copy Static AEM Code')}
+                  </button>
+                  <button 
+                    className="btn btn-secondary" 
+                    style={{ padding: '4px 12px', fontSize: '11.5px' }} 
+                    onClick={downloadTxtFile}
+                    title={lang === 'DE' ? 'Diesen Code als .TXT herunterladen' : 'Download this snippet as .TXT file'}
+                  >
+                    Download .TXT
+                  </button>
+                </div>
               </div>
               <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '8px' }}>
                 {codeTab === 'pure' && '⚡ Pure Live Mode (100% Zero-Static): Contains clean spinner placeholder. Zero baked HTML rows or SVG points. SVG, Table & Schema.org JSON-LD are 100% computed from live API on page load!'}
