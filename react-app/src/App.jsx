@@ -13,16 +13,16 @@ import { DEFAULT_BASE_URL, fetchAllEndpoints, ENDPOINTS } from './apiService';
 import { generateLiveAemSnippet } from './liveAemEngine';
 
 // Toggle to show/hide Live & Pure Live buttons and tabs (Set to true to re-enable)
-const SHOW_LIVE_BUTTONS = true;
+const SHOW_LIVE_BUTTONS = false;
 
 export default function App() {
   const [lang, setLang] = useState('EN');
   const [dataVersion, setDataVersion] = useState(0); // increments on data update
-  const [category, setCategory] = useState('cost_of_capital');
-  const [templateId, setTemplateId] = useState('wacc_full_grid');
+  const [category, setCategory] = useState('overview');
+  const [templateId, setTemplateId] = useState('ov_full_grid');
   const [sector, setSector] = useState('Automotive');
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
-  const [codeTab, setCodeTab] = useState('pure'); // 'pure' | 'live' | 'static'
+  const [codeTab, setCodeTab] = useState(SHOW_LIVE_BUTTONS ? 'pure' : 'static'); // 'pure' | 'live' | 'static'
   const [toastMessage, setToastMessage] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, arrowClass: 'arrow-left', arrowX: null, arrowY: null });
 
