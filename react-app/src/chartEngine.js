@@ -1829,12 +1829,54 @@ const TEMPLATES = {
       border-top: 8px solid #1E293B;
       pointer-events: none;
     }
+    .kpmg-chart-tooltip.arrow-right::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: var(--arrow-y, 50%);
+      right: -6px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 8px solid #1E293B;
+      pointer-events: none;
+    }
+    .kpmg-chart-tooltip.arrow-left::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: var(--arrow-y, 50%);
+      left: -6px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-right: 8px solid #1E293B;
+      pointer-events: none;
+    }
+    .kpmg-chart-tooltip.arrow-bottom::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -6px;
+      left: var(--arrow-x, 50%);
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #1E293B;
+      pointer-events: none;
+    }
     .kpmg-chart-tooltip.arrow-top::after {
       content: '';
       display: block;
       position: absolute;
       top: -6px;
-      left: 50%;
+      left: var(--arrow-x, 50%);
       transform: translateX(-50%);
       width: 0;
       height: 0;
@@ -1843,17 +1885,17 @@ const TEMPLATES = {
       border-bottom: 8px solid #1E293B;
       pointer-events: none;
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .kpmg-chart-tooltip {
         white-space: normal !important;
         word-break: break-word;
-        font-size: 11px !important;
-        padding: 6px 10px !important;
-        max-width: calc(100vw - 20px) !important;
+        font-size: 11.5px !important;
+        padding: 7px 11px !important;
+        max-width: min(260px, calc(100vw - 48px)) !important;
       }
     }
   </style>
-  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap; max-width:calc(100vw - 24px); box-sizing:border-box;"></div>
+  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap; max-width:min(320px, calc(100vw - 48px)); box-sizing:border-box;"></div>
   <script>
   (function() {
     var c = document.currentScript.closest('.kpmg-atlas-chart-container');
@@ -1865,30 +1907,35 @@ const TEMPLATES = {
         tip.innerHTML = t.getAttribute('data-tooltip');
         tip.style.display = 'block';
         var isMobile = window.innerWidth <= 600;
+        var margin = isMobile ? 24 : 16;
         var tipW = tip.offsetWidth || (isMobile ? 240 : 210);
         var tipH = tip.offsetHeight || 65;
-        var left, top, arrowClass;
+        var left, top, arrowClass, arrowX, arrowY;
         if (isMobile) {
-          left = Math.max(10, Math.min(window.innerWidth - tipW - 10, e.clientX - tipW / 2));
+          left = Math.max(margin, Math.min(window.innerWidth - tipW - margin, e.clientX - tipW / 2));
           top = e.clientY - tipH - 18;
           arrowClass = 'arrow-bottom';
-          if (top < 10) {
+          if (top < 16) {
             top = e.clientY + 22;
             arrowClass = 'arrow-top';
           }
+          arrowX = Math.max(16, Math.min(tipW - 16, e.clientX - left));
+          tip.style.setProperty('--arrow-x', arrowX + 'px');
         } else {
           left = e.clientX + 14;
           arrowClass = 'arrow-left';
-          if (left + tipW > window.innerWidth - 12) {
+          if (left + tipW > window.innerWidth - 20) {
             left = e.clientX - tipW - 14;
             arrowClass = 'arrow-right';
           }
-          if (left < 10) left = 10;
+          if (left < 16) left = 16;
           top = e.clientY - tipH / 2;
-          if (top < 10) top = 10;
-          if (top + tipH > window.innerHeight - 10) {
-            top = window.innerHeight - tipH - 10;
+          if (top < 16) top = 16;
+          if (top + tipH > window.innerHeight - 16) {
+            top = window.innerHeight - tipH - 16;
           }
+          arrowY = Math.max(14, Math.min(tipH - 14, e.clientY - top));
+          tip.style.setProperty('--arrow-y', arrowY + 'px');
         }
         tip.style.left = left + 'px';
         tip.style.top = top + 'px';
@@ -2144,7 +2191,7 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       content: '';
       display: block;
       position: absolute;
-      top: 50%;
+      top: var(--arrow-y, 50%);
       right: -6px;
       transform: translateY(-50%);
       width: 0;
@@ -2158,7 +2205,7 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       content: '';
       display: block;
       position: absolute;
-      top: 50%;
+      top: var(--arrow-y, 50%);
       left: -6px;
       transform: translateY(-50%);
       width: 0;
@@ -2173,7 +2220,7 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       display: block;
       position: absolute;
       bottom: -6px;
-      left: 50%;
+      left: var(--arrow-x, 50%);
       transform: translateX(-50%);
       width: 0;
       height: 0;
@@ -2187,7 +2234,7 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       display: block;
       position: absolute;
       top: -6px;
-      left: 50%;
+      left: var(--arrow-x, 50%);
       transform: translateX(-50%);
       width: 0;
       height: 0;
@@ -2196,17 +2243,17 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
       border-bottom: 8px solid #1E293B;
       pointer-events: none;
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .kpmg-chart-tooltip {
         white-space: normal !important;
         word-break: break-word;
-        font-size: 11px !important;
-        padding: 6px 10px !important;
-        max-width: calc(100vw - 20px) !important;
+        font-size: 11.5px !important;
+        padding: 7px 11px !important;
+        max-width: min(260px, calc(100vw - 48px)) !important;
       }
     }
   </style>
-  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap; max-width:calc(100vw - 24px); box-sizing:border-box;"></div>
+  <div class="kpmg-chart-tooltip" style="position:fixed; display:none; background:#1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-family:Inter, Arial, sans-serif; font-size:12px; line-height:1.45; pointer-events:none; z-index:9999999; box-shadow:0 8px 24px rgba(0,0,0,0.35); white-space:nowrap; max-width:min(320px, calc(100vw - 48px)); box-sizing:border-box;"></div>
   <script>
   (function() {
     var c = document.currentScript.closest(".kpmg-atlas-chart-container");
@@ -2218,30 +2265,35 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
         tip.innerHTML = t.getAttribute("data-tooltip");
         tip.style.display = "block";
         var isMobile = window.innerWidth <= 600;
+        var margin = isMobile ? 24 : 16;
         var tipW = tip.offsetWidth || (isMobile ? 240 : 210);
         var tipH = tip.offsetHeight || 65;
-        var left, top, arrowClass;
+        var left, top, arrowClass, arrowX, arrowY;
         if (isMobile) {
-          left = Math.max(10, Math.min(window.innerWidth - tipW - 10, e.clientX - tipW / 2));
+          left = Math.max(margin, Math.min(window.innerWidth - tipW - margin, e.clientX - tipW / 2));
           top = e.clientY - tipH - 18;
           arrowClass = 'arrow-bottom';
-          if (top < 10) {
+          if (top < 16) {
             top = e.clientY + 22;
             arrowClass = 'arrow-top';
           }
+          arrowX = Math.max(16, Math.min(tipW - 16, e.clientX - left));
+          tip.style.setProperty('--arrow-x', arrowX + 'px');
         } else {
           left = e.clientX + 14;
           arrowClass = 'arrow-left';
-          if (left + tipW > window.innerWidth - 12) {
+          if (left + tipW > window.innerWidth - 20) {
             left = e.clientX - tipW - 14;
             arrowClass = 'arrow-right';
           }
-          if (left < 10) left = 10;
+          if (left < 16) left = 16;
           top = e.clientY - tipH / 2;
-          if (top < 10) top = 10;
-          if (top + tipH > window.innerHeight - 10) {
-            top = window.innerHeight - tipH - 10;
+          if (top < 16) top = 16;
+          if (top + tipH > window.innerHeight - 16) {
+            top = window.innerHeight - tipH - 16;
           }
+          arrowY = Math.max(14, Math.min(tipH - 14, e.clientY - top));
+          tip.style.setProperty('--arrow-y', arrowY + 'px');
         }
         tip.style.left = left + "px";
         tip.style.top = top + "px";

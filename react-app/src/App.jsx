@@ -24,7 +24,7 @@ export default function App() {
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
   const [codeTab, setCodeTab] = useState(SHOW_LIVE_BUTTONS ? 'pure' : 'static'); // 'pure' | 'live' | 'static'
   const [toastMessage, setToastMessage] = useState('');
-  const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
+  const [tooltip, setTooltip] = useState({ visible: false, html: '', x: 0, y: 0, arrowClass: 'arrow-left', arrowX: null, arrowY: null });
 
   const meta = getDbMetadata();
   const [dataSourceMode, setDataSourceMode] = useState(meta?.isCustom ? 'custom' : 'default');
@@ -235,53 +235,58 @@ export default function App() {
     if (target) {
       const tipHtml = target.getAttribute('data-tooltip');
       const isMobile = window.innerWidth <= 600;
-      const tipW = isMobile ? Math.min(260, window.innerWidth - 24) : 220;
-      const tipH = 70;
+      const margin = isMobile ? 24 : 16;
+      const tipW = isMobile ? Math.min(250, window.innerWidth - margin * 2) : 220;
+      const tipH = isMobile ? 70 : 65;
 
       let left;
       let top;
-      let placement = 'right';
+      let arrowClass;
+      let arrowX = null;
+      let arrowY = null;
 
       if (isMobile) {
         // On mobile, position tooltip directly above the finger/touch point centered horizontally
-        left = Math.max(10, Math.min(window.innerWidth - tipW - 10, e.clientX - tipW / 2));
+        // Clamped with generous 24px safe margin from both viewport edges
+        left = Math.max(margin, Math.min(window.innerWidth - tipW - margin, e.clientX - tipW / 2));
         top = e.clientY - tipH - 18;
-        placement = 'bottom'; // arrow points downward toward target
+        arrowClass = 'arrow-bottom';
 
         // If clipped at the top of the mobile screen, place below
-        if (top < 10) {
+        if (top < 16) {
           top = e.clientY + 22;
-          placement = 'top'; // arrow points upward
+          arrowClass = 'arrow-top';
         }
+
+        // Dynamically align arrow pointer directly to cursor/touch point
+        arrowX = Math.max(16, Math.min(tipW - 16, e.clientX - left));
       } else {
         // Desktop: Position to the right, flip to left if touching right edge
         left = e.clientX + 14;
-        placement = 'right';
-        if (left + tipW > window.innerWidth - 12) {
+        arrowClass = 'arrow-left';
+        if (left + tipW > window.innerWidth - 20) {
           left = e.clientX - tipW - 14;
-          placement = 'left';
+          arrowClass = 'arrow-right';
         }
-        // Ensure left boundary never clips off-screen
-        if (left < 10) {
-          left = 10;
-        }
+        if (left < 16) left = 16;
         top = e.clientY - tipH / 2;
-        if (top < 10) top = 10;
-        if (top + tipH > window.innerHeight - 10) {
-          top = window.innerHeight - tipH - 10;
+        if (top < 16) top = 16;
+        if (top + tipH > window.innerHeight - 16) {
+          top = window.innerHeight - tipH - 16;
         }
+        arrowY = Math.max(14, Math.min(tipH - 14, e.clientY - top));
       }
 
-      setTooltip({ visible: true, html: tipHtml, x: left, y: top, placement });
+      setTooltip({ visible: true, html: tipHtml, x: left, y: top, arrowClass, arrowX, arrowY });
     } else {
       if (tooltip.visible) {
-        setTooltip({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
+        setTooltip({ visible: false, html: '', x: 0, y: 0, arrowClass: 'arrow-left', arrowX: null, arrowY: null });
       }
     }
   };
 
   const handleStageMouseLeave = () => {
-    setTooltip({ visible: false, html: '', x: 0, y: 0, placement: 'right' });
+    setTooltip({ visible: false, html: '', x: 0, y: 0, arrowClass: 'arrow-left', arrowX: null, arrowY: null });
   };
 
   return (
@@ -296,13 +301,15 @@ export default function App() {
       {/* Floating Hover Tooltip with Responsive Edge-Aware Arrows */}
       {tooltip.visible && (
         <div
-          className={`kpmg-tooltip arrow-${tooltip.placement === 'left' ? 'right' : (tooltip.placement === 'right' ? 'left' : tooltip.placement)}`}
+          className={`kpmg-tooltip ${tooltip.arrowClass}`}
           style={{
             position: 'fixed',
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
             transform: 'none',
-            display: 'block'
+            display: 'block',
+            '--arrow-x': tooltip.arrowX != null ? `${tooltip.arrowX}px` : undefined,
+            '--arrow-y': tooltip.arrowY != null ? `${tooltip.arrowY}px` : undefined,
           }}
           dangerouslySetInnerHTML={{ __html: tooltip.html }}
         />
