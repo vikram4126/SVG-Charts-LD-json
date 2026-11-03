@@ -398,7 +398,7 @@ export default function App() {
                     checked={dataSourceMode === 'custom'}
                     onChange={() => handleDataSourceModeChange('custom')}
                   />
-                  {lang === 'DE' ? 'Aktualisierte API-URL' : 'Updated API URL'}
+                  {lang === 'DE' ? 'Live-API-URL' : 'Live API URL'}
                 </label>
               </div>
             </div>
