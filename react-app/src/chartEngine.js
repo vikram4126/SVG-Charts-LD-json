@@ -284,6 +284,15 @@ const TEMPLATES = {
       const q = Math.floor(d.getMonth() / 3) + 1;
       return `Q${q} ${d.getFullYear()}`;
     };
+    const escapeXml = (str) => {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+    };
 
     function onCategoryChange() {
       const cat = document.getElementById("categorySelect").value;
@@ -1294,9 +1303,9 @@ const TEMPLATES = {
         const x2 = scaleX(item.WACC_Value_Upper);
         const secName = (lang === 'DE' && item.Sector_name_DE) ? item.Sector_name_DE : item.Sector_name_EN;
 
-        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${secName}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${rangeWaccLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(item.WACC_Value_Lower)}, ${fmtPct(item.WACC_Value_Upper)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+        const tipHtml = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${escapeXml(secName)}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${rangeWaccLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtPct(item.WACC_Value_Lower)}, ${fmtPct(item.WACC_Value_Upper)}]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
         bars += `
-          <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${secName}</text>
+          <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${escapeXml(secName)}</text>
           <rect class="has-tooltip" data-tooltip="${tipHtml}" x="${x1}" y="${y - 4}" width="${Math.max(x2 - x1, 4)}" height="8" fill="#00338D" style="cursor:pointer;"/>
         `;
       });
@@ -1359,13 +1368,13 @@ const TEMPLATES = {
         const ebit = allRows.find(r => (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBIT-Multiple");
 
         bars += `
-          <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${sec}</text>
+          <text x="${pL - 10}" y="${y + 3}" fill="#666666" font-size="10" text-anchor="end">${escapeXml(sec)}</text>
         `;
 
         if (ebit) {
           const x1 = scaleX(ebit.Multiple_Value_Lower);
           const x2 = scaleX(ebit.Multiple_Value_Upper);
-          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtNum(ebit.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebit.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+          const ebitTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${escapeXml(sec)}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtNum(ebit.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebit.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
           bars += `
             <rect class="has-tooltip" data-tooltip="${ebitTip}" x="${x1}" y="${y - 6}" width="${Math.max(x2 - x1, 4)}" height="5" fill="#00b8f5" style="cursor:pointer;"/>
           `;
@@ -1373,7 +1382,7 @@ const TEMPLATES = {
         if (ebitda) {
           const x1 = scaleX(ebitda.Multiple_Value_Lower);
           const x2 = scaleX(ebitda.Multiple_Value_Upper);
-          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${sec}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtNum(ebitda.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebitda.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
+          const ebitdaTip = `&lt;div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'&gt;${escapeXml(sec)}&lt;/div&gt;&lt;div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'&gt;&lt;span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF; border-radius:0px; box-sizing:border-box; flex-shrink:0;'&gt;&lt;/span&gt;&lt;span&gt;${ebitdaLabel} &lt;span style='color:#FFFFFF; font-weight:normal;'&gt;[${fmtNum(ebitda.Multiple_Value_Lower, 1, lang)}x, ${fmtNum(ebitda.Multiple_Value_Upper, 1, lang)}x]&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`;
           bars += `
             <rect class="has-tooltip" data-tooltip="${ebitdaTip}" x="${x1}" y="${y + 1}" width="${Math.max(x2 - x1, 4)}" height="5" fill="#00338D" style="cursor:pointer;"/>
           `;

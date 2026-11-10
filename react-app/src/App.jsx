@@ -244,28 +244,86 @@ export default function App() {
   };
 
   const downloadSvg = () => {
-    const match = renderedHtml.match(/<svg[\s\S]*?<\/svg>/);
-    if (!match) {
+    const svgMatches = renderedHtml.match(/<svg[\s\S]*?<\/svg>/g);
+    if (!svgMatches || svgMatches.length === 0) {
       showToast('No standalone SVG found to download (this view is an HTML table).');
       return;
     }
-    let svgContent = match[0];
-    
-    // Ensure XML namespace attributes are present so browser renders it as a graphic rather than raw text/XML
-    if (!svgContent.includes('xmlns=')) {
-      svgContent = svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"');
-    }
 
-    // Embed standalone styling and background so the graphic renders with crisp fonts and clean white canvas
     const styleBlock = `<style>
       text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+      .kpmg-chart-title { font-size: 16px; font-weight: 600; fill: #666666; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
     </style>`;
-    
-    // Add white background rectangle if not present so SVG looks complete when opened in standalone viewer
-    svgContent = svgContent.replace(
-      />/,
-      `>\n  ${styleBlock}\n  <rect width="100%" height="100%" fill="#ffffff"/>`
-    );
+
+    let svgContent = '';
+
+    if (templateId === 'ov_full_grid' && svgMatches.length === 4) {
+      const titles = [
+        lang === 'DE' ? 'Aktuelle gewichtete durchschnittliche Kapitalkosten (WACC)' : 'Current weighted average cost of capital (WACC)',
+        lang === 'DE' ? 'Aktuelle Bandbreiten der Branchenmultiplikatoren' : 'Current Industry Multiple Ranges',
+        lang === 'DE' ? 'Marktrisikoprämie, Basiszinssatz & Gesamtrendite' : 'Total Return, Risk-Free Rate & MRP',
+        lang === 'DE' ? 'Aktuelle Länderrisikoprämie nach Rating' : 'Current country risk premium per rating'
+      ];
+
+      const extractInner = (svgStr) => {
+        return svgStr
+          .replace(/<svg[^>]*>/, '')
+          .replace(/<\/svg>$/, '')
+          .replace(/\s*data-tooltip="[^"]*"/g, '');
+      };
+
+      svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1360 880" width="100%" height="100%">
+  ${styleBlock}
+  <rect width="100%" height="100%" fill="#F8FAFC"/>
+  <!-- Top Left: WACC -->
+  <g transform="translate(20, 20)">
+    <rect width="640" height="400" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="20" y="32" class="kpmg-chart-title">${titles[0].replace(/&/g, '&amp;')}</text>
+    <g transform="translate(0, 35)">
+      ${extractInner(svgMatches[0])}
+    </g>
+  </g>
+  <!-- Top Right: Multiples -->
+  <g transform="translate(700, 20)">
+    <rect width="640" height="400" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="20" y="32" class="kpmg-chart-title">${titles[1].replace(/&/g, '&amp;')}</text>
+    <g transform="translate(0, 35)">
+      ${extractInner(svgMatches[1])}
+    </g>
+  </g>
+  <!-- Bottom Left: MRP -->
+  <g transform="translate(20, 450)">
+    <rect width="640" height="400" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="20" y="32" class="kpmg-chart-title">${titles[2].replace(/&/g, '&amp;')}</text>
+    <g transform="translate(0, 35)">
+      ${extractInner(svgMatches[2])}
+    </g>
+  </g>
+  <!-- Bottom Right: CRP -->
+  <g transform="translate(700, 450)">
+    <rect width="640" height="400" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="20" y="32" class="kpmg-chart-title">${titles[3].replace(/&/g, '&amp;')}</text>
+    <g transform="translate(0, 35)">
+      ${extractInner(svgMatches[3])}
+    </g>
+  </g>
+</svg>`;
+    } else {
+      svgContent = svgMatches[0];
+      svgContent = svgContent.replace(/\s*data-tooltip="[^"]*"/g, '');
+
+      if (!svgContent.includes('xmlns=')) {
+        svgContent = svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"');
+      }
+
+      svgContent = svgContent.replace(
+        />/,
+        `>\n  ${styleBlock}\n  <rect width="100%" height="100%" fill="#ffffff"/>`
+      );
+    }
+
+    // Ensure all bare ampersands are properly converted to &amp; for valid XML compliance
+    svgContent = svgContent.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[a-fA-F0-9]+);)/g, '&amp;');
 
     const blob = new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svgContent}`], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);

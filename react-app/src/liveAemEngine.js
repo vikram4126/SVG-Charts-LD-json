@@ -176,6 +176,15 @@ export function generateLiveAemSnippet({
       var q = Math.floor(d.getMonth() / 3) + 1;
       return "Q" + q + " " + d.getFullYear();
     }
+    function escapeXml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+    }
 
     // Floating Tooltip Event Listeners
     container.addEventListener("mousemove", function(e) {
@@ -833,8 +842,8 @@ export function generateLiveAemSnippet({
         var y = pT + (idx + 0.5) * rowH;
         var x1 = scaleX(item.WACC_Value_Lower || 0), x2 = scaleX(item.WACC_Value_Upper || 0);
         var secName = (lang === "DE" && item.Sector_name_DE) ? item.Sector_name_DE : item.Sector_name_EN;
-        var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + secName + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + rangeWaccLabel + " [" + fmtPct(item.WACC_Value_Lower) + ", " + fmtPct(item.WACC_Value_Upper) + "]</span></div>";
-        bars += '<text x="' + (pL - 10) + '" y="' + (y + 3) + '" fill="#666" font-size="10" text-anchor="end">' + secName + '</text>' +
+        var tipHtml = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + escapeXml(secName) + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + rangeWaccLabel + " [" + fmtPct(item.WACC_Value_Lower) + ", " + fmtPct(item.WACC_Value_Upper) + "]</span></div>";
+        bars += '<text x="' + (pL - 10) + '" y="' + (y + 3) + '" fill="#666" font-size="10" text-anchor="end">' + escapeXml(secName) + '</text>' +
                 '<rect class="has-tooltip" data-tooltip="' + tipHtml + '" x="' + x1 + '" y="' + (y - 4) + '" width="' + Math.max(x2 - x1, 4) + '" height="8" fill="#00338D" style="cursor:pointer;"/>';
       });
 
@@ -881,15 +890,15 @@ export function generateLiveAemSnippet({
         var ebitda = allRows.find(function(r) { return (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBITDA-Multiple"; });
         var ebit = allRows.find(function(r) { return (r[secKey] === sec || r.Sector_name_EN === sec) && r.Multiple_Name === "EBIT-Multiple"; });
 
-        bars += '<text x="' + (pL - 10) + '" y="' + (y + 3) + '" fill="#666" font-size="10" text-anchor="end">' + sec + '</text>';
+        bars += '<text x="' + (pL - 10) + '" y="' + (y + 3) + '" fill="#666" font-size="10" text-anchor="end">' + escapeXml(sec) + '</text>';
         if (ebit) {
           var x1 = scaleX(ebit.Multiple_Value_Lower || 0), x2 = scaleX(ebit.Multiple_Value_Upper || 0);
-          var ebitTip = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + sec + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + ebitLabel + " [" + fmtNum(ebit.Multiple_Value_Lower, 1) + "x, " + fmtNum(ebit.Multiple_Value_Upper, 1) + "x]</span></div>";
+          var ebitTip = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + escapeXml(sec) + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00b8f5; border:1px solid #FFFFFF;'></span><span>" + ebitLabel + " [" + fmtNum(ebit.Multiple_Value_Lower, 1) + "x, " + fmtNum(ebit.Multiple_Value_Upper, 1) + "x]</span></div>";
           bars += '<rect class="has-tooltip" data-tooltip="' + ebitTip + '" x="' + x1 + '" y="' + (y - 6) + '" width="' + Math.max(x2 - x1, 4) + '" height="5" fill="#00b8f5" style="cursor:pointer;"/>';
         }
         if (ebitda) {
           var x1 = scaleX(ebitda.Multiple_Value_Lower || 0), x2 = scaleX(ebitda.Multiple_Value_Upper || 0);
-          var ebitdaTip = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + sec + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + ebitdaLabel + " [" + fmtNum(ebitda.Multiple_Value_Lower, 1) + "x, " + fmtNum(ebitda.Multiple_Value_Upper, 1) + "x]</span></div>";
+          var ebitdaTip = "<div style='font-weight:700; color:#FFFFFF; margin-bottom:5px; font-size:12px;'>" + escapeXml(sec) + "</div><div style='display:flex; align-items:center; gap:6px; font-size:11.5px; color:#E2E8F0;'><span style='display:inline-block; width:10px; height:10px; background:#00338D; border:1px solid #FFFFFF;'></span><span>" + ebitdaLabel + " [" + fmtNum(ebitda.Multiple_Value_Lower, 1) + "x, " + fmtNum(ebitda.Multiple_Value_Upper, 1) + "x]</span></div>";
           bars += '<rect class="has-tooltip" data-tooltip="' + ebitdaTip + '" x="' + x1 + '" y="' + (y + 1) + '" width="' + Math.max(x2 - x1, 4) + '" height="5" fill="#00338D" style="cursor:pointer;"/>';
         }
       });
