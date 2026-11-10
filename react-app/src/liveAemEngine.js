@@ -108,7 +108,7 @@ export function generateLiveAemSnippet({
 
   <style>
     #${uid} { font-family: Inter, Arial, sans-serif; color: #1E293B; }
-    #${uid} h3, #${uid} .kpmg-chart-title { font-size: 16px; margin: 0 0 10px 0; color: #333333; font-weight: 600; line-height: 1.35; }
+    #${uid} h3, #${uid} .kpmg-chart-title { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; line-height: 1.35; }
     #${uid} .overview-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 28px 24px; padding: 12px 0; }
     #${uid} .overview-chart-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 18px; box-sizing: border-box; }
     @media (max-width: 900px) {

@@ -1775,7 +1775,7 @@ const TEMPLATES = {
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; box-sizing:border-box;">
   <style>
     .kpmg-atlas-chart-container { box-sizing: border-box; width: 100%; padding: 20px 16px; }
-    .kpmg-atlas-chart-container h3, .kpmg-chart-title { font-size: 16px !important; font-family: inherit !important; font-weight: 600 !important; color: #333333 !important; margin: 0 0 10px 0 !important; line-height: 1.35 !important; }
+    .kpmg-atlas-chart-container h3, .kpmg-chart-title { font-size: 16px !important; font-family: inherit !important; font-weight: 600 !important; color: #666666 !important; margin: 0 0 10px 0 !important; line-height: 1.35 !important; }
     .overview-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 32px 24px; box-sizing: border-box; width: 100%; }
     .overview-dashboard-grid > div, .overview-chart-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 18px; box-sizing: border-box; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
     .kpmg-atlas-chart-container .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; line-height: 21px; }
@@ -2187,7 +2187,7 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
 <div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; box-sizing:border-box;">
   <style>
     .kpmg-atlas-chart-container { box-sizing: border-box; width: 100%; padding: 20px 16px; }
-    .kpmg-atlas-chart-container h3, .kpmg-chart-title { font-size: 16px !important; font-family: inherit !important; font-weight: 600 !important; color: #333333 !important; margin: 0 0 10px 0 !important; line-height: 1.35 !important; }
+    .kpmg-atlas-chart-container h3, .kpmg-chart-title { font-size: 16px !important; font-family: inherit !important; font-weight: 600 !important; color: #666666 !important; margin: 0 0 10px 0 !important; line-height: 1.35 !important; }
     .overview-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 32px 24px; box-sizing: border-box; width: 100%; }
     .overview-dashboard-grid > div, .overview-chart-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 18px; box-sizing: border-box; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
     .kpmg-atlas-chart-container .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; line-height: 21px; }
