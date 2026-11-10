@@ -108,7 +108,18 @@ export function generateLiveAemSnippet({
 
   <style>
     #${uid} { font-family: Inter, Arial, sans-serif; color: #1E293B; }
-    #${uid} h3 { font-size: 16px; margin: 0 0 10px 0; color: #666666; font-weight: 600; }
+    #${uid} h3, #${uid} .kpmg-chart-title { font-size: 16px; margin: 0 0 10px 0; color: #333333; font-weight: 600; line-height: 1.35; }
+    #${uid} .overview-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 28px 24px; padding: 12px 0; }
+    #${uid} .overview-chart-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 18px; box-sizing: border-box; }
+    @media (max-width: 900px) {
+      #${uid} .overview-dashboard-grid { gap: 20px; }
+      #${uid} .overview-chart-card { padding: 16px 14px; }
+    }
+    @media (max-width: 600px) {
+      #${uid} { padding: 8px 4px; }
+      #${uid} .overview-dashboard-grid { grid-template-columns: 1fr; gap: 16px; padding: 6px 0; }
+      #${uid} .overview-chart-card { padding: 14px 10px; }
+    }
     #${uid} .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; line-height: 21px; }
     #${uid} .atlas-table tr { line-height: 21px; }
     #${uid} .atlas-table th { text-align: left; padding: 5px 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; line-height: 21px; }
@@ -267,7 +278,7 @@ export function generateLiveAemSnippet({
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + titleText + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -295,7 +306,7 @@ export function generateLiveAemSnippet({
       var tableTitle = sector + " - " + (lang === "DE" ? "Gewichtete durchschnittliche Kapitalkosten zum " : "Weighted Average Cost of Capital as of ") + dateStr;
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">' + tableTitle + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + tableTitle + '</h3>' +
         '<table class="atlas-table">' +
           '<thead><tr><th colspan="2" style="color:#333; font-size:12.5px; font-weight:700; text-transform:none;">' + (lang === "DE" ? "Eigenkapitalkosten" : "Cost of Equity") + '</th></tr></thead>' +
           '<tbody>' +
@@ -337,7 +348,7 @@ export function generateLiveAemSnippet({
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Herkunft der Unternehmen" : "Origin of all companies included in the entire database") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + sector + ' - ' + (lang === "DE" ? "Herkunft der Unternehmen" : "Origin of all companies included in the entire database") + '</h3>' +
         '<table class="atlas-table">' +
           '<thead><tr><th style="padding:5px 8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:5px 8px;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
           '<tbody>' + trs + '</tbody>' +
@@ -361,7 +372,7 @@ export function generateLiveAemSnippet({
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Teilsektoren" : "Sub-Sectors") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + sector + ' - ' + (lang === "DE" ? "Teilsektoren" : "Sub-Sectors") + '</h3>' +
         '<table class="atlas-table">' +
           '<thead><tr><th style="padding:5px 8px;">' + (lang === "DE" ? "Teilsektor" : "Sub-Sector") + '</th><th style="text-align:right; padding:5px 8px;">' + (lang === "DE" ? "Anzahl Unternehmen" : "Number of Companies") + '</th></tr></thead>' +
           '<tbody>' + trs + '</tbody>' +
@@ -425,7 +436,7 @@ export function generateLiveAemSnippet({
       '</g>';
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:' + (isDashboard ? '14px' : '16px') + '; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:' + (isDashboard ? '400' : '600') + ';">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Marktrisikoprämie, Basiszinssatz & Gesamtrendite" : "Total Return, Risk-Free Rate & MRP") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -478,7 +489,7 @@ export function generateLiveAemSnippet({
       }
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Aktuelle Zinsstrukturkurve des Basiszinssatzes" : "Current Risk-Free Rate Step Curve") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Aktuelle Zinsstrukturkurve des Basiszinssatzes" : "Current Risk-Free Rate Step Curve") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -507,7 +518,7 @@ export function generateLiveAemSnippet({
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Länderrisikoprämie ausgewählter Länder" : "Country Risk Premium of Selected Countries") + '</h3>' +
         '<table class="atlas-table">' +
           '<thead>' +
             '<tr><th style="padding:5px 8px;">Rating</th><th style="padding:5px 8px;">' + (lang === "DE" ? "Land" : "Country") + '</th><th style="text-align:right; padding:5px 8px;">6M</th><th style="text-align:right; padding:5px 8px;">1J</th><th style="text-align:right; padding:5px 8px;">2J</th></tr>' +
@@ -550,7 +561,7 @@ export function generateLiveAemSnippet({
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + (lang === "DE" ? "Länderrisikoprämie im Zeitverlauf" : "Country Risk Premium Over Time") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Länderrisikoprämie im Zeitverlauf" : "Country Risk Premium Over Time") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -595,7 +606,7 @@ export function generateLiveAemSnippet({
       });
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle Länderrisikoprämie nach Rating" : "Current country risk premium per rating") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Aktuelle Länderrisikoprämie nach Rating" : "Current country risk premium per rating") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           gridLines + bars +
           '<g transform="translate(' + (w / 2 - (lang === "DE" ? 115 : 95)) + ', ' + (pT + cH + 40) + ')">' +
@@ -698,7 +709,7 @@ export function generateLiveAemSnippet({
       }).join("");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + sector + ' - ' + (lang === "DE" ? "Multiples im Zeitverlauf" : "Average multiples over time") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + sector + ' - ' + (lang === "DE" ? "Multiples im Zeitverlauf" : "Average multiples over time") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (pT + cH) + '" x2="' + (w - pR) + '" y2="' + (pT + cH) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -786,7 +797,7 @@ export function generateLiveAemSnippet({
       var titleText = sector + " - " + (lang === "DE" ? "Multiples zum " : "Average multiples as at ") + (latestDate ? latestDate.split("T")[0] : "30/09/2026");
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">' + titleText + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + titleText + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           '<line x1="' + pL + '" y1="' + pT + '" x2="' + pL + '" y2="' + (h - pB) + '" stroke="#CBD5E1" stroke-width="1"/>' +
           '<line x1="' + pL + '" y1="' + (h - pB) + '" x2="' + (pL + cW) + '" y2="' + (h - pB) + '" stroke="#CBD5E1" stroke-width="1"/>' +
@@ -828,7 +839,7 @@ export function generateLiveAemSnippet({
       });
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle gewichtete durchschnittliche Kapitalkosten (WACC)" : "Current weighted average cost of capital (WACC)") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Aktuelle gewichtete durchschnittliche Kapitalkosten (WACC)" : "Current weighted average cost of capital (WACC)") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           gridLines + bars +
           '<g transform="translate(' + (w / 2 - 80) + ', ' + (pT + cH + 40) + ')">' +
@@ -884,7 +895,7 @@ export function generateLiveAemSnippet({
       });
 
       return '<div style="background:#fff; padding:6px 0;">' +
-        '<h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">' + (lang === "DE" ? "Aktuelle Bandbreiten der Branchenmultiplikatoren" : "Current Industry Multiple Ranges") + '</h3>' +
+        '<h3 class="kpmg-chart-title">' + (lang === "DE" ? "Aktuelle Bandbreiten der Branchenmultiplikatoren" : "Current Industry Multiple Ranges") + '</h3>' +
         '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:auto;">' +
           gridLines + bars +
           '<g transform="translate(' + (w / 2 - (lang === 'DE' ? 260 : 190)) + ', ' + (pT + cH + 42) + ')">' +
@@ -1246,11 +1257,11 @@ export function generateLiveAemSnippet({
             mrpSlot.innerHTML = buildMrp3Line(mrpRows, true);
             crpSlot.innerHTML = buildOvCrpBars(crpRows);
           } else {
-            stage.innerHTML = '<div class="overview-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">' +
-              '<div data-widget-slot="ov_wacc" style="padding:6px 0;">' + buildOvWaccHoriz(waccRows) + '</div>' +
-              '<div data-widget-slot="ov_multiples" style="padding:6px 0;">' + buildOvMultiplesHoriz(multRows) + '</div>' +
-              '<div data-widget-slot="ov_mrp" style="padding:6px 0;">' + buildMrp3Line(mrpRows, true) + '</div>' +
-              '<div data-widget-slot="ov_crp" style="padding:6px 0;">' + buildOvCrpBars(crpRows) + '</div>' +
+            stage.innerHTML = '<div class="overview-dashboard-grid">' +
+              '<div class="overview-chart-card" data-widget-slot="ov_wacc">' + buildOvWaccHoriz(waccRows) + '</div>' +
+              '<div class="overview-chart-card" data-widget-slot="ov_multiples">' + buildOvMultiplesHoriz(multRows) + '</div>' +
+              '<div class="overview-chart-card" data-widget-slot="ov_mrp">' + buildMrp3Line(mrpRows, true) + '</div>' +
+              '<div class="overview-chart-card" data-widget-slot="ov_crp">' + buildOvCrpBars(crpRows) + '</div>' +
             '</div>';
           }
         }

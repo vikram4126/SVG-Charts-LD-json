@@ -864,11 +864,77 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Overview Hub Dashboard Headings (Unbolded and reduced font-size 14px) */
-.overview-dashboard-grid h3 {
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  color: #666666 !important;
+/* Unified Graph Headline Class across Main Page & Industry Sub-Pages */
+.kpmg-chart-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #333333 !important;
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+  line-height: 1.35 !important;
+  font-family: inherit !important;
+}
+
+/* Overview Dashboard Grid & Card Containers (ensures individual container padding on mobile) */
+.overview-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+  gap: 32px 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.overview-dashboard-grid > div,
+.overview-chart-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 20px 18px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.overview-dashboard-grid > div:hover,
+.overview-chart-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 32, 91, 0.06);
+}
+
+.kpmg-atlas-chart-container,
+.kpmg-atlas-live-widget {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 16px;
+}
+
+@media (max-width: 900px) {
+  .overview-dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .overview-dashboard-grid > div,
+  .overview-chart-card {
+    padding: 16px 14px !important;
+  }
+  .kpmg-atlas-chart-container,
+  .kpmg-atlas-live-widget {
+    padding: 16px 12px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .overview-dashboard-grid {
+    gap: 20px !important;
+  }
+  .overview-dashboard-grid > div,
+  .overview-chart-card {
+    padding: 16px 12px !important;
+    border-radius: 8px;
+  }
+  .kpmg-atlas-chart-container,
+  .kpmg-atlas-live-widget {
+    padding: 12px 8px !important;
+  }
 }
 
 /* Tenure Step Curve Hover Diamond & Glow */

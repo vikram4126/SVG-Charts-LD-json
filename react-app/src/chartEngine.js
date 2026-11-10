@@ -521,7 +521,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).wacc_band_title}</h3>
+          <h3 class="kpmg-chart-title">${sector} - ${(I18N[lang] || I18N.EN).wacc_band_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -678,7 +678,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - ${dict.multiples_trend_title}</h3>
+          <h3 class="kpmg-chart-title">${sector} - ${dict.multiples_trend_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -793,7 +793,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${sector} - ${dict.multiples_bars_title}</h3>
+          <h3 class="kpmg-chart-title">${sector} - ${dict.multiples_bars_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${h - pB}" stroke="#CBD5E1" stroke-width="1"/>
@@ -813,7 +813,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).wacc_params_title}</h3>
+          <h3 class="kpmg-chart-title">${sector} - ${(I18N[lang] || I18N.EN).wacc_params_title}</h3>
           <table class="atlas-table">
             <thead>
               <tr>
@@ -868,7 +868,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).countries_title}</h3>
+          <h3 class="kpmg-chart-title">${sector} - ${(I18N[lang] || I18N.EN).countries_title}</h3>
           <table class="atlas-table">
             <thead>
               <tr>
@@ -898,7 +898,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:12px; font-weight:600;">${sector} - ${(I18N[lang] || I18N.EN).subind_title}</h3>
+          <h3 class="kpmg-chart-title">${sector} - ${(I18N[lang] || I18N.EN).subind_title}</h3>
           <table class="atlas-table">
             <thead>
               <tr>
@@ -1006,8 +1006,8 @@ const TEMPLATES = {
       `;
 
       return `
-        <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:${isDashboard ? '14px' : '16px'}; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:${isDashboard ? '400' : '600'};">${dict.mrp_trend_title}</h3>
+        <div style="background:#fff; padding:0;">
+          <h3 class="kpmg-chart-title">${dict.mrp_trend_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1100,7 +1100,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${dict.mrp_step_title}</h3>
+          <h3 class="kpmg-chart-title">${dict.mrp_step_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1197,7 +1197,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:600;">${dict.crp_trend_title}</h3>
+          <h3 class="kpmg-chart-title">${dict.crp_trend_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Solid Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1230,7 +1230,7 @@ const TEMPLATES = {
 
       return `
         <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:16px; font-family:inherit; color:#666666; margin-bottom:14px; font-weight:600;">${(I18N[lang] || I18N.EN).crp_table_title}</h3>
+          <h3 class="kpmg-chart-title">${(I18N[lang] || I18N.EN).crp_table_title}</h3>
           <table class="atlas-table" style="border-bottom:1.5px solid #CBD5E1;">
             <thead>
               <tr>
@@ -1309,8 +1309,8 @@ const TEMPLATES = {
       `;
 
       return `
-        <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">${dict.ov_wacc_title}</h3>
+        <div style="background:#fff; padding:0;">
+          <h3 class="kpmg-chart-title">${dict.ov_wacc_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1391,8 +1391,8 @@ const TEMPLATES = {
       `;
 
       return `
-        <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">${dict.ov_mult_title}</h3>
+        <div style="background:#fff; padding:0;">
+          <h3 class="kpmg-chart-title">${dict.ov_mult_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1453,8 +1453,8 @@ const TEMPLATES = {
       `;
 
       return `
-        <div style="background:#fff; padding:6px 0;">
-          <h3 style="font-size:14px; font-family:inherit; color:#666666; margin-bottom:8px; font-weight:400;">${dict.ov_crp_title}</h3>
+        <div style="background:#fff; padding:0;">
+          <h3 class="kpmg-chart-title">${dict.ov_crp_title}</h3>
           <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
             <!-- Axes -->
             <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT + cH}" stroke="#CBD5E1" stroke-width="1"/>
@@ -1470,11 +1470,11 @@ const TEMPLATES = {
     // 18. Full Overview Dashboard Grid
     function renderFullOverviewGrid(lang = "EN") {
       return `
-        <div class="overview-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:40px 30px;">
-          <div data-widget-slot="ov_wacc" style="padding:6px 0;">${renderOverviewWaccHoriz(lang)}</div>
-          <div data-widget-slot="ov_multiples" style="padding:6px 0;">${renderOverviewMultiplesHoriz(lang)}</div>
-          <div data-widget-slot="ov_mrp" style="padding:6px 0;">${renderMrp3LineTrend(lang, true)}</div>
-          <div data-widget-slot="ov_crp" style="padding:6px 0;">${renderOverviewCrpBars(lang)}</div>
+        <div class="overview-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap:32px 24px; box-sizing:border-box; width:100%;">
+          <div class="overview-chart-card" data-widget-slot="ov_wacc">${renderOverviewWaccHoriz(lang)}</div>
+          <div class="overview-chart-card" data-widget-slot="ov_multiples">${renderOverviewMultiplesHoriz(lang)}</div>
+          <div class="overview-chart-card" data-widget-slot="ov_mrp">${renderMrp3LineTrend(lang, true)}</div>
+          <div class="overview-chart-card" data-widget-slot="ov_crp">${renderOverviewCrpBars(lang)}</div>
         </div>
       `;
     }
@@ -1772,13 +1772,26 @@ const TEMPLATES = {
       // Clean, standalone code snippet ready for AEM HTML / Embed Component
       const snippet = `<!-- KPMG Atlas Component: ${chartTitle} -->
 <!-- Ready to paste into AEM Embed / Custom HTML Component -->
-<div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
+<div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; box-sizing:border-box;">
   <style>
-    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table tr { line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; line-height:21px; }
+    .kpmg-atlas-chart-container { box-sizing: border-box; width: 100%; padding: 20px 16px; }
+    .kpmg-atlas-chart-container h3, .kpmg-chart-title { font-size: 16px !important; font-family: inherit !important; font-weight: 600 !important; color: #333333 !important; margin: 0 0 10px 0 !important; line-height: 1.35 !important; }
+    .overview-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 32px 24px; box-sizing: border-box; width: 100%; }
+    .overview-dashboard-grid > div, .overview-chart-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 18px; box-sizing: border-box; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
+    .kpmg-atlas-chart-container .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table tr { line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align: left; padding: 5px 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table td { padding: 5px 8px; border-bottom: 1px solid #F1F5F9; color: #333; font-weight: 400; line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table .num-col { text-align: right; font-weight: 400; color: #333; line-height: 21px; }
+    @media (max-width: 768px) {
+      .kpmg-atlas-chart-container { padding: 16px 12px !important; }
+      .overview-dashboard-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+      .overview-dashboard-grid > div, .overview-chart-card { padding: 16px 14px !important; border-radius: 8px; }
+    }
+    @media (max-width: 480px) {
+      .kpmg-atlas-chart-container { padding: 12px 8px !important; }
+      .overview-dashboard-grid > div, .overview-chart-card { padding: 14px 10px !important; }
+    }
   </style>
   ${renderedMarkup}
   <style>
@@ -2171,14 +2184,26 @@ export function generateAemSnippetForReact(renderedMarkup, chartTitle, templateI
 
   const snippet = `<!-- KPMG Atlas Component: ${chartTitle} -->
 <!-- Ready to paste into AEM Embed / Custom HTML Component -->
-<div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; padding:0;">
+<div class="kpmg-atlas-chart-container" style="position:relative; max-width:100%; font-family:Inter, Arial, sans-serif; background:#fff; box-sizing:border-box;">
   <style>
-    .kpmg-atlas-chart-container h3 { font-size:16px; font-family:inherit; }
-    .kpmg-atlas-chart-container .atlas-table { width:100%; border-collapse:collapse; font-size:13px; margin:4px 0; line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table tr { line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table th { text-align:left; padding:5px 8px; font-size:11.5px; font-weight:700; color:#666666; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1.5px solid #CBD5E1; line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table td { padding:5px 8px; border-bottom:1px solid #F1F5F9; color:#333; font-weight:400; line-height:21px; }
-    .kpmg-atlas-chart-container .atlas-table .num-col { text-align:right; font-weight:400; color:#333; line-height:21px; }
+    .kpmg-atlas-chart-container { box-sizing: border-box; width: 100%; padding: 20px 16px; }
+    .kpmg-atlas-chart-container h3, .kpmg-chart-title { font-size: 16px !important; font-family: inherit !important; font-weight: 600 !important; color: #333333 !important; margin: 0 0 10px 0 !important; line-height: 1.35 !important; }
+    .overview-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 32px 24px; box-sizing: border-box; width: 100%; }
+    .overview-dashboard-grid > div, .overview-chart-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 18px; box-sizing: border-box; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
+    .kpmg-atlas-chart-container .atlas-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table tr { line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table th { text-align: left; padding: 5px 8px; font-size: 11.5px; font-weight: 700; color: #666666; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1.5px solid #CBD5E1; line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table td { padding: 5px 8px; border-bottom: 1px solid #F1F5F9; color: #333; font-weight: 400; line-height: 21px; }
+    .kpmg-atlas-chart-container .atlas-table .num-col { text-align: right; font-weight: 400; color: #333; line-height: 21px; }
+    @media (max-width: 768px) {
+      .kpmg-atlas-chart-container { padding: 16px 12px !important; }
+      .overview-dashboard-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+      .overview-dashboard-grid > div, .overview-chart-card { padding: 16px 14px !important; border-radius: 8px; }
+    }
+    @media (max-width: 480px) {
+      .kpmg-atlas-chart-container { padding: 12px 8px !important; }
+      .overview-dashboard-grid > div, .overview-chart-card { padding: 14px 10px !important; }
+    }
   </style>
   ${renderedMarkup}
   <style>
